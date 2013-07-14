@@ -8,9 +8,11 @@ import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.*;
-import net.minecraft.item.*;
-import net.minecraft.src.ModLoader;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class EcContainerPortableEnchantment extends Container
@@ -210,9 +212,9 @@ public class EcContainerPortableEnchantment extends Container
     /**
      * Callback for when the crafting gui is closed.
      */
-    public void onCraftGuiClosed(EntityPlayer par1EntityPlayer)
+    public void onContainerClosed(EntityPlayer par1EntityPlayer)
     {
-        super.onCraftGuiClosed(par1EntityPlayer);
+        super.onContainerClosed(par1EntityPlayer);
 
         if (!this.worldPointer.isRemote)
         {

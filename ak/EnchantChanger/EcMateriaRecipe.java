@@ -54,14 +54,14 @@ public class EcMateriaRecipe implements IRecipe
 		{
 			if(materia1.getItemDamage() == 0)
 			{
-				if(expBottle != null && EnchantChanger.getMateriaEnchLv(materia1) < 6)
+				if(expBottle != null && EnchantChanger.getMateriaEnchLv(materia1) < 6 && materia1.isItemEnchanted())
 				{
 					this.output = materia1.copy();
 					output.getTagCompound().removeTag("ench");
 					EnchantChanger.addEnchantmentToItem(output, Enchantment.enchantmentsList[EnchantChanger.getMateriaEnchKind(materia1)], EnchantChanger.getMateriaEnchLv(materia1) + 1);
 					flag = true;
 				}
-				else if(exExpBottle != null && EnchantChanger.getMateriaEnchLv(materia1) > 5)
+				else if(exExpBottle != null && EnchantChanger.getMateriaEnchLv(materia1) > 5 && materia1.isItemEnchanted())
 				{
 					this.output = materia1.copy();
 					output.getTagCompound().removeTag("ench");

@@ -15,9 +15,7 @@ public class Entity_ZombieWarrior extends EntityZombie
 	public Entity_ZombieWarrior(World var1)
 	{
 		super(var1);
-//		this.moveSpeed = 0.32F;
 		this.experienceValue = 10;
-//		this.texture = AdvancedTools.mobTexture + "zombiew.png";
 		this.defaultHeldItem = new ItemStack(AdvancedTools.DevilSword, 1);
 	}
     protected void func_110147_ax()
@@ -27,10 +25,7 @@ public class Entity_ZombieWarrior extends EntityZombie
         this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.32D);
         this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(10.0D);
     }
-//	public String getTexture()
-//	{
-//		return this.texture;
-//	}
+
 	/**
 	 * Called when the mob's health reaches 0.
 	 */
@@ -93,14 +88,6 @@ public class Entity_ZombieWarrior extends EntityZombie
 		}
 	}
 
-//	public int getMaxHealth()
-//	{
-//		return 40;
-//	}
-//	public int getAttackStrength(Entity par1Entity)
-//	{
-//		return 10;
-//	}
 	/**
 	 * Returns the item that this EntityLiving is holding, if any.
 	 */

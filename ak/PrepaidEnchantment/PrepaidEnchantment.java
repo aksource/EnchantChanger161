@@ -25,8 +25,8 @@ public class PrepaidEnchantment
 	public static int GoldCost;
 	public static int DiamondCost;
 
-	public static String TextureDomain = "ak/PrepaidEnchantment:";
-	public static String GuiPEnchTex ="/ak/PrepaidEnchantment/textures/gui/enchant.png";
+	public static String TextureDomain = "prepaidenchantment:";
+	public static String GuiPEnchTex ="textures/gui/enchant.png";
 
 	public static boolean incompatible = false;
 	@Mod.Instance("PrepaidEnchantment")

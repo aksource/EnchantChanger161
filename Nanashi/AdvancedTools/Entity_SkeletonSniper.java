@@ -20,8 +20,6 @@ public class Entity_SkeletonSniper extends EntitySkeleton
 	public Entity_SkeletonSniper(World var1)
 	{
 		super(var1);
-//		this.moveSpeed = 2.0F;
-//		this.texture = AdvancedTools.mobTexture + "skeletons.png";
 		this.experienceValue = 7;
 	}
     protected void func_110147_ax()
@@ -37,11 +35,6 @@ public class Entity_SkeletonSniper extends EntitySkeleton
 	{
 		return false;
 	}
-
-//	public int getMaxHealth()
-//	{
-//		return 25;
-//	}
 
 	/**
 	 * Called when the mob's health reaches 0.

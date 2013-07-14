@@ -1,6 +1,5 @@
 package ak.PrepaidEnchantment;
 
-import net.minecraft.inventory.ContainerEnchantment;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;

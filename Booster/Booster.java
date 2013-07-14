@@ -92,7 +92,7 @@ public class Booster
 	{
 		LanguageRegistry.addName(Booster08, "Booster0.8");
 		LanguageRegistry.addName(Booster20, "Booster2.0");
-		LanguageRegistry.instance().addStringLocalization("Key.BoosterSwitch", "Ja_JP", "ブースタースイッチ");
+		LanguageRegistry.instance().addStringLocalization("Key.BoosterSwitch", "ja_JP", "ブースタースイッチ");
 		LanguageRegistry.instance().addStringLocalization("Key.BoosterSwitch", "en_US", "BoosterSwitch");
 	}
 }

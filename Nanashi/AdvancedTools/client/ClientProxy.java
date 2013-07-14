@@ -1,8 +1,5 @@
 package Nanashi.AdvancedTools.client;
 
-import net.minecraft.client.model.ModelSkeleton;
-import net.minecraft.client.model.ModelZombie;
-import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.world.World;
 import Nanashi.AdvancedTools.CommonProxy;
 import Nanashi.AdvancedTools.CommonTickHandler;

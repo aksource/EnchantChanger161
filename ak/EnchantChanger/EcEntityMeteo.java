@@ -121,7 +121,7 @@ public class EcEntityMeteo extends Entity
 
             Vec3 var15 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
             Vec3 var2 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-            MovingObjectPosition var3 = this.worldObj.rayTraceBlocks(var15, var2);
+            MovingObjectPosition var3 = this.worldObj.clip(var15, var2);
             var15 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
             var2 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 

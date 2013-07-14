@@ -5,7 +5,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -162,21 +161,4 @@ public class EcContainerHugeMateria extends Container {
 
 		//return super.transferStackInSlot(par1EntityPlayer, par2);
 	}
-	/**
-	 * Callback for when the crafting matrix is changed.
-	 */
-	 @Override
-	 public void onCraftMatrixChanged(IInventory par1IInventory)
-	{
-
-	}
-	 /**
-	  * Callback for when the crafting gui is closed.
-	  */
-	 @Override
-	 public void onCraftGuiClosed(EntityPlayer par1EntityPlayer)
-	 {
-		 super.onCraftGuiClosed(par1EntityPlayer);
-
-	 }
 }

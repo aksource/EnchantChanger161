@@ -2,7 +2,6 @@ package ak.PrepaidEnchantment;
 
 import java.util.Random;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntityEnchantmentTable;

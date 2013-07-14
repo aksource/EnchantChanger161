@@ -44,8 +44,6 @@ public class Entity_GoldCreeper extends EntityMob
 	public Entity_GoldCreeper(World var1)
 	{
 		super(var1);
-//		this.texture = AdvancedTools.mobTexture + "gcreeper.png";
-//		this.moveSpeed = 0.38F;
 		this.experienceValue = 40;
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		this.tasks.addTask(2, new Entity_AIGCreeperSwell(this));
@@ -56,11 +54,11 @@ public class Entity_GoldCreeper extends EntityMob
 		this.tasks.addTask(6, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
 	}
-    protected void func_110147_ax()
-    {
-        super.func_110147_ax();
-        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.38D);
-    }
+	protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.38D);
+	}
 	public boolean isAIEnabled()
 	{
 		return true;

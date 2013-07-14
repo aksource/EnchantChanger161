@@ -1,18 +1,8 @@
 package Nanashi.AdvancedTools;
 
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAICreeperSwell;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -23,8 +13,6 @@ public class Entity_HighSpeedCreeper extends EntityCreeper
 	public Entity_HighSpeedCreeper(World var1)
 	{
 		super(var1);
-//		this.texture = AdvancedTools.mobTexture + "hscreeper.png";
-//		this.moveSpeed = 0.365F;
 		this.experienceValue = 15;
 	}
     protected void func_110147_ax()

@@ -2,11 +2,11 @@ package Nanashi.AdvancedTools.client;
 
 import net.minecraft.client.model.ModelSkeleton;
 import net.minecraft.client.renderer.entity.RenderBiped;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 

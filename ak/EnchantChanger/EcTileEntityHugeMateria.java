@@ -559,7 +559,7 @@ public class EcTileEntityHugeMateria extends TileEntity implements IInventory {
 		return false;
 	}
 	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}

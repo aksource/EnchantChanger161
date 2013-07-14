@@ -26,7 +26,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="EnchantChanger", name="EnchantChanger", version="1.6b-universal",dependencies="required-after:FML")
+@Mod(modid="EnchantChanger", name="EnchantChanger", version="1.6e-universal",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false, channels={"EC|Levi","EC|CSC","EC|CS","EC|Sw"}, packetHandler=Packet_EnchantChanger.class)
 public class EnchantChanger
 {
@@ -135,7 +135,7 @@ public class EnchantChanger
 		MasterMateriaID = config.get(Configuration.CATEGORY_ITEM, "Master Materia Id", 5008).getInt();
 
 		LevelCap = config.get(Configuration.CATEGORY_GENERAL, "LevelCap", false,"TRUE:You cannot change a Materia to a enchantment over max level of the enchantment.").getBoolean(false);
-		Debug = config.get(Configuration.CATEGORY_GENERAL, "Debug mode", false,"For Debugger").getBoolean(false);
+		Debug = config.get(Configuration.CATEGORY_GENERAL, "Debug mode", false,"デバッグ用").getBoolean(false);
 		SwordIds= config.get(Configuration.CATEGORY_GENERAL, "Extra SwordIds", "267","Put Ids which you want to operate as  swords. Usage: 1,2,3").getString();
 		ToolIds = config.get(Configuration.CATEGORY_GENERAL, "Extra ToolIds", "257","Put Ids which you want to operate as  swords. Usage: 1,2,3").getString();
 		BowIds = config.get(Configuration.CATEGORY_GENERAL, "Extra BowIds", "261","Put Ids which you want to operate as  bows. Usage: 1,2,3").getString();
@@ -158,7 +158,7 @@ public class EnchantChanger
 		ItemExExpBottle =new EcItemExExpBottle(ExExpBottleID-256).setUnlocalizedName(this.EcTextureDomain + "ExExpBottle").setCreativeTab(tabsEChanger);
 		ItemZackSword = (new EcItemZackSword(ZackSwordItemID-256)).setUnlocalizedName(this.EcTextureDomain + "ZackSword").setCreativeTab(tabsEChanger);
 		ItemCloudSwordCore = (new EcItemCloudSwordCore(FirstSwordItemID -256)).setUnlocalizedName(this.EcTextureDomain + "CloudSwordCore").setCreativeTab(tabsEChanger);
-		ItemCloudSword = (new EcItemCloudSword(CloudSwordItemID-256)).setUnlocalizedName(this.EcTextureDomain + "CloudSword").setCreativeTab(tabsEChanger);
+		ItemCloudSword = (new EcItemCloudSword(CloudSwordItemID-256)).setUnlocalizedName(this.EcTextureDomain + "CloudSword").setCreativeTab(null);
 		ItemSephirothSword = (new EcItemSephirothSword(SephirothSwordItemID-256)).setUnlocalizedName(this.EcTextureDomain + "MasamuneBlade").setCreativeTab(tabsEChanger);
 		ItemUltimateWeapon = (new EcItemUltimateWeapon(UltimateWeaponItemID - 256)).setUnlocalizedName(this.EcTextureDomain + "UltimateWeapon").setCreativeTab(tabsEChanger);
 		ItemPortableEnchantChanger = (new EcItemMaterializer(PortableEnchantChangerID - 256)).setUnlocalizedName(this.EcTextureDomain + "PortableEnchantChanger").setCreativeTab(tabsEChanger);

@@ -1,7 +1,5 @@
 package ak.PrepaidEnchantment.Client;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
@@ -12,19 +10,14 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.model.ModelBook;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.resources.ResourceLocation;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ContainerMerchant;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.EnchantmentNameParts;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 import org.lwjgl.util.glu.GLU;
 
 import ak.PrepaidEnchantment.ContainerPEnchantment;
@@ -39,6 +32,7 @@ public class GuiPEnchantment extends GuiContainer
 	/** The book model used on the GUI. */
 	private static ModelBook bookModel = new ModelBook();
 	private Random rand = new Random();
+	private ResourceLocation tex = new ResourceLocation(PrepaidEnchantment.TextureDomain + PrepaidEnchantment.GuiPEnchTex);
 
 	/** ContainerEnchantment object associated with this gui */
 	private ContainerPEnchantment containerEnchantment;
@@ -160,7 +154,7 @@ public class GuiPEnchantment extends GuiContainer
 //		this.mc.renderEngine.bindTexture(PrepaidEnchantment.GuiPEnchTex);
 		Minecraft MC = Minecraft.getMinecraft();
 		TextureManager texturemanager = MC.func_110434_K();
-		texturemanager.func_110581_b(new ResourceLocation(PrepaidEnchantment.GuiPEnchTex));
+		texturemanager.func_110581_b(tex);
 		int k = (this.width - this.xSize) / 2;
 		int l = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);

@@ -234,7 +234,7 @@ public class ContainerPEnchantment extends Container
 						 {
 							 if (flag)
 							 {
-								 Item.enchantedBook.func_92115_a(itemstack, enchantmentdata);
+								 Item.enchantedBook.getEnchantedItemStack_do(itemstack, enchantmentdata);
 							 }
 							 else
 							 {
@@ -367,9 +367,9 @@ public class ContainerPEnchantment extends Container
 	 /**
 	  * Callback for when the crafting gui is closed.
 	  */
-	  public void onCraftGuiClosed(EntityPlayer par1EntityPlayer)
+	  public void onContainerClosed(EntityPlayer par1EntityPlayer)
 	 {
-		  super.onCraftGuiClosed(par1EntityPlayer);
+		  super.onContainerClosed(par1EntityPlayer);
 
 		  if (!this.worldPointer.isRemote)
 		  {
