@@ -10,7 +10,7 @@ public class mod_PokeLoli extends BaseMod
 {
 	public String getVersion()
 	{
-		return "1.6.2-1";
+		return "1.6.2-2";
 	}
 
 	public void load()

@@ -15,7 +15,7 @@ public class PokeLoliEventHandler
 		{
 			EntityPlayer player = event.entityPlayer;
 			EntityLivingBase living = (EntityLivingBase) event.target;
-			if(player.getCurrentEquippedItem().getItem() instanceof ItemMonsterPlacer)
+			if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof ItemMonsterPlacer)
 			{
 				ItemMonsterPlacer item = (ItemMonsterPlacer) player.getCurrentEquippedItem().getItem();
 				item.func_111207_a(player.getCurrentEquippedItem(), player, living);

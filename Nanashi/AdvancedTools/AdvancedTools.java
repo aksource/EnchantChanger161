@@ -23,7 +23,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="AdvancedTools", name="AdvancedTools", version="2.0l-Unofficial",dependencies="required-after:FML")
+@Mod(modid="AdvancedTools", name="AdvancedTools", version="2.0n-Unofficial",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false, channels="AT|Tool", packetHandler=PacketHandler.class)
 
 public class AdvancedTools

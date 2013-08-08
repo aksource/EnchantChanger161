@@ -1,11 +1,12 @@
 package ak.EnchantChanger.Client;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
+
+import org.lwjgl.input.Keyboard;
+
 import ak.EnchantChanger.CommonProxy;
 import ak.EnchantChanger.CommonTickHandler;
 import ak.EnchantChanger.EcEntityExExpBottle;
@@ -25,8 +26,8 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void registerRenderInformation()
 	{
-		RenderingRegistry.registerEntityRenderingHandler(EcEntityExExpBottle.class, new EcRenderItemThrowable(21,0.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EcEntityMeteo.class, new EcRenderItemThrowable(22,EnchantChanger.MeteoSize));
+		RenderingRegistry.registerEntityRenderingHandler(EcEntityExExpBottle.class, new EcRenderItemThrowable(0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EcEntityMeteo.class, new EcRenderItemThrowable(EnchantChanger.MeteoSize));
 		TickRegistry.registerTickHandler(new CommonTickHandler(), Side.SERVER);
 		KeyBindingRegistry.registerKeyBinding(new EcKeyHandler(new KeyBinding[]{MagicKey},new boolean[]{false}));
 		MinecraftForgeClient.registerItemRenderer(EnchantChanger.SephirothSwordItemID, (IItemRenderer) EnchantChanger.ItemSephirothSword);

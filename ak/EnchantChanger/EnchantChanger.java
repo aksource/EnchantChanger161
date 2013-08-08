@@ -26,7 +26,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="EnchantChanger", name="EnchantChanger", version="1.6e-universal",dependencies="required-after:FML")
+@Mod(modid="EnchantChanger", name="EnchantChanger", version="1.6g-universal",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false, channels={"EC|Levi","EC|CSC","EC|CS","EC|Sw"}, packetHandler=Packet_EnchantChanger.class)
 public class EnchantChanger
 {
@@ -86,8 +86,8 @@ public class EnchantChanger
 	public static int EnchantmentThunderId;
 	public static Enchantment Thunder;
 
-	public static String EcSprites ="textures/gui/items.png";
-	public static String EcTerrain = "textures/terrain.png";
+	public static String EcMeteoPNG = "textures/items/Meteo.png";
+	public static String EcExpBottlePNG = "textures/items/ExExpBottle.png";
 	public static String EcZackSwordPNG ="textures/item/ZackSword.png";
 	public static String EcSephirothSwordPNG ="textures/item/SephirothSword.png";
 	public static String EcCloudSwordPNG ="textures/item/CloudSword.png";

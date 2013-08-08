@@ -63,7 +63,10 @@ public class ItemUGAxe extends ItemUGTool
 	{
 		return var1.blockMaterial == Material.wood;
 	}
-
+    public float getStrVsBlock(ItemStack par1ItemStack, Block par2Block)
+    {
+        return par2Block != null && (par2Block.blockMaterial == Material.wood || par2Block.blockMaterial == Material.plants || par2Block.blockMaterial == Material.vine) ? this.efficiencyOnProperMaterial : super.getStrVsBlock(par1ItemStack, par2Block);
+    }
 	public boolean doChainDestraction(Block var1)
 	{
 		return var1 == Block.wood;

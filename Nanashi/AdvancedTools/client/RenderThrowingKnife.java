@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RenderThrowingKnife extends Render
 {
     private ResourceLocation tex = new ResourceLocation(AdvancedTools.textureassets,"textures/items/knife.png");
-	public void renderArrow(Entity_ThrowingKnife var1, double var2, double var4, double var6, float var8, float var9)
+	public void renderKnife(Entity_ThrowingKnife var1, double var2, double var4, double var6, float var8, float var9)
     {
         GL11.glPushMatrix();
         GL11.glTranslatef((float)var2, (float)var4, (float)var6);
@@ -30,7 +30,7 @@ public class RenderThrowingKnife extends Render
         {
             GL11.glRotatef(var1.exRotate, 0.0F, 0.0F, 1.0F);
         }
-
+        this.func_110777_b(var1);
         Tessellator var10 = Tessellator.instance;
         byte var11 = 0;
         float var12 = 0.0F;
@@ -149,7 +149,7 @@ public class RenderThrowingKnife extends Render
      */
     public void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9)
     {
-        this.renderArrow((Entity_ThrowingKnife)var1, var2, var4, var6, var8, var9);
+        this.renderKnife((Entity_ThrowingKnife)var1, var2, var4, var6, var8, var9);
     }
 
 	@Override

@@ -3,10 +3,8 @@ package Booster;
 import java.io.DataOutputStream;
 
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.src.ModLoader;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeSubscribe;
@@ -66,7 +64,7 @@ public class LivingEventHooks
 			{
 				boolean canjump = false;
 				try {
-					canjump =(Integer)ObfuscationReflectionHelper.getPrivateValue(EntityLivingBase.class, ep, 56)==0;
+					canjump =(Integer)ObfuscationReflectionHelper.getPrivateValue(EntityLivingBase.class, ep, 57)==0;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

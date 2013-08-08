@@ -2,14 +2,15 @@ package ak.EnchantChanger.Client;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.EntityPotion;
-import net.minecraft.potion.PotionHelper;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import ak.EnchantChanger.EcEntityExExpBottle;
+import ak.EnchantChanger.EcEntityMeteo;
 import ak.EnchantChanger.EnchantChanger;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,59 +18,35 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class EcRenderItemThrowable extends Render
 {
-	/**
-	 * Have the icon index (in items.png) that will be used to render the image. Currently, eggs and snowballs uses this
-	 * classes.
-	 */
-	private int itemIconIndex;
 	private float RenderSize;
-	private ResourceLocation tex = new ResourceLocation(EnchantChanger.EcAssetsDomain,EnchantChanger.EcSprites);
+	private ResourceLocation texMeteo = new ResourceLocation(EnchantChanger.EcAssetsDomain,EnchantChanger.EcMeteoPNG);
+	private ResourceLocation texExp = new ResourceLocation(EnchantChanger.EcAssetsDomain,EnchantChanger.EcExpBottlePNG);
 
-	public EcRenderItemThrowable(int par1, float par2)
+	public EcRenderItemThrowable(float par2)
 	{
-		this.itemIconIndex = par1;
 		this.RenderSize = par2;
 	}
 
-	/**
-	 * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-	 * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-	 * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-	 * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-	 */
 	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
 	{
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float)par2, (float)par4, (float)par6);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glScalef(this.RenderSize, this.RenderSize, this.RenderSize);
-		//        this.loadTexture(EnchantChanger.EcSprites);
+        this.func_110777_b(par1Entity);
 		Tessellator var10 = Tessellator.instance;
 
-		if (this.itemIconIndex == 154)
-		{
-			int var11 = PotionHelper.func_77915_a(((EntityPotion)par1Entity).getPotionDamage(), false);
-			float var12 = (float)(var11 >> 16 & 255) / 255.0F;
-			float var13 = (float)(var11 >> 8 & 255) / 255.0F;
-			float var14 = (float)(var11 & 255) / 255.0F;
-			GL11.glColor3f(var12, var13, var14);
-			GL11.glPushMatrix();
-			this.func_77026_a(var10, 141);
-			GL11.glPopMatrix();
-			GL11.glColor3f(1.0F, 1.0F, 1.0F);
-		}
-
-		this.func_77026_a(var10, this.itemIconIndex);
+		this.func_77026_a(var10);
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 		GL11.glPopMatrix();
 	}
 
-	private void func_77026_a(Tessellator par1Tessellator, int par2)
+	private void func_77026_a(Tessellator par1Tessellator)
 	{
-		float var3 = (float)(par2 % 16 * 16 + 0) / 256.0F;
-		float var4 = (float)(par2 % 16 * 16 + 16) / 256.0F;
-		float var5 = (float)(par2 / 16 * 16 + 0) / 256.0F;
-		float var6 = (float)(par2 / 16 * 16 + 16) / 256.0F;
+		float var3 = 0;
+		float var4 = 1;
+		float var5 = 0;
+		float var6 = 1;
 		float var7 = 1.0F;
 		float var8 = 0.5F;
 		float var9 = 0.25F;
@@ -86,6 +63,6 @@ public class EcRenderItemThrowable extends Render
 
 	@Override
 	protected ResourceLocation func_110775_a(Entity entity) {
-		return tex;
+		return entity instanceof EcEntityMeteo ? this.texMeteo: entity instanceof EcEntityExExpBottle ? this.texExp: TextureMap.field_110576_c;
 	}
 }
