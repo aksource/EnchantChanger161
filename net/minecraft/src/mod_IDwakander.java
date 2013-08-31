@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,7 +21,6 @@ import net.minecraft.client.resources.ReloadableResourceManager;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemMultiTextureTile;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
@@ -39,7 +37,7 @@ public class mod_IDwakander extends BaseMod
 {
 	public String getVersion()
 	{
-		return "1.6.2-1";
+		return "1.6.2-2";
 	}
 
 	public String getPriorities()
@@ -78,6 +76,8 @@ public class mod_IDwakander extends BaseMod
 	public static boolean outputVanillaLanguage = false;
 	@MLProp(info="メタデータを詳細に取得するアイテムの基本名。 ,（カンマ）区切りで複数指定可能")
 	public static String outputMetadataDetailNames = "tile.rpwire";
+	@MLProp(info="ブロック/アイテムの空きメタデータも出力する。")
+	public static boolean nullItemMetadata = false;
 
 	@MLProp(info="エラーレポートを出力する。")
 	public static boolean outputErrorLogs = false;
@@ -152,15 +152,15 @@ public class mod_IDwakander extends BaseMod
 			
 			if(getMetadata && item.getHasSubtypes())
 			{
-				if(item instanceof ItemMultiTextureTile)
-				{
-					ItemMultiTextureTile imtt = (ItemMultiTextureTile)item;
-					String[] tileNames;//"field_82804_b"
-					tileNames = ModLoader.getPrivateValue(ItemMultiTextureTile.class, imtt, 1);
-					maxDamage = Array.getLength(tileNames)-1;
-				}else{
+//				if(item instanceof ItemMultiTextureTile)
+//				{
+//					ItemMultiTextureTile imtt = (ItemMultiTextureTile)item;
+//					String[] tileNames;//"field_82804_b"
+//					tileNames = ModLoader.getPrivateValue(ItemMultiTextureTile.class, imtt, 1);
+//					maxDamage = Array.getLength(tileNames)-1;
+//				}else{
 					maxDamage = 15;
-				}
+//				}
 				if(outputMetadataNull) addData(item);
 			}else{
 				maxDamage = 0;
@@ -184,12 +184,19 @@ public class mod_IDwakander extends BaseMod
 				try
 				{
 					name = itemstack.getItem().getUnlocalizedName(itemstack);
-					if(!metaNames.contains(name) || maxDamage>16 )
+					if(name!=null && !("".equals(name)))
 					{
-						metaNames.add(name);
-						addData(itemstack);
+						if(!metaNames.contains(name) || nullItemMetadata)
+						{
+							metaNames.add(name);
+							addData(itemstack);
+						}
 					}
-					else break;
+//					if(!metaNames.contains(name) || maxDamage>16 )
+//					{
+//						metaNames.add(name);
+//						addData(itemstack);
+//					}
 				}
 				catch (IndexOutOfBoundsException e)
 				{
@@ -277,13 +284,32 @@ public class mod_IDwakander extends BaseMod
 		try
 		{
 			String format;
-			if(csvFormat)
+			int id = itemstack.itemID;
+			if(id > 255)
 			{
-				format = "%d,%s,%s,%s"+crlf;
+				if(csvFormat)
+				{
+					format = "%d,%d,%s,%s,%s"+crlf;
+				}else{
+					format = "%d(%d)%s = %s (%s)"+crlf;
+				}
+				IDs.add(String.format(format, id, id-256, meta, name, transname));
 			}else{
-				format = "%d:%s = %s (%s)"+crlf;
+				if(csvFormat)
+				{
+					format = "%d,%s,%s,%s"+crlf;
+				}else{
+					format = "%d%s = %s (%s)"+crlf;
+				}
+				IDs.add(String.format(format, id, meta, name, transname));
 			}
-			IDs.add(String.format(format, itemstack.itemID, meta, name, transname));
+//			if(csvFormat)
+//			{
+//				format = "%d,%s,%s,%s"+crlf;
+//			}else{
+//				format = "%d:%s = %s (%s)"+crlf;
+//			}
+//			IDs.add(String.format(format, itemstack.itemID, meta, name, transname));
 		}
 		catch (IndexOutOfBoundsException e)
 		{
@@ -294,12 +320,29 @@ public class mod_IDwakander extends BaseMod
 	{
 		try
 		{
-			if(csvFormat)
+			int id = item.itemID;
+			if(id > 255)
 			{
-				IDs.add(String.format("%d,,%s,"+crlf, item.itemID, item.getUnlocalizedName()));
+				if(csvFormat)
+				{
+					IDs.add(String.format("%d,%d,,%s,"+crlf, id, id-256, item.getUnlocalizedName()));
+				}else{
+					IDs.add(String.format("%d(%d): = %s"+crlf, id, id-256, item.getUnlocalizedName()));
+				}
 			}else{
-				IDs.add(String.format("%d = %s"+crlf, item.itemID, item.getUnlocalizedName()));
+				if(csvFormat)
+				{
+					IDs.add(String.format("%d,,%s,"+crlf, id, item.getUnlocalizedName()));
+				}else{
+					IDs.add(String.format("%d: = %s"+crlf, id, item.getUnlocalizedName()));
+				}
 			}
+//			if(csvFormat)
+//			{
+//				IDs.add(String.format("%d,,%s,"+crlf, item.itemID, item.getUnlocalizedName()));
+//			}else{
+//				IDs.add(String.format("%d = %s"+crlf, item.itemID, item.getUnlocalizedName()));
+//			}
 		}
 		catch (IndexOutOfBoundsException e)
 		{
@@ -314,11 +357,13 @@ public class mod_IDwakander extends BaseMod
 		}
 		else if(csvFormat)
 		{
-			IDs.add(id + ",,null" + crlf);
+			String str = id > 255 ? "," + (id-256): "";
+			IDs.add(id + str + ",,空きID" + crlf);
 		}
 		else
 		{
-			IDs.add(id + " = null" + crlf);
+			String str = id > 255 ? "(" + (id-256)+")": "";
+			IDs.add(id + str + " = 空きID" + crlf);
 		}
 	}
 
