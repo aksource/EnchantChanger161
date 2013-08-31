@@ -19,7 +19,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentThorns;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -99,7 +98,7 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 	@SideOnly(Side.CLIENT)
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-		return type == ItemRenderType.EQUIPPED;
+		return type == ItemRenderType.EQUIPPED || type == ItemRenderType.EQUIPPED_FIRST_PERSON;
 	}
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -238,8 +237,17 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 				}
 				if(this.OpenKeydown)
 				{
-
-					int GuiID = (this.Slotsize == 3)? MultiToolHolders.guiIdHolder3:(this.Slotsize == 5)? MultiToolHolders.guiIdHolder5:(this.Slotsize == 7)? MultiToolHolders.guiIdHolder7:MultiToolHolders.guiIdHolder9;
+					int GuiID;
+					if(this.Slotsize == 3)
+						GuiID = MultiToolHolders.guiIdHolder3;
+					else if(this.Slotsize == 5)
+						GuiID = MultiToolHolders.guiIdHolder5;
+					else if(this.Slotsize == 7)
+						GuiID = MultiToolHolders.guiIdHolder7;
+					else if(this.Slotsize == 9)
+						GuiID = MultiToolHolders.guiIdHolder9;
+					else
+						GuiID = MultiToolHolders.guiIdHolder3;
 					entityPlayer.openGui(MultiToolHolders.instance, GuiID, par2World, 0, 0, 0);
 				}
 			}
@@ -394,19 +402,19 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 		else
 			return super.getStrVsBlock(stack, block, meta);
 	}
-	public Multimap func_111205_h()
-	{
-		Multimap multimap = super.func_111205_h();
-		double weapondmg = 0;
-		if(this.tools !=null && this.tools.getStackInSlot(SlotNum) != null)
-		{
-			Multimap slotMM = this.tools.getStackInSlot(SlotNum).func_111283_C();
-			AttributeModifier am = (AttributeModifier) slotMM.get(SharedMonsterAttributes.field_111264_e.func_111108_a());
-			weapondmg= am.func_111164_d();
-		}
-		multimap.put(SharedMonsterAttributes.field_111264_e.func_111108_a(), new AttributeModifier(field_111210_e, "Weapon modifier", weapondmg, 0));
-		return multimap;
-	}
+//	public Multimap func_111205_h()
+//	{
+//		Multimap multimap = HashMultimap.create();
+//		double weapondmg = 0;
+//		if(this.tools !=null && this.tools.getStackInSlot(SlotNum) != null)
+//		{
+//			Multimap slotMM = this.tools.getStackInSlot(SlotNum).getItem().func_111205_h();
+//			AttributeModifier am = (AttributeModifier) slotMM.get(SharedMonsterAttributes.field_111264_e.func_111108_a());
+//			weapondmg= am.func_111164_d();
+//		}
+//		multimap.put(SharedMonsterAttributes.field_111264_e.func_111108_a(), new AttributeModifier(field_111210_e, "Weapon modifier", weapondmg, 0));
+//		return multimap;
+//	}
 //	public int getDamageVsEntity(Entity par1Entity)
 //	{
 //		if(this.tools !=null && this.tools.getStackInSlot(SlotNum) != null)

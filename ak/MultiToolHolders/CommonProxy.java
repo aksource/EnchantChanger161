@@ -40,6 +40,7 @@ public class CommonProxy implements IGuiHandler
 		{
 			if(player.getCurrentEquippedItem().getItem() instanceof ItemMultiToolHolder)
 			{
+				System.out.println("check");
 				ItemStack stack = player.getCurrentEquippedItem();
 				return new ContainerToolHolder(player.inventory, ((ItemMultiToolHolder)stack.getItem()).getData(stack, world), 7);
 			}
@@ -79,6 +80,16 @@ public class CommonProxy implements IGuiHandler
 			{
 				ItemStack stack = player.getCurrentEquippedItem();
 				return new GuiToolHolder(player.inventory, ((ItemMultiToolHolder)stack.getItem()).getData(stack, world), 5);
+			}
+			else
+				return null;
+		}
+		else if(id == MultiToolHolders.guiIdHolder7)
+		{
+			if(player.getCurrentEquippedItem().getItem() instanceof ItemMultiToolHolder)
+			{
+				ItemStack stack = player.getCurrentEquippedItem();
+				return new GuiToolHolder(player.inventory, ((ItemMultiToolHolder)stack.getItem()).getData(stack, world), 7);
 			}
 			else
 				return null;
