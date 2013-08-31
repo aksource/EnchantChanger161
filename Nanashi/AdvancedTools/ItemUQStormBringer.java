@@ -2,12 +2,8 @@ package Nanashi.AdvancedTools;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -15,6 +11,8 @@ import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemUQStormBringer extends ItemUniqueArms
 {
@@ -91,14 +89,11 @@ public class ItemUQStormBringer extends ItemUniqueArms
 					if (var21 != var3)
 					{
 						DamageSource var11 = DamageSource.causePlayerDamage(var3);
-						if(var2.isRemote)
-						{
-							var21.attackEntityFrom(var11, 0);
-							var12 = var21.posX - var3.posX;
-							double var22 = var21.posZ - var3.posZ;
-							double var16 = Math.atan2(var22, var12);
-							var21.setVelocity(Math.cos(var16) * 8.0D, var21.motionY * 1.7D, Math.sin(var16) * 8.0D);
-						}
+						var21.attackEntityFrom(var11, 0);
+						var12 = var21.posX - var3.posX;
+						double var22 = var21.posZ - var3.posZ;
+						double var16 = Math.atan2(var22, var12);
+						var21.addVelocity(Math.cos(var16) * 8.0D, var21.motionY * 1.7D, Math.sin(var16) * 8.0D);
 					}
 				}
 			}

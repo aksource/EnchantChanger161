@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -228,8 +227,7 @@ public class Entity_SBWindEdge extends Entity
 
 						 Entity var34 = var4.entityHit;
 						 var34.attackEntityFrom(var36, 2);
-						 if(this.worldObj.isRemote)
-							 var34.setVelocity(this.motionX, var34.motionY * 1.414D, this.motionZ);
+						 var34.addVelocity(this.motionX * 0.8d, var34.motionY * 1.414D, this.motionZ * 0.8d);
 						 this.setEntityDead();
 					 }
 					 else
