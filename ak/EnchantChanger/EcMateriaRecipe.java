@@ -42,9 +42,10 @@ public class EcMateriaRecipe implements IRecipe
 		}
 		if(materia2 != null && materia1.isItemEnchanted() && materia2.isItemEnchanted())
 		{
-			if(ItemStack.areItemStacksEqual(materia1, materia2))
+			if(ItemStack.areItemStackTagsEqual(materia1, materia2))
 			{
 				this.output = materia1.copy();
+				this.output.stackSize = 1;
 				output.getTagCompound().removeTag("ench");
 				EnchantChanger.addEnchantmentToItem(output, Enchantment.enchantmentsList[EnchantChanger.getMateriaEnchKind(materia1)], EnchantChanger.getMateriaEnchLv(materia1) + 1);
 				flag = true;
@@ -57,6 +58,7 @@ public class EcMateriaRecipe implements IRecipe
 				if(expBottle != null && EnchantChanger.getMateriaEnchLv(materia1) < 6 && materia1.isItemEnchanted())
 				{
 					this.output = materia1.copy();
+					this.output.stackSize = 1;
 					output.getTagCompound().removeTag("ench");
 					EnchantChanger.addEnchantmentToItem(output, Enchantment.enchantmentsList[EnchantChanger.getMateriaEnchKind(materia1)], EnchantChanger.getMateriaEnchLv(materia1) + 1);
 					flag = true;
@@ -64,6 +66,7 @@ public class EcMateriaRecipe implements IRecipe
 				else if(exExpBottle != null && EnchantChanger.getMateriaEnchLv(materia1) > 5 && materia1.isItemEnchanted())
 				{
 					this.output = materia1.copy();
+					this.output.stackSize = 1;
 					output.getTagCompound().removeTag("ench");
 					EnchantChanger.addEnchantmentToItem(output, Enchantment.enchantmentsList[EnchantChanger.getMateriaEnchKind(materia1)], EnchantChanger.getMateriaEnchLv(materia1) + 1);
 					flag = true;
