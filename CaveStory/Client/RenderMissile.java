@@ -19,9 +19,9 @@ public class RenderMissile extends Render
 	public void renderMissile(EntityMissile par1EntityMissile, double par2, double par4, double par6, float par8, float par9)
 	{
 //		Minecraft mc = Minecraft.getMinecraft();
-//		TextureManager texturemanager = mc.func_110434_K();
+//		TextureManager texturemanager = mc.getTextureManager();
 //		ResourceLocation res = new ResourceLocation(par1EntityMissile.isSuper ? CaveStory.SuperMissileTex:CaveStory.MissileTex);
-//		texturemanager.func_110577_a(res);
+//		texturemanager.bindTexture(res);
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float)par2, (float)par4, (float)par6);
 		GL11.glRotatef(par1EntityMissile.prevRotationYaw + (par1EntityMissile.rotationYaw - par1EntityMissile.prevRotationYaw) * par9 - 90.0F, 0.0F, 1.0F, 0.0F);
@@ -92,7 +92,11 @@ public class RenderMissile extends Render
 	}
 
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity) {
+
+	/**
+	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+	 */
+	protected ResourceLocation getEntityTexture(Entity entity) {
 		return new ResourceLocation(((EntityMissile)entity).isSuper ? CaveStory.SuperMissileTex:CaveStory.MissileTex);
 	}
 }

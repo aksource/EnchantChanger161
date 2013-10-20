@@ -127,8 +127,8 @@ public class ItemLevelUpWeapons extends Item implements IItemRenderer
 //			GL11.glPopMatrix();
 			return;
 		}
-        TextureManager texturemanager = mc.func_110434_K();
-        texturemanager.func_110577_a(texturemanager.func_130087_a(stack.getItemSpriteNumber()));
+        TextureManager texturemanager = mc.getTextureManager();
+        texturemanager.bindTexture(texturemanager.getResourceLocation(stack.getItemSpriteNumber()));
 		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 		Tessellator tessellator = Tessellator.instance;
 		float f = icon.getMinU();
@@ -144,13 +144,13 @@ public class ItemLevelUpWeapons extends Item implements IItemRenderer
 //		GL11.glRotatef(50.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(335.0F, 0.0F, 0.0F, 1.0F);
 		GL11.glTranslatef(-0.9375F, -0.0625F, 0.0F);
-		RenderManager.instance.itemRenderer.renderItemIn2D(tessellator, f1, f2, f, f3, icon.getOriginX(), icon.getOriginY(), 0.0625F);
+		RenderManager.instance.itemRenderer.renderItemIn2D(tessellator, f1, f2, f, f3, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
 
 		if (stack != null && stack.hasEffect()/* && par3 == 0*/)
 		{
 			GL11.glDepthFunc(GL11.GL_EQUAL);
 			GL11.glDisable(GL11.GL_LIGHTING);
-			texturemanager.func_110577_a(new ResourceLocation("%blur%/misc/glint.png"));
+			texturemanager.bindTexture(new ResourceLocation("%blur%/misc/glint.png"));
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
 			float f7 = 0.76F;
