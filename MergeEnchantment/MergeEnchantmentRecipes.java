@@ -1,4 +1,4 @@
-package net.minecraft.src;
+package MergeEnchantment;
 
 import java.util.ArrayList;
 import java.util.Iterator;

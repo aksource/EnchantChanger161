@@ -1,4 +1,4 @@
-package net.minecraft.src;
+package MergeEnchantment;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -46,7 +46,7 @@ public class AddEnchantmentRecipes implements IRecipe
 				}
 				else
 				{
-					continue;
+					return false;
 				}
 			}
 			else continue;
@@ -61,11 +61,11 @@ public class AddEnchantmentRecipes implements IRecipe
 			while (var1.hasNext())
 			{
 				EnchInt1 = ((Integer)var1.next()).intValue();
-				System.out.println(EnchInt1);
+//				System.out.println(EnchInt1);
 				ench1 = Enchantment.enchantmentsList[EnchInt1];
 				int var3 = toolenchlist.containsKey(Integer.valueOf(EnchInt1)) ? ((Integer)toolenchlist.get(Integer.valueOf(EnchInt1))).intValue() : 0;
 				int var4 = ((Integer)bookenchlist.get(Integer.valueOf(EnchInt1))).intValue();
-				System.out.println(var4);
+//				System.out.println(var4);
 				int Max;
 				if (var3 == var4)
 				{
@@ -111,7 +111,6 @@ public class AddEnchantmentRecipes implements IRecipe
 
 	@Override
 	public ItemStack getRecipeOutput() {
-		// TODO 自動生成されたメソッド・スタブ
 		return this.output;
 	}
 }
