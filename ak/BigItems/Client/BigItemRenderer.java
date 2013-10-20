@@ -37,7 +37,7 @@ public class BigItemRenderer implements IItemRenderer
 	public void renderBigItem(EntityLivingBase entity, ItemStack stack)
 	{
 		mc = Minecraft.getMinecraft();
-        TextureManager texturemanager = this.mc.func_110434_K();
+        TextureManager texturemanager = this.mc.getTextureManager();
 		Icon icon = entity.getItemIcon(stack, 0);
 		if (icon == null)
 		{
@@ -45,7 +45,7 @@ public class BigItemRenderer implements IItemRenderer
 		}
 
 		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
-        texturemanager.func_110577_a(texturemanager.func_130087_a(stack.getItemSpriteNumber()));
+        texturemanager.bindTexture(texturemanager.getResourceLocation(stack.getItemSpriteNumber()));
 		Tessellator tessellator = Tessellator.instance;
 		float f = icon.getMinU();
 		float f1 = icon.getMaxU();
@@ -60,13 +60,13 @@ public class BigItemRenderer implements IItemRenderer
 		GL11.glRotatef(50.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(335.0F, 0.0F, 0.0F, 1.0F);
 		GL11.glTranslatef(-0.9375F, -0.0625F, 0.0F);
-		RenderManager.instance.itemRenderer.renderItemIn2D(tessellator, f1, f2, f, f3, icon.getOriginX(), icon.getOriginY(), 0.0625F);
+		RenderManager.instance.itemRenderer.renderItemIn2D(tessellator, f1, f2, f, f3, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
 
 		if (stack != null && stack.hasEffect(0)/* && par3 == 0*/)
 		{
 			GL11.glDepthFunc(GL11.GL_EQUAL);
 			GL11.glDisable(GL11.GL_LIGHTING);
-            texturemanager.func_110577_a(new ResourceLocation("textures/misc/enchanted_item_glint.png"));
+            texturemanager.bindTexture(new ResourceLocation("textures/misc/enchanted_item_glint.png"));
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
 			float f7 = 0.76F;

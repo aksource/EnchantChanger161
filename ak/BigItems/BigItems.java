@@ -8,7 +8,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 
-@Mod(modid="BigItems", name="BigItems", version="1.0",dependencies="required-after:FML")
+@Mod(modid="BigItems", name="BigItems", version="1.0a",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 
 public class BigItems
@@ -39,7 +39,7 @@ public class BigItems
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		for(int i = 0;i<ItemIDs.length;i++)
-			System.out.println(ItemIDs[i]);
+//		for(int i = 0;i<ItemIDs.length;i++)
+//			System.out.println(ItemIDs[i]);
 	}
 }
