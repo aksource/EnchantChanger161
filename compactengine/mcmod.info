@@ -1,0 +1,21 @@
+[
+{
+  "modid": "CompactEngine",
+  "name": "CompactEngine",
+  "description": "Add some compact wood engine to mc162",
+  "version": "Build 2",
+  "mcversion": "1.6.2",
+  "url": "http://forum.minecraftuser.jp/viewtopic.php?f=13&t=6672",
+  "updateUrl": "",
+  "authors": [
+    "takanasayo"
+  ],
+  "credits": "Updated to mc162 By A.K.",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"BuildCraft|Energy",
+  "dependencies": ["mod_MinecraftForge"
+  ]
+}
+]
