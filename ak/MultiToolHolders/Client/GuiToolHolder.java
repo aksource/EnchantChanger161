@@ -55,7 +55,7 @@ public class GuiToolHolder extends GuiContainer
 			res = gui7;
 		else
 			res = gui9;
-		Minecraft.getMinecraft().func_110434_K().func_110577_a(res);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(res);
 		int x = (width - xSize) / 2;
 		int y = (height - ySize) / 2;
 		this.drawTexturedModalRect(x, y, 0, 0, xSize, ySize);

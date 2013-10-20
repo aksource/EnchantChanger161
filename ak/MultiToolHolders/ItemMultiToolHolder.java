@@ -135,7 +135,7 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 	public void renderToolHolder(EntityLivingBase entity, ItemStack stack)
 	{
 		mc = Minecraft.getMinecraft();
-		TextureManager texturemanager = mc.func_110434_K();
+		TextureManager texturemanager = mc.getTextureManager();
 		Icon icon = entity.getItemIcon(stack, 0);
 		if (icon == null)
 		{
@@ -144,7 +144,7 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 		}
 
 		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
-        texturemanager.func_110577_a(texturemanager.func_130087_a(stack.getItemSpriteNumber()));
+        texturemanager.bindTexture(texturemanager.getResourceLocation(stack.getItemSpriteNumber()));
 		Tessellator tessellator = Tessellator.instance;
 		float f = icon.getMinU();
 		float f1 = icon.getMaxU();
@@ -159,13 +159,13 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 		GL11.glRotatef(50.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(335.0F, 0.0F, 0.0F, 1.0F);
 		GL11.glTranslatef(-0.9375F, -0.0625F, 0.0F);
-		RenderManager.instance.itemRenderer.renderItemIn2D(tessellator, f1, f2, f, f3, icon.getOriginX(), icon.getOriginY(), 0.0625F);
+		RenderManager.instance.itemRenderer.renderItemIn2D(tessellator, f1, f2, f, f3, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
 
 		if (stack != null && stack.hasEffect(0)/* && par3 == 0*/)
 		{
 			GL11.glDepthFunc(GL11.GL_EQUAL);
 			GL11.glDisable(GL11.GL_LIGHTING);
-            texturemanager.func_110577_a(new ResourceLocation("textures/misc/enchanted_item_glint.png"));
+            texturemanager.bindTexture(new ResourceLocation("textures/misc/enchanted_item_glint.png"));
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
 			float f7 = 0.76F;
@@ -351,10 +351,14 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 		par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
 		return par1ItemStack;
 	}
-    public boolean func_111207_a(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, EntityLivingBase par3EntityLivingBase)
+
+    /**
+     * Returns true if the item can be used on the given entity, e.g. shears on sheep.
+     */
+    public boolean itemInteractionForEntity(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, EntityLivingBase par3EntityLivingBase)
     {
 		if(this.tools != null && this.tools.getStackInSlot(SlotNum) != null)
-			return this.tools.getStackInSlot(SlotNum).getItem().func_111207_a(this.tools.getStackInSlot(SlotNum), par2EntityPlayer, par3EntityLivingBase);
+			return this.tools.getStackInSlot(SlotNum).getItem().itemInteractionForEntity(this.tools.getStackInSlot(SlotNum), par2EntityPlayer, par3EntityLivingBase);
 		else
 			return false;
     }
@@ -402,17 +406,17 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 		else
 			return super.getStrVsBlock(stack, block, meta);
 	}
-//	public Multimap func_111205_h()
+//	public Multimap getItemAttributeModifiers()
 //	{
 //		Multimap multimap = HashMultimap.create();
 //		double weapondmg = 0;
 //		if(this.tools !=null && this.tools.getStackInSlot(SlotNum) != null)
 //		{
-//			Multimap slotMM = this.tools.getStackInSlot(SlotNum).getItem().func_111205_h();
-//			AttributeModifier am = (AttributeModifier) slotMM.get(SharedMonsterAttributes.field_111264_e.func_111108_a());
-//			weapondmg= am.func_111164_d();
+//			Multimap slotMM = this.tools.getStackInSlot(SlotNum).getItem().getItemAttributeModifiers();
+//			AttributeModifier am = (AttributeModifier) slotMM.get(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName());
+//			weapondmg= am.getAmount();
 //		}
-//		multimap.put(SharedMonsterAttributes.field_111264_e.func_111108_a(), new AttributeModifier(field_111210_e, "Weapon modifier", weapondmg, 0));
+//		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", weapondmg, 0));
 //		return multimap;
 //	}
 //	public int getDamageVsEntity(Entity par1Entity)
@@ -523,7 +527,7 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 		}
 		if (par1Entity.canAttackWithItem())
 		{
-			if (!par1Entity.func_85031_j(player))
+			if (!par1Entity.hitByEntity(player))
 			{
                 float var2 = (float)this.getItemStrength(stack);
 
@@ -597,7 +601,7 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 							player.triggerAchievement(AchievementList.overkill);
 						}
 
-						player.func_130011_c(par1Entity);
+						player.setLastAttacker(par1Entity);
 
 						if (par1Entity instanceof EntityLivingBase)
 						{
@@ -640,7 +644,7 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 	}
 	public double getItemStrength(ItemStack item)
 	{
-		Multimap multimap = item.func_111283_C();
+		Multimap multimap = item.getAttributeModifiers();
 		double d0;
 		double d1 = 0;
 		if (!multimap.isEmpty())
@@ -651,15 +655,15 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 			{
 				Entry entry = (Entry)iterator.next();
 				AttributeModifier attributemodifier = (AttributeModifier)entry.getValue();
-				d0 = attributemodifier.func_111164_d();
+				d0 = attributemodifier.getAmount();
 
-				if (attributemodifier.func_111169_c() != 1 && attributemodifier.func_111169_c() != 2)
+				if (attributemodifier.getOperation() != 1 && attributemodifier.getOperation() != 2)
 				{
-					d1 = attributemodifier.func_111164_d();
+					d1 = attributemodifier.getAmount();
 				}
 				else
 				{
-					d1 = attributemodifier.func_111164_d() * 100.0D;
+					d1 = attributemodifier.getAmount() * 100.0D;
 				}
 			}
 		}
