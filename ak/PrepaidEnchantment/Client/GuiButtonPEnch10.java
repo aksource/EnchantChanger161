@@ -34,8 +34,8 @@ public class GuiButtonPEnch10 extends GuiButton
 		{
 //			par1Minecraft.renderEngine.bindTexture(PrepaidEnchantment.GuiPEnchTex);
 			Minecraft MC = Minecraft.getMinecraft();
-			TextureManager texturemanager = MC.func_110434_K();
-			texturemanager.func_110581_b(new ResourceLocation(PrepaidEnchantment.GuiPEnchTex));
+			TextureManager texturemanager = MC.getTextureManager();
+			texturemanager.getTexture(new ResourceLocation(PrepaidEnchantment.GuiPEnchTex));
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			boolean flag = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
 			int k = 19*2;

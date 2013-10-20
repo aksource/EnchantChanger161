@@ -153,8 +153,8 @@ public class GuiPEnchantment extends GuiContainer
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 //		this.mc.renderEngine.bindTexture(PrepaidEnchantment.GuiPEnchTex);
 		Minecraft MC = Minecraft.getMinecraft();
-		TextureManager texturemanager = MC.func_110434_K();
-		texturemanager.func_110581_b(tex);
+		TextureManager texturemanager = MC.getTextureManager();
+		texturemanager.getTexture(tex);
 		int k = (this.width - this.xSize) / 2;
 		int l = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
@@ -225,7 +225,7 @@ public class GuiPEnchantment extends GuiContainer
 			String s = EnchantmentNameParts.instance.generateRandomEnchantName();
 			this.zLevel = 0.0F;
 //			this.mc.renderEngine.bindTexture(PrepaidEnchantment.GuiPEnchTex);
-			texturemanager.func_110581_b(new ResourceLocation(PrepaidEnchantment.GuiPEnchTex));
+			texturemanager.getTexture(new ResourceLocation(PrepaidEnchantment.GuiPEnchTex));
 			int j1 = this.containerEnchantment.enchantLevels[i1];
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 

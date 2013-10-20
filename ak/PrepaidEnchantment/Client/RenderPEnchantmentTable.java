@@ -22,8 +22,8 @@ public class RenderPEnchantmentTable extends TileEntitySpecialRenderer
 	protected void bindTextureByName(String par1Str)
     {
 		Minecraft MC = Minecraft.getMinecraft();
-		TextureManager texturemanager = MC.func_110434_K();
-		texturemanager.func_110581_b(new ResourceLocation(par1Str));
+		TextureManager texturemanager = MC.getTextureManager();
+		texturemanager.getTexture(new ResourceLocation(par1Str));
     }
     public void renderTileEntityEnchantmentTableAt(TileEntityEnchantmentTable par1TileEntityEnchantmentTable, double par2, double par4, double par6, float par8)
     {
