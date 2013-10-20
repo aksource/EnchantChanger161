@@ -17,7 +17,7 @@ public class EcItemMaterializer extends Item
 		super(par1);
 		maxStackSize = 1;
 		setMaxDamage(0);
-		this.func_111206_d(EnchantChanger.EcTextureDomain + "PortableEnchantChanger");
+		this.setTextureName(EnchantChanger.EcTextureDomain + "PortableEnchantChanger");
 	}
 
 	/**

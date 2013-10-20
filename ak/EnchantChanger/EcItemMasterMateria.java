@@ -28,7 +28,7 @@ public class EcItemMasterMateria extends Item implements IItemRenderer
 		setHasSubtypes(true);
 		maxStackSize = 1;
 		setMaxDamage(0);
-        this.func_111206_d(EnchantChanger.EcTextureDomain + "MasterMateria");
+        this.setTextureName(EnchantChanger.EcTextureDomain + "MasterMateria");
 	}
 	@Override
 	public String getUnlocalizedName(ItemStack par1ItemStack)
@@ -72,7 +72,7 @@ public class EcItemMasterMateria extends Item implements IItemRenderer
 		if(type == ItemRenderType.EQUIPPED_FIRST_PERSON)
 			GL11.glTranslatef(0.3f, 0.2f, 0);
 //		GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture("/mods/ak/EnchantChanger/textures/gui/materia10.png"));
-		mc.func_110434_K().func_110577_a(materia10);
+		mc.getTextureManager().bindTexture(materia10);
 //		GL11.glEnable(GL_BLEND);
 //		GL11.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		Tessellator tessellator = Tessellator.instance;

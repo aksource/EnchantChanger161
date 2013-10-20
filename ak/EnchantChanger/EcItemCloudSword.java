@@ -44,7 +44,7 @@ public class EcItemCloudSword extends EcItemSword
 	public EcItemCloudSword(int par1)
     {
         super(par1, EnumToolMaterial.EMERALD);
-        this.func_111206_d(EnchantChanger.EcTextureDomain + "CloudSword");
+        this.setTextureName(EnchantChanger.EcTextureDomain + "CloudSword");
     }
 
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity)
@@ -157,7 +157,7 @@ public class EcItemCloudSword extends EcItemSword
 		}
 		if (par1Entity.canAttackWithItem())
 		{
-			if (!par1Entity.func_85031_j(player))
+			if (!par1Entity.hitByEntity(player))
 			{
 //				int var2 = stack.getDamageVsEntity(par1Entity);
                 float var2 = (float)this.getItemStrength(stack);
@@ -231,7 +231,7 @@ public class EcItemCloudSword extends EcItemSword
 							player.triggerAchievement(AchievementList.overkill);
 						}
 
-						player.func_130011_c(par1Entity);
+						player.setLastAttacker(par1Entity);
 
 						if (par1Entity instanceof EntityLivingBase)
 						{
@@ -276,7 +276,7 @@ public class EcItemCloudSword extends EcItemSword
 	}
 	public double getItemStrength(ItemStack item)
 	{
-		Multimap multimap = item.func_111283_C();
+		Multimap multimap = item.getAttributeModifiers();
 		double d0;
 		double d1 = 0;
 		if (!multimap.isEmpty())
@@ -287,15 +287,15 @@ public class EcItemCloudSword extends EcItemSword
 			{
 				Entry entry = (Entry)iterator.next();
 				AttributeModifier attributemodifier = (AttributeModifier)entry.getValue();
-				d0 = attributemodifier.func_111164_d();
+				d0 = attributemodifier.getAmount();
 
-				if (attributemodifier.func_111169_c() != 1 && attributemodifier.func_111169_c() != 2)
+				if (attributemodifier.getOperation() != 1 && attributemodifier.getOperation() != 2)
 				{
-					d1 = attributemodifier.func_111164_d();
+					d1 = attributemodifier.getAmount();
 				}
 				else
 				{
-					d1 = attributemodifier.func_111164_d() * 100.0D;
+					d1 = attributemodifier.getAmount() * 100.0D;
 				}
 			}
 		}

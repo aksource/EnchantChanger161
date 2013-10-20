@@ -33,7 +33,7 @@ public class EcRenderItemThrowable extends Render
 		GL11.glTranslatef((float)par2, (float)par4, (float)par6);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glScalef(this.RenderSize, this.RenderSize, this.RenderSize);
-        this.func_110777_b(par1Entity);
+        this.bindEntityTexture(par1Entity);
 		Tessellator var10 = Tessellator.instance;
 
 		this.func_77026_a(var10);
@@ -62,7 +62,11 @@ public class EcRenderItemThrowable extends Render
 	}
 
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity) {
-		return entity instanceof EcEntityMeteo ? this.texMeteo: entity instanceof EcEntityExExpBottle ? this.texExp: TextureMap.field_110576_c;
+
+	/**
+	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+	 */
+	protected ResourceLocation getEntityTexture(Entity entity) {
+		return entity instanceof EcEntityMeteo ? this.texMeteo: entity instanceof EcEntityExExpBottle ? this.texExp: TextureMap.locationItemsTexture;
 	}
 }

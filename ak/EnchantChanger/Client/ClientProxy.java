@@ -9,6 +9,7 @@ import org.lwjgl.input.Keyboard;
 
 import ak.EnchantChanger.CommonProxy;
 import ak.EnchantChanger.CommonTickHandler;
+import ak.EnchantChanger.EcEntityApOrb;
 import ak.EnchantChanger.EcEntityExExpBottle;
 import ak.EnchantChanger.EcEntityMeteo;
 import ak.EnchantChanger.EcTileEntityHugeMateria;
@@ -28,6 +29,7 @@ public class ClientProxy extends CommonProxy
 	{
 		RenderingRegistry.registerEntityRenderingHandler(EcEntityExExpBottle.class, new EcRenderItemThrowable(0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EcEntityMeteo.class, new EcRenderItemThrowable(EnchantChanger.MeteoSize));
+		RenderingRegistry.registerEntityRenderingHandler(EcEntityApOrb.class, new EcRenderApOrb());
 		TickRegistry.registerTickHandler(new CommonTickHandler(), Side.SERVER);
 		KeyBindingRegistry.registerKeyBinding(new EcKeyHandler(new KeyBinding[]{MagicKey},new boolean[]{false}));
 		MinecraftForgeClient.registerItemRenderer(EnchantChanger.SephirothSwordItemID, (IItemRenderer) EnchantChanger.ItemSephirothSword);
@@ -35,6 +37,7 @@ public class ClientProxy extends CommonProxy
 		MinecraftForgeClient.registerItemRenderer(EnchantChanger.FirstSwordItemID, (IItemRenderer) EnchantChanger.ItemCloudSwordCore);
 		MinecraftForgeClient.registerItemRenderer(EnchantChanger.CloudSwordItemID, (IItemRenderer) EnchantChanger.ItemCloudSword);
 		MinecraftForgeClient.registerItemRenderer(EnchantChanger.UltimateWeaponItemID, (IItemRenderer) EnchantChanger.ItemUltimateWeapon);
+		MinecraftForgeClient.registerItemRenderer(EnchantChanger.ImitateSephSwordID, (IItemRenderer)EnchantChanger.ItemImitateSephirothSword);
 		MinecraftForgeClient.registerItemRenderer(EnchantChanger.MateriaID, (IItemRenderer) EnchantChanger.ItemMat);
 		MinecraftForgeClient.registerItemRenderer(EnchantChanger.MasterMateriaID, (IItemRenderer) EnchantChanger.MasterMateria);
 	}

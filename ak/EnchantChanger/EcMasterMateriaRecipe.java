@@ -1,5 +1,6 @@
 package ak.EnchantChanger;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
@@ -20,19 +21,19 @@ public class EcMasterMateriaRecipe implements IRecipe
 			craftitem = var1.getStackInSlot(i);
 			if(craftitem == null)
 				continue;
-			if(craftitem.getItem() instanceof EcItemMateria)
+			if(craftitem.getItem() instanceof EcItemMateria && craftitem.isItemEnchanted())
 			{
 				if(materia[0] == null)
 					materia[0] = craftitem;
-				else if(materia[1] == null && !ItemStack.areItemStacksEqual(materia[0], materia[1]))
+				else if(materia[1] == null && !ItemStack.areItemStacksEqual(materia[0], craftitem))
 					materia[1] = craftitem;
-				else if(materia[2] == null && !ItemStack.areItemStacksEqual(materia[0], materia[2]) && !ItemStack.areItemStacksEqual(materia[1], materia[2]))
+				else if(materia[2] == null && !ItemStack.areItemStacksEqual(materia[0], craftitem) && !ItemStack.areItemStacksEqual(materia[1], craftitem))
 					materia[2] = craftitem;
-				else if(materia[3] == null && !ItemStack.areItemStacksEqual(materia[0], materia[3]) && !ItemStack.areItemStacksEqual(materia[1], materia[3]) && !ItemStack.areItemStacksEqual(materia[2], materia[3]))
+				else if(materia[3] == null && !ItemStack.areItemStacksEqual(materia[0], craftitem) && !ItemStack.areItemStacksEqual(materia[1], craftitem) && !ItemStack.areItemStacksEqual(materia[2], craftitem))
 					materia[3] = craftitem;
-				else if(materia[4] == null && !ItemStack.areItemStacksEqual(materia[0], materia[4]) && !ItemStack.areItemStacksEqual(materia[1], materia[4]) && !ItemStack.areItemStacksEqual(materia[2], materia[4]) && !ItemStack.areItemStacksEqual(materia[3], materia[4]))
+				else if(materia[4] == null && !ItemStack.areItemStacksEqual(materia[0], craftitem) && !ItemStack.areItemStacksEqual(materia[1], craftitem) && !ItemStack.areItemStacksEqual(materia[2], craftitem) && !ItemStack.areItemStacksEqual(materia[3], craftitem))
 					materia[4] = craftitem;
-				else if(materia[5] == null && !ItemStack.areItemStacksEqual(materia[0], materia[5]) && !ItemStack.areItemStacksEqual(materia[1], materia[5]) && !ItemStack.areItemStacksEqual(materia[2], materia[5]) && !ItemStack.areItemStacksEqual(materia[3], materia[5]) && !ItemStack.areItemStacksEqual(materia[4], materia[5]))
+				else if(materia[5] == null && !ItemStack.areItemStacksEqual(materia[0], craftitem) && !ItemStack.areItemStacksEqual(materia[1], craftitem) && !ItemStack.areItemStacksEqual(materia[2], craftitem) && !ItemStack.areItemStacksEqual(materia[3], craftitem) && !ItemStack.areItemStacksEqual(materia[4], craftitem))
 					materia[5] = craftitem;
 				else
 					return false;
@@ -40,7 +41,7 @@ public class EcMasterMateriaRecipe implements IRecipe
 			else
 				return false;
 		}
-		if(materia[5] != null && materia[0].isItemEnchanted() && materia[1].isItemEnchanted()&& materia[2].isItemEnchanted()&& materia[3].isItemEnchanted()&& materia[4].isItemEnchanted()&& materia[5].isItemEnchanted())
+		if(materia[5] != null)
 		{
 			if(this.chekEnchmateria(materia, 6, 16, 21))
 			{
@@ -53,7 +54,7 @@ public class EcMasterMateriaRecipe implements IRecipe
 				flag = true;
 			}
 		}
-		else if(materia[3] != null && materia[0].isItemEnchanted() && materia[1].isItemEnchanted()&& materia[2].isItemEnchanted()&& materia[3].isItemEnchanted())
+		else if(materia[3] != null)
 		{
 			if(this.chekEnchmateria(materia, 4, 32, 35))
 			{
@@ -66,7 +67,7 @@ public class EcMasterMateriaRecipe implements IRecipe
 				flag = true;
 			}
 		}
-		else if(materia[2] == null && materia[1] != null && materia[0].isItemEnchanted() && materia[1].isItemEnchanted())
+		else if(materia[2] == null)
 		{
 			if(this.chekEnchmateria(materia, 2, 5, 6))
 			{
@@ -96,14 +97,10 @@ public class EcMasterMateriaRecipe implements IRecipe
 	}
 	public boolean chekEnchmateria(ItemStack[] items, int num, int init, int end)
 	{
-		boolean ret = false;
+		boolean ret = true;
 		for(int i = 0;i<num;i++)
 		{
-			if(checkEnch(items[i], init, end))
-			{
-				ret = true;
-				break;
-			}
+			ret = ret && checkEnch(items[i], init, end);
 		}
 		return ret;
 	}
@@ -112,7 +109,7 @@ public class EcMasterMateriaRecipe implements IRecipe
 		boolean ret=false;
 		for(int i=init;i<=end;i++)
 		{
-			if(EnchantmentHelper.getEnchantmentLevel(i, materia) > 0)
+			if(EnchantmentHelper.getEnchantmentLevel(i, materia) == Enchantment.enchantmentsList[i].getMaxLevel())
 			{
 				ret = true;
 				break;

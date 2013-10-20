@@ -94,8 +94,8 @@ public class EcModelZackSword extends ModelBase
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glPushMatrix();
 //		GL11.glBindTexture(GL11.GL_TEXTURE_2D, MC.renderEngine.getTexture(EnchantChanger.EcZackSwordPNG));
-//		MC.func_110434_K().func_110581_b(new ResourceLocation(EnchantChanger.EcZackSwordPNG));
-		MC.renderEngine.func_110577_a(tex);
+//		MC.getTextureManager().getTexture(new ResourceLocation(EnchantChanger.EcZackSwordPNG));
+		MC.renderEngine.bindTexture(tex);
 		if (pentity instanceof EntityPlayer && ((EntityPlayer)pentity).isUsingItem()) {
 			//Guard
 			//ViewChange

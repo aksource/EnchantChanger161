@@ -41,7 +41,7 @@ public class EcGuiHugeMateria extends GuiContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 //		this.mc.renderEngine.bindTexture(texture);
 //		this.mc.renderEngine.bindTexture(EnchantChanger.EcGuiHuge);
-		mc.func_110434_K().func_110577_a(gui);
+		mc.getTextureManager().bindTexture(gui);
 		int x = (width - xSize) / 2;
 		int y = (height - ySize) / 2;
 		this.drawTexturedModalRect(x, y, 0, 0, xSize, ySize);

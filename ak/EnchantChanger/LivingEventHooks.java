@@ -15,6 +15,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -43,6 +44,24 @@ public class LivingEventHooks
 			this.Flight(player);
 			this.GreatGospel(player);
 			this.Absorption(player.worldObj, player);
+		}
+	}
+	@ForgeSubscribe
+	public void LivingDeath(LivingDeathEvent event)
+	{
+		DamageSource killer = event.source;
+		EntityLiving entity;
+		if(event.entityLiving instanceof EntityLiving)
+			entity = (EntityLiving) event.entityLiving;
+		else
+			return;
+		if(killer.getEntity() != null && killer.getEntity() instanceof EntityPlayer 
+				&& ((EntityPlayer)killer.getEntity()).getCurrentEquippedItem() != null
+				&& ((EntityPlayer)killer.getEntity()).getCurrentEquippedItem().isItemEnchanted()
+				&& !entity.worldObj.isRemote)
+		{
+			int exp = entity.experienceValue;
+			entity.worldObj.spawnEntityInWorld(new EcEntityApOrb(entity.worldObj, entity.posX,entity.posY, entity.posZ, exp / 2));
 		}
 	}
 	public void Flight(EntityPlayer player)

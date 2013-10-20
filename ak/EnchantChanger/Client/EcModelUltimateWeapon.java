@@ -171,8 +171,8 @@ public class EcModelUltimateWeapon extends ModelBase
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glPushMatrix();
 //		GL11.glBindTexture(GL11.GL_TEXTURE_2D, MC.renderEngine.getTexture(EnchantChanger.EcUltimateWeaponPNG));
-//		MC.func_110434_K().func_110581_b(new ResourceLocation(EnchantChanger.EcUltimateWeaponPNG));
-		MC.renderEngine.func_110577_a(tex);
+//		MC.getTextureManager().getTexture(new ResourceLocation(EnchantChanger.EcUltimateWeaponPNG));
+		MC.renderEngine.bindTexture(tex);
 		//	    アルファブレンドを有効化する
 		GL11.glEnable(GL_BLEND);
 		//    アルファブレンドの係数を設定する

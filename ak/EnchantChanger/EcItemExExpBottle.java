@@ -18,7 +18,7 @@ public class EcItemExExpBottle extends Item
 
 	public EcItemExExpBottle(int par1) {
 		super(par1);
-        this.func_111206_d(EnchantChanger.EcTextureDomain + "ExExpBottle");
+        this.setTextureName(EnchantChanger.EcTextureDomain + "ExExpBottle");
 	}
     @SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack par1ItemStack, int pass)

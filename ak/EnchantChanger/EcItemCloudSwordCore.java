@@ -72,10 +72,14 @@ public class EcItemCloudSwordCore extends EcItemSword
 //	{
 //		return (ActiveMode)?7:6;
 //	}
-    public Multimap func_111205_h()
+
+    /**
+     * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
+     */
+    public Multimap getItemAttributeModifiers()
     {
         Multimap multimap = HashMultimap.create();
-        multimap.put(SharedMonsterAttributes.field_111264_e.func_111108_a(), new AttributeModifier(field_111210_e, "Weapon modifier", (ActiveMode)?7:6, 0));
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (ActiveMode)?7:6, 0));
         return multimap;
     }
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
@@ -211,7 +215,7 @@ public class EcItemCloudSwordCore extends EcItemSword
 		}
 		if (par1Entity.canAttackWithItem())
 		{
-			if (!par1Entity.func_85031_j(player))
+			if (!par1Entity.hitByEntity(player))
 			{
 //				int var2 = stack.getDamageVsEntity(par1Entity);
                 float var2 = (float)this.getItemStrength(stack);
@@ -286,7 +290,7 @@ public class EcItemCloudSwordCore extends EcItemSword
 							player.triggerAchievement(AchievementList.overkill);
 						}
 
-						player.func_130011_c(par1Entity);
+						player.setLastAttacker(par1Entity);
 
 						if (par1Entity instanceof EntityLiving)
 						{
@@ -329,7 +333,7 @@ public class EcItemCloudSwordCore extends EcItemSword
 	}
 	public double getItemStrength(ItemStack item)
 	{
-		Multimap multimap = item.func_111283_C();
+		Multimap multimap = item.getAttributeModifiers();
 		double d0;
 		double d1 = 0;
 		if (!multimap.isEmpty())
@@ -340,15 +344,15 @@ public class EcItemCloudSwordCore extends EcItemSword
 			{
 				Entry entry = (Entry)iterator.next();
 				AttributeModifier attributemodifier = (AttributeModifier)entry.getValue();
-				d0 = attributemodifier.func_111164_d();
+				d0 = attributemodifier.getAmount();
 
-				if (attributemodifier.func_111169_c() != 1 && attributemodifier.func_111169_c() != 2)
+				if (attributemodifier.getOperation() != 1 && attributemodifier.getOperation() != 2)
 				{
-					d1 = attributemodifier.func_111164_d();
+					d1 = attributemodifier.getAmount();
 				}
 				else
 				{
-					d1 = attributemodifier.func_111164_d() * 100.0D;
+					d1 = attributemodifier.getAmount() * 100.0D;
 				}
 			}
 		}

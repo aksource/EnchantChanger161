@@ -14,7 +14,7 @@ public class EcItemHugeMateria extends Item
 	public EcItemHugeMateria(int par1)
 	{
 		super(par1);
-        this.func_111206_d(EnchantChanger.EcTextureDomain + "HugeMateria");
+        this.setTextureName(EnchantChanger.EcTextureDomain + "HugeMateria");
 //		this.setTextureFile(EnchantChanger.EcSprites);
 	}
 	@Override

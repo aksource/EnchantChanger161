@@ -158,8 +158,8 @@ public class EcModelCloudSwordCore2 extends ModelBase
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glPushMatrix();
 //		GL11.glBindTexture(GL11.GL_TEXTURE_2D, MC.renderEngine.getTexture(EnchantChanger.EcCloudSwordCore2PNG));
-		MC.renderEngine.func_110577_a(tex);
-//		MC.func_110434_K().func_110581_b(new ResourceLocation(EnchantChanger.EcCloudSwordCore2PNG));
+		MC.renderEngine.bindTexture(tex);
+//		MC.getTextureManager().getTexture(new ResourceLocation(EnchantChanger.EcCloudSwordCore2PNG));
 
 		/**
 	    if (pentity instanceof EntityPlayer && ((EntityPlayer)pentity).isUsingItem()) {

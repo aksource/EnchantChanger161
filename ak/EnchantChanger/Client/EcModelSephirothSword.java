@@ -64,7 +64,7 @@ public class EcModelSephirothSword extends ModelBase
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glPushMatrix();
 
-		MC.renderEngine.func_110577_a(tex);
+		MC.renderEngine.bindTexture(tex);
 		//	    アルファブレンドを有効化する
 		//GL11.glEnable(GL_BLEND);
 		//    アルファブレンドの係数を設定する

@@ -20,7 +20,7 @@ public class EcItemEnchantmentTable extends Item
 		super(par1);
 		maxStackSize = 1;
 		setMaxDamage(0);
-        this.func_111206_d(EnchantChanger.EcTextureDomain + "PortableEnchantmentTable");
+        this.setTextureName(EnchantChanger.EcTextureDomain + "PortableEnchantmentTable");
 	}
     @SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack par1ItemStack, int pass)

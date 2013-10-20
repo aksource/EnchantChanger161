@@ -1,6 +1,8 @@
 package ak.EnchantChanger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -26,7 +28,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="EnchantChanger", name="EnchantChanger", version="1.6h-universal",dependencies="required-after:FML")
+@Mod(modid="EnchantChanger", name="EnchantChanger", version="1.6k-universal",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false, channels={"EC|Levi","EC|CSC","EC|CS","EC|Sw"}, packetHandler=Packet_EnchantChanger.class)
 public class EnchantChanger
 {
@@ -50,6 +52,8 @@ public class EnchantChanger
 	public static  Item ItemPortableEnchantmentTable ;
 	public static int MasterMateriaID;
 	public static  Item MasterMateria ;
+	public static int ImitateSephSwordID;
+	public static Item ItemImitateSephirothSword;
 	public static int EnchantChangerID;
 	public static Block BlockMat;
 	public static int HugeMateriaID;
@@ -110,7 +114,8 @@ public class EnchantChanger
 	public static int guiIdMaterializer = 0;
 	public static int guiIdPortableEnchantmentTable = 1;
 	public static int guiIdHugeMateria=2;
-
+	public static HashMap<Integer, Integer> apLimit = new HashMap();
+	public static HashSet<Integer> magicEnchantment = new HashSet();
 	public static final CreativeTabs tabsEChanger = new CreativeTabEC("EnchantChanger");
 	public static LivingEventHooks livingeventhooks;
 
@@ -133,6 +138,7 @@ public class EnchantChanger
 		PortableEnchantChangerID = config.get(Configuration.CATEGORY_ITEM, "Portable Enchant Changer Id", 5006).getInt();
 		PortableEnchantmentTableID = config.get(Configuration.CATEGORY_ITEM, "Portable Enchantment Table Id", 5007).getInt();
 		MasterMateriaID = config.get(Configuration.CATEGORY_ITEM, "Master Materia Id", 5008).getInt();
+		ImitateSephSwordID = config.get(Configuration.CATEGORY_ITEM, "Imitate Masamune Blade Id", 5009).getInt();
 
 		LevelCap = config.get(Configuration.CATEGORY_GENERAL, "LevelCap", false,"TRUE:You cannot change a Materia to a enchantment over max level of the enchantment.").getBoolean(false);
 		Debug = config.get(Configuration.CATEGORY_GENERAL, "Debug mode", false,"デバッグ用").getBoolean(false);
@@ -164,6 +170,7 @@ public class EnchantChanger
 		ItemPortableEnchantChanger = (new EcItemMaterializer(PortableEnchantChangerID - 256)).setUnlocalizedName(this.EcTextureDomain + "PortableEnchantChanger").setCreativeTab(tabsEChanger);
 		ItemPortableEnchantmentTable = (new EcItemEnchantmentTable(PortableEnchantmentTableID - 256)).setUnlocalizedName(this.EcTextureDomain + "PortableEnchantmentTable").setCreativeTab(tabsEChanger);
 		MasterMateria = new EcItemMasterMateria(MasterMateriaID - 256).setUnlocalizedName(this.EcTextureDomain + "MasterMateria").setCreativeTab(tabsEChanger);
+		ItemImitateSephirothSword = (new EcItemSephirothSwordImit(ImitateSephSwordID-256)).setUnlocalizedName(this.EcTextureDomain + "ImitateMasamuneBlade").setCreativeTab(tabsEChanger);
 		BlockMat = (new EcBlockMaterialize(EnchantChangerID)).setCreativeTab(tabsEChanger).setUnlocalizedName("EnchantChanger");
 		HugeMateria = new EcBlockHugeMateria(HugeMateriaID).setUnlocalizedName("HugeMateria");
 		ItemHugeMateria = new EcItemHugeMateria(HugeMateria.blockID - 256).setUnlocalizedName(this.EcTextureDomain + "HugeMateria").setCreativeTab(tabsEChanger);
@@ -177,6 +184,7 @@ public class EnchantChanger
 	@Mod.EventHandler
 	public void load(FMLInitializationEvent event)
 	{
+		this.initMaps();
 		livingeventhooks = new LivingEventHooks();
 		MinecraftForge.EVENT_BUS.register(livingeventhooks);
 		GameRegistry.registerTileEntity(EcTileEntityMaterializer.class, "container.materializer");
@@ -184,6 +192,7 @@ public class EnchantChanger
 
 		EntityRegistry.registerModEntity(EcEntityExExpBottle.class, "ItemExExpBottle", 0, this, 250, 5, true);
 		EntityRegistry.registerModEntity(EcEntityMeteo.class, "Meteo", 1, this, 250, 5, true);
+		EntityRegistry.registerModEntity(EcEntityApOrb.class, "apOrb", 2, this, 64, 1, false);
 
 		//"this" is an instance of the mod class
 		NetworkRegistry.instance().registerGuiHandler(this, proxy);
@@ -218,9 +227,11 @@ public class EnchantChanger
 		GameRegistry.addRecipe(new ItemStack(ItemCloudSwordCore, 1), new Object[]{" X ","XYX"," Z ", Character.valueOf('X'), Block.blockIron, Character.valueOf('Y'), new ItemStack(ItemMat, 1,0), Character.valueOf('Z'),Item.ingotIron});
 		GameRegistry.addRecipe(new ItemStack(ItemSephirothSword, 1), new Object[]{"  A"," B ","C  ",Character.valueOf('A'),Item.ingotIron, Character.valueOf('B'),new ItemStack(Item.swordDiamond, 1, 0), Character.valueOf('C'),new ItemStack(ItemMat, 1, 1)});
 		GameRegistry.addRecipe(new ItemStack(ItemUltimateWeapon, 1), new Object[]{" A ","ABA"," C ", Character.valueOf('A'),Block.blockDiamond, Character.valueOf('B'), new ItemStack(MasterMateria, 1,-1), Character.valueOf('C'),Item.stick});
+		GameRegistry.addRecipe(new ItemStack(ItemImitateSephirothSword), "  A"," A ", "B  ", 'A', Item.ingotIron, 'B', Item.swordIron);
 		GameRegistry.addRecipe(new ItemStack(BlockMat, 1), new Object[]{"XYX","ZZZ", Character.valueOf('X'),Item.diamond, Character.valueOf('Y'),Block.blockGold, Character.valueOf('Z'),Block.obsidian});
 		GameRegistry.addRecipe(new ItemStack(HugeMateria), new Object[]{" A ","ABA"," A ",'A',Block.blockDiamond,'B',Item.netherStar});
-		GameRegistry.addRecipe(new ItemStack(HugeMateria), new Object[]{" A ","ABA"," A ",'A',Block.blockDiamond,'B',new ItemStack(MasterMateria,1,-1)});
+		for(int i=0;i<EcItemMasterMateria.MasterMateriaNum;i++)
+			GameRegistry.addRecipe(new ItemStack(HugeMateria), new Object[]{" A ","ABA"," A ",'A',Block.blockDiamond,'B',new ItemStack(MasterMateria,1,i)});
 		GameRegistry.addShapelessRecipe(new ItemStack(ItemPortableEnchantChanger,1),  new Object[]{BlockMat});
 		GameRegistry.addShapelessRecipe(new ItemStack(ItemPortableEnchantmentTable,1),  new Object[]{Block.enchantmentTable});
 		GameRegistry.addShapelessRecipe(new ItemStack(MasterMateria,1,0), new Object[]{new ItemStack(MasterMateria,1,1), new ItemStack(MasterMateria,1,2), new ItemStack(MasterMateria,1,3), new ItemStack(MasterMateria,1,4), new ItemStack(MasterMateria,1,5)});
@@ -229,6 +240,7 @@ public class EnchantChanger
 		GameRegistry.addRecipe(new ItemStack(ItemExExpBottle, 8), new Object[]{"XXX","XYX","XXX", Character.valueOf('X'),new ItemStack(Item.expBottle, 1, 0), Character.valueOf('Y'), new ItemStack(Block.blockDiamond, 1)});
 		GameRegistry.addRecipe(new ItemStack(Block.dragonEgg,1), new Object[]{"XXX","XYX","XXX",Character.valueOf('X'), Item.eyeOfEnder, Character.valueOf('Y'), new ItemStack(MasterMateria,1,-1)});
 		AddLocalization();
+		this.DungeonLootItemResist();
 		if(this.Debug)
 			DebugSystem();
 	}
@@ -252,6 +264,7 @@ public class EnchantChanger
 		LanguageRegistry.addName(ItemUltimateWeapon, "Ultimate Weapon");
 		LanguageRegistry.addName(ItemPortableEnchantChanger, "Portable Enchant Changer");
 		LanguageRegistry.addName(ItemPortableEnchantmentTable,"Portable Enchantment Table");
+		LanguageRegistry.addName(ItemImitateSephirothSword, "1/1 Masamune Blade(Imitation)");
 		LanguageRegistry.instance().addStringLocalization("enchantment.Meteo", "Meteo");
 		LanguageRegistry.instance().addStringLocalization("enchantment.Holy", "Holy");
 		LanguageRegistry.instance().addStringLocalization("enchantment.Teleport", "Teleport");
@@ -269,6 +282,7 @@ public class EnchantChanger
 		LanguageRegistry.instance().addNameForObject(ItemUltimateWeapon,"ja_JP","究極剣");
 		LanguageRegistry.instance().addNameForObject(ItemPortableEnchantChanger, "ja_JP","携帯エンチャントチェンジャー");
 		LanguageRegistry.instance().addNameForObject(ItemPortableEnchantmentTable, "ja_JP","携帯エンチャントテーブル");
+		LanguageRegistry.instance().addNameForObject(ItemImitateSephirothSword, "ja_JP","1/1 マサムネブレード");
 		LanguageRegistry.instance().addStringLocalization("ItemMateria.Base.name", "Inactive Materia");
 		LanguageRegistry.instance().addStringLocalization("ItemMateria.Base.name", "ja_JP","不活性マテリア");
 		LanguageRegistry.instance().addStringLocalization("ItemMateria.name", "Materia");
@@ -295,6 +309,52 @@ public class EnchantChanger
 		{
 			LanguageRegistry.instance().addStringLocalization("enchantment.level."+i, i+"");
 		}
+	}
+	private void initMaps()
+	{
+		this.magicEnchantment.add(this.EnchantmentMeteoId);
+		this.magicEnchantment.add(this.EnchantmentFloatId);
+		this.magicEnchantment.add(this.EndhantmentHolyId);
+		this.magicEnchantment.add(this.EnchantmentTelepoId);
+		this.magicEnchantment.add(this.EnchantmentThunderId);
+		this.apLimit.put(0, 200);
+		this.apLimit.put(1, 100);
+		this.apLimit.put(2, 100);
+		this.apLimit.put(3, 100);
+		this.apLimit.put(4, 100);
+		this.apLimit.put(5, 100);
+		this.apLimit.put(6, 100);
+		this.apLimit.put(7, 100);
+		this.apLimit.put(16, 200);
+		this.apLimit.put(17, 100);
+		this.apLimit.put(18, 100);
+		this.apLimit.put(19, 100);
+		this.apLimit.put(20, 100);
+		this.apLimit.put(21, 300);
+		this.apLimit.put(32, 100);
+		this.apLimit.put(33, 100);
+		this.apLimit.put(34, 100);
+		this.apLimit.put(35, 200);
+		this.apLimit.put(48, 200);
+		this.apLimit.put(49, 100);
+		this.apLimit.put(50, 100);
+		this.apLimit.put(51, 100);
+	}
+	public static boolean isApLimit(int Id, int Lv, int ap)
+	{
+		if(EnchantChanger.getApLimit(Id, Lv) < ap)
+			return true;
+		else
+			return false;
+	}
+	public static int getApLimit(int Id, int Lv)
+	{
+		if(EnchantChanger.apLimit.containsKey(Id))
+		{
+			return ((int)EnchantChanger.apLimit.get(Id)) * (Lv / 5 + 1);
+		}
+		else
+			return 150*(Lv / 5 + 1);
 	}
 	public static void addEnchantmentToItem(ItemStack item, Enchantment enchantment, int Lv)
 	{

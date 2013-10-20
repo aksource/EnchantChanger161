@@ -70,7 +70,7 @@ public class EcItemMateria extends Item implements IItemRenderer
 		maxStackSize = 64;
 		setMaxDamage(0);
 		this.rand = new Random();
-        this.func_111206_d(EnchantChanger.EcTextureDomain + "Materia");
+        this.setTextureName(EnchantChanger.EcTextureDomain + "Materia");
 	}
 	/**
 	 * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and
@@ -101,7 +101,14 @@ public class EcItemMateria extends Item implements IItemRenderer
 			int Lv = EnchantChanger.getMateriaEnchLv(itemstack);
 			if(entityplayer.isSneaking() && Lv > 1)
 			{
-				entityplayer.addExperienceLevel(LevelUPEXP(itemstack, false));
+//				entityplayer.addExperienceLevel(LevelUPEXP(itemstack, false));
+				ItemStack expBottle;
+				if(Lv > 5)
+					expBottle = new ItemStack(EnchantChanger.ItemExExpBottle);
+				else
+					expBottle = new ItemStack(Item.expBottle);
+				if(!world.isRemote)
+					entityplayer.dropPlayerItem(expBottle);
 				this.addMateriaLv(itemstack, -1);
 			}
 			else if ((entityplayer.experienceLevel >= LevelUPEXP(itemstack,true) || entityplayer.capabilities.isCreativeMode) && Lv != 0)
@@ -383,7 +390,7 @@ public class EcItemMateria extends Item implements IItemRenderer
 			Entity entity=(Entity) EntityList.get(i);
 			if(((EntityLivingBase)entity).isEntityUndead())
 			{
-				int var1 = MathHelper.floor_float(((EntityLivingBase) entity).func_110138_aP()/2);
+				int var1 = MathHelper.floor_float(((EntityLivingBase) entity).getMaxHealth()/2);
 //				int var1 = 10;
 				entity.attackEntityFrom(DamageSource.magic, var1);
 			}
@@ -464,7 +471,7 @@ public class EcItemMateria extends Item implements IItemRenderer
 		Minecraft mc = Minecraft.getMinecraft();
 		GL11.glPushMatrix();
 //		GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(this.getTextuerfromEnch(item)));
-		mc.func_110434_K().func_110577_a(this.getTextuerfromEnch(item));
+		mc.getTextureManager().bindTexture(this.getTextuerfromEnch(item));
 		GL11.glTranslatef(x, y, z);
 		if(type == ItemRenderType.EQUIPPED_FIRST_PERSON)
 			GL11.glTranslatef(0.3f, 0.2f, 0);

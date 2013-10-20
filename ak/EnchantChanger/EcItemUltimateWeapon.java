@@ -21,16 +21,20 @@ public class EcItemUltimateWeapon extends EcItemSword
 	{
 		super(par1, EnumToolMaterial.EMERALD);
 		this.ultimateWeaponDamage =  0;
-        this.func_111206_d(EnchantChanger.EcTextureDomain + "UltimateWeapon");
+        this.setTextureName(EnchantChanger.EcTextureDomain + "UltimateWeapon");
 	}
 	public float func_82803_g()
 	{
 		return this.ultimateWeaponDamage;
 	}
-	public Multimap func_111205_h()
+
+	/**
+	 * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
+	 */
+	public Multimap getItemAttributeModifiers()
 	{
 		Multimap multimap = HashMultimap.create();
-		multimap.put(SharedMonsterAttributes.field_111264_e.func_111108_a(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.ultimateWeaponDamage, 0));
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.ultimateWeaponDamage, 0));
 		return multimap;
 	}
 //	@Override
@@ -41,13 +45,13 @@ public class EcItemUltimateWeapon extends EcItemSword
 	@Override
 	public boolean onLeftClickEntity(ItemStack itemstack, EntityPlayer player, Entity entity)
 	{
-		float playerhealth = player.func_110143_aJ();
-		float playermaxhealth =  player.func_110138_aP();
+		float playerhealth = player.getHealth();
+		float playermaxhealth =  player.getMaxHealth();
 		float healthratio = playerhealth / playermaxhealth;
 		int mobmaxhealth = 0;
 		if(entity instanceof EntityLivingBase)
 		{
-			mobmaxhealth = MathHelper.floor_float(((EntityLivingBase) entity).func_110138_aP()/3)+1;
+			mobmaxhealth = MathHelper.floor_float(((EntityLivingBase) entity).getMaxHealth()/3)+1;
 			if(player instanceof EntityPlayer && healthratio >= 1 && mobmaxhealth > this.ultimateWeaponDamage+WeaponDamagefromHP(player))
 			{
 				this.ultimateWeaponDamage = mobmaxhealth;
@@ -74,7 +78,7 @@ public class EcItemUltimateWeapon extends EcItemSword
 	}
 	public int WeaponDamagefromHP(EntityPlayer player)
 	{
-		int nowHP = MathHelper.ceiling_float_int(player.func_110143_aJ());
+		int nowHP = MathHelper.ceiling_float_int(player.getHealth());
 		float damageratio;
 		switch(nowHP)
 		{

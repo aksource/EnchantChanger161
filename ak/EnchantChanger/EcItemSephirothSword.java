@@ -20,7 +20,7 @@ public class EcItemSephirothSword extends EcItemSword
 	public EcItemSephirothSword(int par1)
 	{
 		super(par1, EnumToolMaterial.EMERALD);
-        this.func_111206_d(EnchantChanger.EcTextureDomain + "MasamuneBlade");
+        this.setTextureName(EnchantChanger.EcTextureDomain + "MasamuneBlade");
 	}
 
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
@@ -29,7 +29,7 @@ public class EcItemSephirothSword extends EcItemSword
 		if(par3EntityPlayer.isSneaking())
 		{
 			if(!par3EntityPlayer.capabilities.isCreativeMode)
-				par3EntityPlayer.setEntityHealth(1);
+				par3EntityPlayer.setHealth(1);
 			par3EntityPlayer.addPotionEffect(new PotionEffect(1,1200,3));
 			par3EntityPlayer.addPotionEffect(new PotionEffect(3,1200,3));
 			par3EntityPlayer.addPotionEffect(new PotionEffect(5,1200,3));

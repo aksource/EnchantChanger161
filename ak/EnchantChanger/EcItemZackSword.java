@@ -22,11 +22,11 @@ public class EcItemZackSword extends EcItemSword
 	public EcItemZackSword(int par1)
 	{
 		super(par1, EnumToolMaterial.IRON);
-        this.func_111206_d(EnchantChanger.EcTextureDomain + "ZackSword");
+        this.setTextureName(EnchantChanger.EcTextureDomain + "ZackSword");
 	}
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		if(par3EntityPlayer.isSneaking() && CommonTickHandler.LimitBreakCoolDownCount[0] == 0&&(par3EntityPlayer.func_110143_aJ() < 3 || par3EntityPlayer.capabilities.isCreativeMode))
+		if(par3EntityPlayer.isSneaking() && CommonTickHandler.LimitBreakCoolDownCount[0] == 0&&(par3EntityPlayer.getHealth() < 3 || par3EntityPlayer.capabilities.isCreativeMode))
 		{
 			CommonTickHandler.LimitBreakFlag[0]=true;
 			CommonTickHandler.LimitBreakCount[0]=20*15;
