@@ -15,16 +15,12 @@ public class Entity_HighSpeedCreeper extends EntityCreeper
 		super(var1);
 		this.experienceValue = 15;
 	}
-    protected void func_110147_ax()
+    protected void applyEntityAttributes()
     {
-        super.func_110147_ax();
-        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(30.0D);
-        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.365D);
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(30.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.365D);
     }
-	public int getMaxHealth()
-	{
-		return 30;
-	}
 
 	/**
 	 * Called to update the entity's position/logic.
@@ -33,7 +29,7 @@ public class Entity_HighSpeedCreeper extends EntityCreeper
 	{
 		super.onUpdate();
 
-		if (!this.isPotionActive(Potion.moveSpeed) && this.func_110143_aJ() <= 10)
+		if (!this.isPotionActive(Potion.moveSpeed) && this.getHealth() <= 10)
 		{
 			this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 20, 1));
 		}

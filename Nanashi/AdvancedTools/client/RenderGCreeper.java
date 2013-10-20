@@ -103,7 +103,7 @@ public class RenderGCreeper extends RenderLiving
 			if (par2 == 1)
 			{
 				float var4 = (float)par1EntityCreeper.ticksExisted + par3;
-				func_110776_a(power);
+				bindTexture(power);
 				GL11.glMatrixMode(GL11.GL_TEXTURE);
 				GL11.glLoadIdentity();
 				float var5 = var4 * 0.01F;
@@ -168,7 +168,11 @@ public class RenderGCreeper extends RenderLiving
 	}
 
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity) {
+
+	/**
+	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+	 */
+	protected ResourceLocation getEntityTexture(Entity entity) {
 		return tex;
 	}
 }

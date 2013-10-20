@@ -51,7 +51,7 @@ public class ItemUQDevilSword extends ItemUniqueArms
 
 			if (var6.getCurrentEquippedItem() != null && var6.getCurrentEquippedItem().itemID == this.itemID && !var6.isPotionActive(Potion.damageBoost))
 			{
-				if (var6.func_110143_aJ() > 1)
+				if (var6.getHealth() > 1)
 				{
 					var6.heal(-1);
 					var6.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 59, 1));
@@ -63,11 +63,15 @@ public class ItemUQDevilSword extends ItemUniqueArms
 			}
 		}
 	}
-	public Multimap func_111205_h()
+
+	/**
+	 * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
+	 */
+	public Multimap getItemAttributeModifiers()
 	{
-		Multimap multimap = super.func_111205_h();
-		multimap.put(SharedMonsterAttributes.field_111264_e.func_111108_a(), new AttributeModifier(field_111210_e, "Weapon modifier",this.weaponStrength + this.dmg, 0));
-		return this.weaponStrength < 0 ? super.func_111205_h() : multimap;
+		Multimap multimap = super.getItemAttributeModifiers();
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier",this.weaponStrength + this.dmg, 0));
+		return this.weaponStrength < 0 ? super.getItemAttributeModifiers() : multimap;
 	}
 
 //	public int getDamageVsEntity(Entity var1)
@@ -80,7 +84,7 @@ public class ItemUQDevilSword extends ItemUniqueArms
 	 */
 	public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3)
 	{
-		int var4 = MathHelper.ceiling_float_int(var3.func_110143_aJ());
+		int var4 = MathHelper.ceiling_float_int(var3.getHealth());
 
 		if (var4 > 1)
 		{
@@ -104,7 +108,7 @@ public class ItemUQDevilSword extends ItemUniqueArms
 		if(var2 instanceof EntityPlayer)
 		{
 			ItemStack itemstack = ((EntityPlayer)var2).inventory.getCurrentItem();
-			int var4 = MathHelper.ceiling_float_int(var2.func_110138_aP() - var2.func_110143_aJ());
+			int var4 = MathHelper.ceiling_float_int(var2.getMaxHealth() - var2.getHealth());
 
 			if (itemstack.getItem() instanceof ItemUQDevilSword)
 			{

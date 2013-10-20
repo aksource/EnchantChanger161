@@ -22,7 +22,7 @@ public class RenderAdvZombie extends RenderBiped
 	private static final ResourceLocation Warrior = new ResourceLocation(AdvancedTools.textureassets, "textures/mob/zombiew.png");
 	private static final ResourceLocation Zombie = new ResourceLocation("textures/entity/zombie/zombie.png");
 	private ModelBiped field_82434_o;
-	private ModelZombieVillager field_82432_p;
+	private ModelZombieVillager zombieVillagerModel;
 	protected ModelBiped field_82437_k;
 	protected ModelBiped field_82435_l;
 	protected ModelBiped field_82436_m;
@@ -33,7 +33,7 @@ public class RenderAdvZombie extends RenderBiped
 	{
 		super(new ModelZombie(), 0.5F, 1.0F);
 		this.field_82434_o = this.modelBipedMain;
-		this.field_82432_p = new ModelZombieVillager();
+		this.zombieVillagerModel = new ModelZombieVillager();
 	}
 
 	protected void func_82421_b()
@@ -73,15 +73,15 @@ public class RenderAdvZombie extends RenderBiped
 	{
 		if (par1EntityZombie.isVillager())
 		{
-			if (this.field_82431_q != this.field_82432_p.func_82897_a())
+			if (this.field_82431_q != this.zombieVillagerModel.func_82897_a())
 			{
-				this.field_82432_p = new ModelZombieVillager();
-				this.field_82431_q = this.field_82432_p.func_82897_a();
+				this.zombieVillagerModel = new ModelZombieVillager();
+				this.field_82431_q = this.zombieVillagerModel.func_82897_a();
 				this.field_82436_m = new ModelZombieVillager(1.0F, 0.0F, true);
 				this.field_82433_n = new ModelZombieVillager(0.5F, 0.0F, true);
 			}
 
-			this.mainModel = this.field_82432_p;
+			this.mainModel = this.zombieVillagerModel;
 			this.field_82423_g = this.field_82436_m;
 			this.field_82425_h = this.field_82433_n;
 		}
@@ -148,7 +148,10 @@ public class RenderAdvZombie extends RenderBiped
 		this.func_82426_a((EntityZombie)par1EntityLivingBase, par2, par4, par6, par8, par9);
 	}
 
-	protected ResourceLocation func_110775_a(Entity par1Entity)
+	/**
+	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+	 */
+	protected ResourceLocation getEntityTexture(Entity par1Entity)
 	{
 		return this.func_110863_a((EntityZombie)par1Entity);
 	}

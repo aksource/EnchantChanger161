@@ -35,7 +35,7 @@ public class ItemUQHolySaber extends ItemUniqueArms
 	public void registerIcons(IconRegister par1IconRegister)
 	{
 		this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "HolySaber");
-//		this.iconIndex = par1IconRegister.func_94245_a("AdvancedTools:HolySaber");
+//		this.iconIndex = par1IconRegister.registerIcon("AdvancedTools:HolySaber");
 	}
 	/**
 	 * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and
@@ -49,7 +49,7 @@ public class ItemUQHolySaber extends ItemUniqueArms
 		{
 			EntityPlayer var6 = (EntityPlayer)var3;
 
-			if (var6.func_110143_aJ() < var6.func_110138_aP() && var6.getCurrentEquippedItem() != null && var6.getCurrentEquippedItem().itemID == this.itemID /*&& !var6.activePotionsMap.containsKey(Integer.valueOf(Potion.regeneration.id))*/)
+			if (var6.getHealth() < var6.getMaxHealth() && var6.getCurrentEquippedItem() != null && var6.getCurrentEquippedItem().itemID == this.itemID /*&& !var6.activePotionsMap.containsKey(Integer.valueOf(Potion.regeneration.id))*/)
 			{
 				var6.addPotionEffect(new PotionEffect(Potion.regeneration.id, 40, 0));
 			}
@@ -85,12 +85,16 @@ public class ItemUQHolySaber extends ItemUniqueArms
 		this.dmg = var2;
 		return false;
 	}
-	public Multimap func_111205_h()
+
+	/**
+	 * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
+	 */
+	public Multimap getItemAttributeModifiers()
 	{
 
-		Multimap multimap = super.func_111205_h();
-		multimap.put(SharedMonsterAttributes.field_111264_e.func_111108_a(), new AttributeModifier(field_111210_e, "Weapon modifier", this.weaponStrength + this.dmg, 0));
-		return this.weaponStrength < 0 ? super.func_111205_h() : multimap;
+		Multimap multimap = super.getItemAttributeModifiers();
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", this.weaponStrength + this.dmg, 0));
+		return this.weaponStrength < 0 ? super.getItemAttributeModifiers() : multimap;
 	}
 
 //	public int getDamageVsEntity(Entity var1)

@@ -30,7 +30,7 @@ public class RenderThrowingKnife extends Render
         {
             GL11.glRotatef(var1.exRotate, 0.0F, 0.0F, 1.0F);
         }
-        this.func_110777_b(var1);
+        this.bindEntityTexture(var1);
         Tessellator var10 = Tessellator.instance;
         byte var11 = 0;
         float var12 = 0.0F;
@@ -153,7 +153,11 @@ public class RenderThrowingKnife extends Render
     }
 
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity) {
+
+	/**
+	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+	 */
+	protected ResourceLocation getEntityTexture(Entity entity) {
 		return tex;
 	}
 }

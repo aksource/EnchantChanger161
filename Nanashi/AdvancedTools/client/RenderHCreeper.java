@@ -18,8 +18,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderHCreeper extends RenderLiving
 {
-	private static final ResourceLocation field_110831_a = new ResourceLocation("textures/entity/creeper/creeper_armor.png");
-	private static final ResourceLocation field_110830_f = new ResourceLocation(AdvancedTools.textureassets, "textures/mob/hscreeper.png");
+	private static final ResourceLocation armoredCreeperTextures = new ResourceLocation("textures/entity/creeper/creeper_armor.png");
+	private static final ResourceLocation creeperTextures = new ResourceLocation(AdvancedTools.textureassets, "textures/mob/hscreeper.png");
 
 	/** The creeper model. */
 	private ModelBase creeperModel = new ModelCreeper(2.0F);
@@ -105,7 +105,7 @@ public class RenderHCreeper extends RenderLiving
 			if (par2 == 1)
 			{
 				float f1 = (float)par1EntityCreeper.ticksExisted + par3;
-				this.func_110776_a(field_110831_a);
+				this.bindTexture(armoredCreeperTextures);
 				GL11.glMatrixMode(GL11.GL_TEXTURE);
 				GL11.glLoadIdentity();
 				float f2 = f1 * 0.01F;
@@ -139,9 +139,9 @@ public class RenderHCreeper extends RenderLiving
 		return -1;
 	}
 
-	protected ResourceLocation func_110829_a(EntityCreeper par1EntityCreeper)
+	protected ResourceLocation getCreeperTextures(EntityCreeper par1EntityCreeper)
 	{
-		return field_110830_f;
+		return creeperTextures;
 	}
 
 	/**
@@ -174,8 +174,11 @@ public class RenderHCreeper extends RenderLiving
 		return this.func_77061_b((EntityCreeper)par1EntityLivingBase, par2, par3);
 	}
 
-	protected ResourceLocation func_110775_a(Entity par1Entity)
+	/**
+	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+	 */
+	protected ResourceLocation getEntityTexture(Entity par1Entity)
 	{
-		return this.func_110829_a((EntityCreeper)par1Entity);
+		return this.getCreeperTextures((EntityCreeper)par1Entity);
 	}
 }

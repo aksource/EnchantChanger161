@@ -88,7 +88,7 @@ public class Entity_IHFrozenMob extends Entity
 		}
 		else if (!this.frozen.isBurning() && this.FrozenRest >= 0/* && (this.frozen.hurtTime == 0 || this.FrozenRest >= 190)*/)
 		{
-			if (this.frozen.func_110143_aJ() > 0 && !this.frozen.isDead && !(this.frozen instanceof EntityEnderman))
+			if (this.frozen.getHealth() > 0 && !this.frozen.isDead && !(this.frozen instanceof EntityEnderman))
 			{
 				this.frozen.setPosition(this.posX, this.frozen.posY, this.posZ);
 				this.setPosition(this.frozen.posX, this.frozen.posY, this.frozen.posZ);

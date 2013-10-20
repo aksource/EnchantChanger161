@@ -54,19 +54,23 @@ public class Entity_GoldCreeper extends EntityMob
 		this.tasks.addTask(6, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
 	}
-	protected void func_110147_ax()
+	protected void applyEntityAttributes()
 	{
-		super.func_110147_ax();
-		this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.38D);
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.38D);
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D);
 	}
 	public boolean isAIEnabled()
 	{
 		return true;
 	}
 
-	public int func_82143_as()
+	/**
+	 * The number of iterations PathFinder.getSafePoint will execute before giving up.
+	 */
+	public int getMaxSafePointTries()
 	{
-		return this.getAttackTarget() == null ? 3 : 3 + MathHelper.ceiling_float_int(this.func_110143_aJ() - 1);
+		return this.getAttackTarget() == null ? 3 : 3 + MathHelper.ceiling_float_int(this.getHealth() - 1);
 	}
 	protected void fall(float par1)
 	{
@@ -83,10 +87,6 @@ public class Entity_GoldCreeper extends EntityMob
 		super.entityInit();
 		this.dataWatcher.addObject(16, Byte.valueOf((byte) - 1));
 		this.dataWatcher.addObject(17, Byte.valueOf((byte)0));
-	}
-	public int getMaxHealth()
-	{
-		return 20;
 	}
 
 	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
@@ -195,7 +195,7 @@ public class Entity_GoldCreeper extends EntityMob
 					var3 = var4.itemID == AdvancedTools.LuckLuck.itemID;
 				}
 
-				if (var3 || this.rand.nextFloat() < 0.3F && this.func_110143_aJ() > 0)
+				if (var3 || this.rand.nextFloat() < 0.3F && this.getHealth() > 0)
 				{
 					this.dropItem(Item.goldNugget.itemID, 1);
 				}

@@ -28,7 +28,7 @@ public class RenderAdvSkeleton extends RenderBiped
         super(new ModelSkeleton(), 0.5F);
     }
 
-    protected void func_82438_a(EntitySkeleton par1EntitySkeleton, float par2)
+    protected void scaleSkeleton(EntitySkeleton par1EntitySkeleton, float par2)
     {
         if (par1EntitySkeleton.getSkeletonType() == 1)
         {
@@ -66,10 +66,13 @@ public class RenderAdvSkeleton extends RenderBiped
      */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.func_82438_a((EntitySkeleton)par1EntityLivingBase, par2);
+        this.scaleSkeleton((EntitySkeleton)par1EntityLivingBase, par2);
     }
 
-    protected ResourceLocation func_110775_a(Entity par1Entity)
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
+    protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.func_110860_a((EntitySkeleton)par1Entity);
     }

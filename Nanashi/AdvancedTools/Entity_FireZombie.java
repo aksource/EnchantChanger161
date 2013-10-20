@@ -10,6 +10,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class Entity_FireZombie extends EntityZombie
 {
@@ -21,22 +23,24 @@ public class Entity_FireZombie extends EntityZombie
 		//		this.texture = AdvancedTools.mobTexture + "fzombie.png";
 		this.isImmuneToFire = true;
 	}
-	protected void func_110147_ax()
+	protected void applyEntityAttributes()
 	{
-		super.func_110147_ax();
-		this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(30.0D);
-		this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.3D);
-		this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(6.0D);
-//		this.func_110140_aT().func_111150_b(field_110186_bp).func_111128_a(this.rand.nextDouble() * 0.10000000149011612D);
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(30.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.3D);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(6.0D);
+//		this.getAttributeMap().func_111150_b(field_110186_bp).setAttribute(this.rand.nextDouble() * 0.10000000149011612D);
 	}
 	protected void entityInit()
 	{
 		super.entityInit();
 	}
-	/**
-	 * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-	 * use this to react to sunlight and start to burn.
-	 */
+    @SideOnly(Side.CLIENT)
+
+    public boolean canRenderOnFire()
+    {
+        return !this.isWet();
+    }
 	public void onLivingUpdate()
 	{
 		super.onLivingUpdate();

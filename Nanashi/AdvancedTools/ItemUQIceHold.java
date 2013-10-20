@@ -58,11 +58,15 @@ public class ItemUQIceHold extends ItemUniqueArms
 		this.dmg = var1 instanceof EntityEnderman ? weaponStrength * 3 : weaponStrength;
 		return false;
 	}
-	public Multimap func_111205_h()
+
+	/**
+	 * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
+	 */
+	public Multimap getItemAttributeModifiers()
 	{
-		Multimap multimap = super.func_111205_h();
-		multimap.put(SharedMonsterAttributes.field_111264_e.func_111108_a(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.dmg, 0));
-		return this.weaponStrength < 0 ? super.func_111205_h() : multimap;
+		Multimap multimap = super.getItemAttributeModifiers();
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.dmg, 0));
+		return this.weaponStrength < 0 ? super.getItemAttributeModifiers() : multimap;
 	}
 	/**
 	 * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and

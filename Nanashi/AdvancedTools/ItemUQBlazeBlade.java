@@ -149,9 +149,13 @@ public class ItemUQBlazeBlade extends ItemUniqueArms
 
 		return var1;
 	}
-	public Multimap func_111205_h()
+
+	/**
+	 * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
+	 */
+	public Multimap getItemAttributeModifiers()
 	{
-		return super.func_111205_h();
+		return super.getItemAttributeModifiers();
 	}
 	@Override//暫定処置
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity)

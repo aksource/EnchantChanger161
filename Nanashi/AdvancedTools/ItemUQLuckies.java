@@ -65,7 +65,7 @@ public class ItemUQLuckies extends ItemUniqueArms
 		if (var1 instanceof EntityLiving)
 		{
 			EntityLiving var3 = (EntityLiving)var1;
-			int var4 = MathHelper.floor_float(var3.func_110143_aJ());
+			int var4 = MathHelper.floor_float(var3.getHealth());
 
 			if (var4 <= var2 && var4 > 0 && var3.hurtTime <= 0)
 			{
@@ -76,11 +76,15 @@ public class ItemUQLuckies extends ItemUniqueArms
 		this.dmg = var2;
 		return false;
 	}
-	public Multimap func_111205_h()
+
+	/**
+	 * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
+	 */
+	public Multimap getItemAttributeModifiers()
 	{
-		Multimap multimap = super.func_111205_h();
-		multimap.put(SharedMonsterAttributes.field_111264_e.func_111108_a(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.dmg, 0));
-		return this.weaponStrength < 0 ? super.func_111205_h() : multimap;
+		Multimap multimap = super.getItemAttributeModifiers();
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.dmg, 0));
+		return this.weaponStrength < 0 ? super.getItemAttributeModifiers() : multimap;
 	}
 //	public int getDamageVsEntity(Entity var1)
 //	{

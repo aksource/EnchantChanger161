@@ -76,11 +76,15 @@ public class ItemUniqueArms extends ItemSword
 		return this.weaponStrength;
 	}
 	@Override
-	public Multimap func_111205_h()
+
+	/**
+	 * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
+	 */
+	public Multimap getItemAttributeModifiers()
 	{
 		Multimap multimap = HashMultimap.create();
-		multimap.put(SharedMonsterAttributes.field_111264_e.func_111108_a(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.weaponStrength, 0));
-		return this.weaponStrength < 0 ? super.func_111205_h() : multimap;
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.weaponStrength, 0));
+		return this.weaponStrength < 0 ? super.getItemAttributeModifiers() : multimap;
 	}
 	/**
 	 * Returns the damage against a given entity.

@@ -18,12 +18,12 @@ public class Entity_ZombieWarrior extends EntityZombie
 		this.experienceValue = 10;
 		this.defaultHeldItem = new ItemStack(AdvancedTools.DevilSword, 1);
 	}
-    protected void func_110147_ax()
+    protected void applyEntityAttributes()
     {
-        super.func_110147_ax();
-        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(40.0D);
-        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.32D);
-        this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(10.0D);
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(40.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.32D);
+        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(10.0D);
     }
 
 	/**
@@ -93,7 +93,7 @@ public class Entity_ZombieWarrior extends EntityZombie
 	 */
 	public ItemStack getHeldItem()
 	{
-		return this.func_110143_aJ() > 0 ? this.defaultHeldItem : null;
+		return this.getHealth() > 0 ? this.defaultHeldItem : null;
 	}
 
 	/**
