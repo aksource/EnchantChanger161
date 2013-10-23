@@ -8,6 +8,8 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.world.WorldEvent.Save;
+import ak.akapi.ConfigSavable;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -43,6 +45,7 @@ public class ChainDestruction
 	public static boolean dropOnPlayer = true;
 	public ConfigSavable config;
 	public InteractBlockHook interactblockhook;
+	public static boolean loadMTH = false;
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
@@ -71,6 +74,7 @@ public class ChainDestruction
 	public void postInit(FMLPostInitializationEvent evet)
 	{
 		addItemsAndBlocks();
+		this.loadMTH = Loader.isModLoaded("MultiToolHolders");
 	}
 	public void addItemsAndBlocks()
 	{

@@ -1,4 +1,4 @@
-package ak.ChainDestruction;
+package ak.akapi;
 
 import static net.minecraftforge.common.Property.Type.*;
 

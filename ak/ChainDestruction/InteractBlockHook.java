@@ -22,6 +22,8 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
+import ak.MultiToolHolders.ItemMultiToolHolder;
+import ak.MultiToolHolders.ToolHolderData;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -185,6 +187,12 @@ public class InteractBlockHook
 			{
 				this.SearchBlock(world, player, block, chunk, ForgeDirection.OPPOSITES[side]);
 			}
+		}
+		if(ChainDestruction.loadMTH && item.getItem() instanceof ItemMultiToolHolder)
+		{
+			ToolHolderData tooldata = ((ItemMultiToolHolder)item.getItem()).tools;
+			int slotNum = ((ItemMultiToolHolder)item.getItem()).SlotNum;
+			item = tooldata.tools[slotNum];
 		}
 		Iterator it = blocklist.iterator();
 		while(it.hasNext() && !flag)
