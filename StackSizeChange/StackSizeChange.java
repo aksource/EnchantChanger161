@@ -10,12 +10,11 @@ import net.minecraft.src.ModLoader;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="StackSizeChange", name="StackSizeChange", version="1.6srg-1",dependencies="required-after:FML")
+@Mod(modid="StackSizeChange", name="StackSizeChange", version="1.6srg-2",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 public class StackSizeChange
 {
@@ -104,10 +103,6 @@ public class StackSizeChange
 		isStackCustom = config.get(Configuration.CATEGORY_GENERAL, "isStackCustom", true, "true: Improve the operation of the stack").getBoolean(true);
 		
 		config.save();
-	}
-	@Mod.EventHandler
-	public void load(FMLInitializationEvent event)
-	{
 		Item.doorWood.setMaxStackSize(DoorMax);
 		Item.minecartEmpty.setMaxStackSize(CartMax);
 		Item.saddle.setMaxStackSize(SaddleMax);
