@@ -209,7 +209,8 @@ public class InteractBlockHook
 				if(world.setBlock(chunk.x, chunk.y, chunk.z, 0))
 				{
 					block.onBlockDestroyedByPlayer(world, block.blockID, chunk.x, chunk.y, chunk.z);
-					this.harvestBlock(world, player, chunk.x, chunk.y, chunk.z, meta, block);
+//					this.harvestBlock(world, player, chunk.x, chunk.y, chunk.z, meta, block);
+					block.harvestBlock(world, player, MathHelper.ceiling_double_int( player.posX), MathHelper.ceiling_double_int( player.posY), MathHelper.ceiling_double_int( player.posZ), meta);
 					if(item.stackSize == 0)
 					{
 						player.destroyCurrentEquippedItem();
