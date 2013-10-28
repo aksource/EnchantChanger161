@@ -257,11 +257,14 @@ public class EcEntityApOrb extends Entity
 				if(EnchantChanger.loadMTH && items[i].getItem() instanceof ItemMultiToolHolder)
 				{
 					ToolHolderData tools = ((ItemMultiToolHolder)items[i].getItem()).tools;
-					for(int j = 0; j < tools.tools.length; j ++)
+					if(tools != null)
 					{
-						if(tools.tools[j] != null && tools.tools[j].isItemEnchanted())
+						for(int j = 0; j < tools.tools.length; j ++)
 						{
-							addApToItem(tools.tools[j]);
+							if(tools.tools[j] != null && tools.tools[j].isItemEnchanted())
+							{
+								addApToItem(tools.tools[j]);
+							}
 						}
 					}
 				}
