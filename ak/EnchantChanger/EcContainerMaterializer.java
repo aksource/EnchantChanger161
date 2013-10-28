@@ -25,6 +25,7 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
+import ak.MultiToolHolders.ItemMultiToolHolder;
 
 public class EcContainerMaterializer extends Container {
 
@@ -166,7 +167,7 @@ public class EcContainerMaterializer extends Container {
 		 ItemStack enchitem = this.materializeSource.getStackInSlot(0);
 		 if (enchitem != null)
 		 {
-			 if(! (enchitem.getItem() instanceof Item))
+			 if(! (enchitem.getItem() instanceof Item)  || (EnchantChanger.loadMTH && enchitem.getItem() instanceof ItemMultiToolHolder))
 			 {
 				 return;
 			 }
