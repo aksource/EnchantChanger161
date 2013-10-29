@@ -148,7 +148,7 @@ public class EnchantChanger
 		Debug = config.get(Configuration.CATEGORY_GENERAL, "Debug mode", false,"デバッグ用").getBoolean(false);
 		enableAPSystem = config.get(Configuration.CATEGORY_GENERAL, "enableAPSystem", true).getBoolean(true);
 		enableDungeonLoot = config.get(Configuration.CATEGORY_GENERAL, "enableDungeonLoot", true).getBoolean(true);
-		aPBasePoint = config.get(Configuration.CATEGORY_GENERAL, "APBAsePoint", 100).getInt();
+		aPBasePoint = config.get(Configuration.CATEGORY_GENERAL, "APBAsePoint", 200).getInt();
 		SwordIds= config.get(Configuration.CATEGORY_GENERAL, "Extra SwordIds", "267","Put Ids which you want to operate as  swords. Usage: 1,2,3").getString();
 		ToolIds = config.get(Configuration.CATEGORY_GENERAL, "Extra ToolIds", "257","Put Ids which you want to operate as  swords. Usage: 1,2,3").getString();
 		BowIds = config.get(Configuration.CATEGORY_GENERAL, "Extra BowIds", "261","Put Ids which you want to operate as  bows. Usage: 1,2,3").getString();
