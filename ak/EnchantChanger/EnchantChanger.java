@@ -29,7 +29,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="EnchantChanger", name="EnchantChanger", version="1.6l-universal",dependencies="required-after:FML")
+@Mod(modid="EnchantChanger", name="EnchantChanger", version="1.6m-universal",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false, channels={"EC|Levi","EC|CSC","EC|CS","EC|Sw"}, packetHandler=Packet_EnchantChanger.class)
 public class EnchantChanger
 {
@@ -79,6 +79,9 @@ public class EnchantChanger
 	public static int Difficulty;
 	public static double AbsorpBoxSize = 5D;
 	public static int MaxLv = 127;
+	public static boolean enableAPSystem;
+	public static boolean enableDungeonLoot;
+	public static int aPBasePoint;
 
 	public static int EnchantmentMeteoId;
 	public static Enchantment Meteo;
@@ -143,6 +146,9 @@ public class EnchantChanger
 
 		LevelCap = config.get(Configuration.CATEGORY_GENERAL, "LevelCap", false,"TRUE:You cannot change a Materia to a enchantment over max level of the enchantment.").getBoolean(false);
 		Debug = config.get(Configuration.CATEGORY_GENERAL, "Debug mode", false,"デバッグ用").getBoolean(false);
+		enableAPSystem = config.get(Configuration.CATEGORY_GENERAL, "enableAPSystem", true).getBoolean(true);
+		enableDungeonLoot = config.get(Configuration.CATEGORY_GENERAL, "enableDungeonLoot", true).getBoolean(true);
+		aPBasePoint = config.get(Configuration.CATEGORY_GENERAL, "APBAsePoint", 100).getInt();
 		SwordIds= config.get(Configuration.CATEGORY_GENERAL, "Extra SwordIds", "267","Put Ids which you want to operate as  swords. Usage: 1,2,3").getString();
 		ToolIds = config.get(Configuration.CATEGORY_GENERAL, "Extra ToolIds", "257","Put Ids which you want to operate as  swords. Usage: 1,2,3").getString();
 		BowIds = config.get(Configuration.CATEGORY_GENERAL, "Extra BowIds", "261","Put Ids which you want to operate as  bows. Usage: 1,2,3").getString();
@@ -220,8 +226,8 @@ public class EnchantChanger
 		StringtoInt(BowIds,BowIdArray);
 		StringtoInt(ArmorIds,ArmorIdArray);
 
-
-		GameRegistry.addRecipe(new EcMateriaRecipe());
+		if(this.Difficulty < 2)
+			GameRegistry.addRecipe(new EcMateriaRecipe());
 		GameRegistry.addRecipe(new EcMasterMateriaRecipe());
 		GameRegistry.addShapelessRecipe(new ItemStack(ItemMat,1, 0), new Object[]{new ItemStack(Item.diamond, 1), new ItemStack(Item.enderPearl, 1)});
 		GameRegistry.addRecipe(new ItemStack(ItemZackSword, 1), new Object[]{" X","XX"," Y", Character.valueOf('X'),Block.blockIron, Character.valueOf('Y'),Item.ingotIron});
@@ -240,7 +246,8 @@ public class EnchantChanger
 		GameRegistry.addRecipe(new ItemStack(ItemExExpBottle, 8), new Object[]{"XXX","XYX","XXX", Character.valueOf('X'),new ItemStack(Item.expBottle, 1, 0), Character.valueOf('Y'), new ItemStack(Block.blockDiamond, 1)});
 		GameRegistry.addRecipe(new ItemStack(Block.dragonEgg,1), new Object[]{"XXX","XYX","XXX",Character.valueOf('X'), Item.eyeOfEnder, Character.valueOf('Y'), new ItemStack(MasterMateria,1,OreDictionary.WILDCARD_VALUE)});
 		AddLocalization();
-		this.DungeonLootItemResist();
+		if(this.enableDungeonLoot)
+			this.DungeonLootItemResist();
 		if(this.Debug)
 			DebugSystem();
 	}

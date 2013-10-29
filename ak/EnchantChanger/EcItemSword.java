@@ -36,11 +36,12 @@ public class EcItemSword extends ItemSword implements IItemRenderer
 		{
 			if(par2World.isRemote)
 			{
-				this.toggle = EcKeyHandler.MagicKeyDown && !this.toggle;
+				this.toggle = EcKeyHandler.MagicKeyDown && EcKeyHandler.MagicKeyUp;
 				PacketDispatcher.sendPacketToServer(Packet_EnchantChanger.getPacketSword(this));
 			}
 			if(toggle)
 			{
+				EcKeyHandler.MagicKeyUp = false;
 				doMagic(par1ItemStack, par2World, (EntityPlayer) par3Entity);
 			}
 		}
