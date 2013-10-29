@@ -24,6 +24,7 @@ local.properties
 /buildcraft
 /lang
 /assets/buildcraft
+/assets/minecraft
 /net/minecraftforge
 /net/minecraft/block
 /net/minecraft/client
@@ -48,6 +49,7 @@ local.properties
 /net/minecraft/util
 /net/minecraft/village
 /net/minecraft/world
+/net/minecraft/storagebox
 /net/minecraft/src/*.java
 /sortConfig
 

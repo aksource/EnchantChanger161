@@ -98,29 +98,28 @@ public class InteractBlockHook
 			}
 			if(world.isRemote)
 			{
-				this.toggle = CDKeyHandler.regItemKeyDown && !this.toggle;
-				this.digUnderToggle = CDKeyHandler.digUnderKeyDown && !this.digUnderToggle;
+				this.toggle = CDKeyHandler.regItemKeyDown && CDKeyHandler.regItemKeyUp;
+				this.digUnderToggle = CDKeyHandler.digUnderKeyDown && CDKeyHandler.digUnderKeyUp;
 				if(this.digUnderToggle)
 				{
+					CDKeyHandler.digUnderKeyUp = false;
 					this.digUnder = !this.digUnder;
 					player.addChatMessage(String.format("Dig Under %b", this.digUnder));
-					this.digUnderToggle = false;
 				}
 				PacketDispatcher.sendPacketToServer(PacketHandler.getPacketRegKeyToggle(this));
 			}
 			if(this.toggle && item != null)
 			{
+				CDKeyHandler.regItemKeyUp = false;
 				if(player.isSneaking() && ChainDestruction.enableItems.contains(item.itemID))
 				{
 					ChainDestruction.enableItems.remove(item.itemID);
 					player.addChatMessage(String.format("Remove Tool Id %d", item.itemID));
-					toggle = false;
 				}
 				if(!player.isSneaking() && !ChainDestruction.enableItems.contains(item.itemID))
 				{
 					ChainDestruction.enableItems.add(item.itemID);
 					player.addChatMessage(String.format("Add Tool Id %d", item.itemID));
-					toggle = false;
 				}
 			}
 			ChainDestruction.digUnder = this.digUnder;
