@@ -290,9 +290,10 @@ public class EcEntityApOrb extends Entity
 		{
 			prevAp = ((NBTTagCompound)enchantList.tagAt(j)).getInteger("ap");
 			enchantmentId = ((NBTTagCompound)enchantList.tagAt(j)).getShort("id");
-			if(Enchantment.enchantmentsList[enchantmentId].getMaxLevel() == 1)
-				continue;
 			enchantmentLv = ((NBTTagCompound)enchantList.tagAt(j)).getShort("lvl");
+			if(Enchantment.enchantmentsList[enchantmentId].getMaxLevel() == 1
+					|| (EnchantChanger.LevelCap && Enchantment.enchantmentsList[enchantmentId].getMaxLevel() <= enchantmentLv))
+				continue;
 			nowAp = prevAp + this.apValue;
 			if(EnchantChanger.magicEnchantment.contains(Integer.valueOf((int)enchantmentId)))
 				continue;
