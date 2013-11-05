@@ -18,18 +18,61 @@ public class ConfigSavable extends Configuration
 	{
 		super(file);
 	}
+    public void set(String category, String key, int defaultValue)
+    {
+        set(category, key, Integer.toString(defaultValue), INTEGER);
+    }
     public void set(String category, String key, boolean defaultValue)
     {
         set(category, key, Boolean.toString(defaultValue), BOOLEAN);
     }
-	public void set(String category, String key, HashSet<Integer> set)
+    public void set(String category, String key, double defaultValue)
+    {
+        set(category, key, Double.toString(defaultValue), DOUBLE);
+    }
+    public void set(String category, String key, String defaultValue)
+    {
+        set(category, key, defaultValue, STRING);
+    }
+    public void set(String category, String key, String[] defaultValue)
+    {
+        set(category, key, defaultValue, STRING);
+    }
+    public void set(String category, String key, int[] arrays)
+    {
+    	String[] values = new String[arrays.length];
+    	for(int i=0;i<values.length;i++)
+    	{
+    		values[i] = Integer.toString(arrays[i]);
+    	}
+    	set(category, key, values, INTEGER);
+    }
+    public void set(String category, String key, double[] arrays)
+    {
+    	String[] values = new String[arrays.length];
+    	for(int i=0;i<values.length;i++)
+    	{
+    		values[i] = Double.toString(arrays[i]);
+    	}
+    	set(category, key, values, DOUBLE);
+    }
+    public void set(String category, String key, boolean[] arrays)
+    {
+    	String[] values = new String[arrays.length];
+    	for(int i=0;i<values.length;i++)
+    	{
+    		values[i] = Boolean.toString(arrays[i]);
+    	}
+    	set(category, key, values, BOOLEAN);
+    }
+	public void set(String category, String key, HashSet set)
 	{
 		String[] values = new String[set.size()];
 		Iterator it = set.iterator();
 		int i = 0;
 		while(it.hasNext())
 		{
-			values[i] = Integer.toString((Integer) it.next());
+			values[i] = it.next().toString();
 			i++;
 		}
 		set(category, key, values, INTEGER);
