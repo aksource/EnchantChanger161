@@ -56,9 +56,7 @@ public class ItemUGAxe extends ItemUGTool
 	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "Infinityaxe");
 		}
 	}
-	/**
-	 * Returns if the item (tool) can harvest results from the block type.
-	 */
+
 	public boolean canHarvestBlock(Block var1)
 	{
 		return var1.blockMaterial == Material.wood;

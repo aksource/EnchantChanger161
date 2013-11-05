@@ -4,13 +4,9 @@ import java.io.DataOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.io.ByteArrayDataInput;
-
 import net.minecraft.block.Block;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -18,26 +14,29 @@ import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.FMLCommonHandler;
+
+import com.google.common.io.ByteArrayDataInput;
+
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemUGTool extends ItemTool
 {
 	public String BaseName;
 	public boolean canDestroyABlock = false;
-	protected int destroyRange;
 	protected int cDestroyRange;
+	private int[] rangeArray = new int[]{2,4,7,9,9};
 	private int saftyCount;
 	private int breakcount;
 
 	protected ItemUGTool(int var1, int var2, EnumToolMaterial var3, Block[] var4)
 	{
 		super(var1, var2, var3, var4);
-		this.destroyRange = AdvancedTools.UGTools_DestroyRangeLV;
 		this.cDestroyRange = AdvancedTools.UGTools_SaftyCounter;
 		this.saftyCount = AdvancedTools.UGTools_SaftyCounter;
 	}
@@ -45,7 +44,6 @@ public class ItemUGTool extends ItemTool
 	protected ItemUGTool(int var1, int var2, EnumToolMaterial var3, Block[] var4, float var5)
 	{
 		super(var1, var2, var3, var4);
-		this.destroyRange = AdvancedTools.UGTools_DestroyRangeLV;
 		this.cDestroyRange = AdvancedTools.UGTools_SaftyCounter;
 		this.saftyCount = AdvancedTools.UGTools_SaftyCounter;
 		this.setMaxDamage((int)(var5 * (float)this.getMaxDamage()));
@@ -71,18 +69,30 @@ public class ItemUGTool extends ItemTool
 		return this;
 	}
 	@Override
-	public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World, int par3, int par4, int par5, int par6, EntityLivingBase par7EntityLiving)
+	public boolean onBlockDestroyed(ItemStack item, World world, int par3, int par4, int par5, int par6, EntityLivingBase par7EntityLiving)
 	{
-		par1ItemStack.damageItem(1, par7EntityLiving);
+		item.damageItem(1, par7EntityLiving);
 		this.breakcount = 0;
-		if (this.canHarvestBlock(Block.blocksList[par3]) && this.destroyRange != 0 && par7EntityLiving instanceof EntityPlayer)
+		int range;
+		if(item.hasTagCompound() && item.getTagCompound().hasKey("range"))
 		{
-			if (!par2World.isRemote)
+			range = item.getTagCompound().getInteger("range");
+		}
+		else
+		{
+			range = AdvancedTools.UGTools_DestroyRangeLV;
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setInteger("range", range);
+			item.setTagCompound(nbt);
+		}
+		if (this.canHarvestBlock(Block.blocksList[par3]) && range != 0 && par7EntityLiving instanceof EntityPlayer)
+		{
+			if (!world.isRemote)
 			{
-				this.destroyAroundBlock(par1ItemStack, par2World, par3, par4, par5, par6, (EntityPlayer)par7EntityLiving);
-				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.getPacketTool(this));
+				this.destroyAroundBlock(item, world, par3, par4, par5, par6, (EntityPlayer)par7EntityLiving, range);
+				PacketDispatcher.sendPacketToPlayer(PacketHandler.getPacketTool(this), (Player) par7EntityLiving);
 			}
-			par1ItemStack.damageItem(this.breakcount, par7EntityLiving);
+			item.damageItem(this.breakcount, par7EntityLiving);
 			return true;
 		}
 		else
@@ -91,7 +101,7 @@ public class ItemUGTool extends ItemTool
 		}
 	}
 
-	protected void searchAndDestroyBlock(World world, int var1, int var2, int var3, int var4, int var5, ItemStack var6, EntityPlayer var7)
+	protected void searchAndDestroyBlock(World world, int var1, int var2, int var3, int var4, int var5, ItemStack var6, EntityPlayer var7, int range)
 	{
 		ArrayList var8 = new ArrayList();
 		var8.add(new ChunkPosition(var1, var2, var3));
@@ -104,12 +114,12 @@ public class ItemUGTool extends ItemTool
 
 		if (!this.doChainDestraction(Block.blocksList[var5]))
 		{
-			var9 = var1 - this.destroyRange;
-			var10 = var2 - this.destroyRange;
-			var11 = var3 - this.destroyRange;
-			var12 = var1 + this.destroyRange;
-			var13 = var2 + this.destroyRange;
-			var14 = var3 + this.destroyRange;
+			var9 = var1 - range;
+			var10 = var2 - range;
+			var11 = var3 - range;
+			var12 = var1 + range;
+			var13 = var2 + range;
+			var14 = var3 + range;
 
 			if (var4 == 0 || var4 == 1)
 			{
@@ -121,16 +131,16 @@ public class ItemUGTool extends ItemTool
 			{
 				var11 = var3;
 				var14 = var3;
-				var10 += this.destroyRange - 1;
-				var13 += this.destroyRange - 1;
+				var10 += range - 1;
+				var13 += range - 1;
 			}
 
 			if (var4 == 4 || var4 == 5)
 			{
 				var9 = var1;
 				var12 = var1;
-				var10 += this.destroyRange - 1;
-				var13 += this.destroyRange - 1;
+				var10 += range - 1;
+				var13 += range - 1;
 			}
 		}
 		else
@@ -211,10 +221,10 @@ public class ItemUGTool extends ItemTool
 		return var7;
 	}
 
-	private boolean destroyAroundBlock(ItemStack var1, World world, int var2, int var3, int var4, int var5, EntityPlayer var6)
+	private boolean destroyAroundBlock(ItemStack var1, World world, int var2, int var3, int var4, int var5, EntityPlayer var6, int range)
 	{
 		int var7 = AdvancedTools.setMousePoint(world, var6).sideHit;
-		this.searchAndDestroyBlock(world,var3, var4, var5, var7, var2, var1, var6);
+		this.searchAndDestroyBlock(world,var3, var4, var5, var7, var2, var1, var6, range);
 		return true;
 	}
 
@@ -223,12 +233,7 @@ public class ItemUGTool extends ItemTool
 		return true;
 	}
 
-	public void setRange(int var1)
-	{
-		this.destroyRange = var1;
-	}
-
-	protected boolean destroyBlock(World world, ChunkPosition var1, int var2, ItemStack var3, EntityPlayer var4)
+	protected boolean destroyBlock(World world, ChunkPosition var1, int blockid, ItemStack var3, EntityPlayer var4)
 	{
 		int var5 = world.getBlockId(var1.x, var1.y, var1.z);
 
@@ -238,18 +243,18 @@ public class ItemUGTool extends ItemTool
 		}
 		else
 		{
-			if (var2 == -1)
+			if (blockid == -1)
 			{
 				if (!this.canHarvestBlock(Block.blocksList[var5]))
 				{
 					return false;
 				}
 			}
-			else if (Block.blocksList[var2] != Block.oreRedstone && Block.blocksList[var2] != Block.oreRedstoneGlowing)
+			else if (Block.blocksList[blockid] != Block.oreRedstone && Block.blocksList[blockid] != Block.oreRedstoneGlowing)
 			{
-				if (Block.blocksList[var2] != Block.dirt && Block.blocksList[var2] != Block.grass)
+				if (Block.blocksList[blockid] != Block.dirt && Block.blocksList[blockid] != Block.grass)
 				{
-					if (var5 != var2)
+					if (var5 != blockid)
 					{
 						return false;
 					}
@@ -280,7 +285,6 @@ public class ItemUGTool extends ItemTool
 
 			if (EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, var3) <= 0)
 			{
-//				var3.damageItem(1, var4);
 				this.breakcount++;
 			}
 
@@ -297,72 +301,76 @@ public class ItemUGTool extends ItemTool
 	 */
 	public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3)
 	{
-		Side side = FMLCommonHandler.instance().getEffectiveSide();
-		if (side == Side.SERVER) {
+		if (!var2.isRemote) {
 			EntityPlayerMP player = (EntityPlayerMP) var3;
-			++this.destroyRange;
-
-			switch (ItemUGTool.NamelessClass32193938.$SwitchMap$net$minecraft$src$EnumToolMaterial[this.toolMaterial.ordinal()])
+			int range;
+			int toolMaterialOrd = this.toolMaterial.ordinal();
+			if(var1.hasTagCompound() && var1.getTagCompound().hasKey("range"))
 			{
-			case 1:
-				if (this.destroyRange > 2)
+				range = var1.getTagCompound().getInteger("range");
+			}
+			else
+			{
+				range = AdvancedTools.UGTools_DestroyRangeLV;
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setInteger("range", range);
+				var1.setTagCompound(nbt);
+			}
+			if(!var3.isSneaking())
+			{
+				++range;
+				if(range > this.rangeArray[toolMaterialOrd])
 				{
-					this.destroyRange = 0;
-				}
-
-				break;
-
-			case 2:
-				if (this.destroyRange > 4)
-				{
-					this.destroyRange = 0;
-				}
-
-				break;
-
-			case 3:
-				if (this.destroyRange > 7)
-				{
-					this.destroyRange = 0;
-				}
-
-				break;
-
-			default:
-				if (this.destroyRange > 9)
-				{
-					this.destroyRange = 0;
+					range = 0;
 				}
 			}
-			if (this.destroyRange == 0)
+			else
+			{
+				--range;
+				if(range < 0)
+				{
+					range = this.rangeArray[toolMaterialOrd];
+				}
+			}
+			var1.getTagCompound().setInteger("range", range);
+			if (range == 0)
 			{
 				player.addChatMessage(this.BaseName + " will harvest only one.");
 			}
 			else
 			{
-				player.addChatMessage(this.BaseName + "\'s range was changed to " + (this.destroyRange * 2 + 1) + "x" + (this.destroyRange * 2 + 1));
+				player.addChatMessage(this.BaseName + "\'s range was changed to " + (range * 2 + 1) + "x" + (range * 2 + 1));
 			}
 		}
 		return var1;
 	}
 
-	/**
-	 * allows items to add custom lines of information to the mouseover description
-	 */
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack item, EntityPlayer player, List par3List, boolean par4)
 	{
-		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
-
-		if (this.destroyRange == 0)
+		super.addInformation(item, player, par3List, par4);
+		int range;
+		if(item.hasTagCompound() && item.getTagCompound().hasKey("range"))
+		{
+			range = item.getTagCompound().getInteger("range");
+		}
+		else
+		{
+			range = AdvancedTools.UGTools_DestroyRangeLV;
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setInteger("range", range);
+			item.setTagCompound(nbt);
+		}
+		if (range == 0)
 		{
 			par3List.add("Range: Only one");
 		}
 		else
 		{
-			par3List.add("Range: " + (this.destroyRange * 2 + 1) + "x" + (this.destroyRange * 2 + 1));
+			par3List.add("Range: " + (range * 2 + 1) + "x" + (range * 2 + 1));
 		}
 	}
-	// パケットの読み込み(パケットの受け取りはPacketHandlerで行う)
+	
 	public void readPacketData(ByteArrayDataInput data)
 	{
 		try
@@ -375,7 +383,6 @@ public class ItemUGTool extends ItemTool
 		}
 	}
 
-	// パケットの書き込み(パケットの生成自体はPacketHandlerで行う)
 	public void writePacketData(DataOutputStream dos)
 	{
 		try
@@ -385,40 +392,6 @@ public class ItemUGTool extends ItemTool
 		catch (Exception e)
 		{
 			e.printStackTrace();
-		}
-	}
-	static class NamelessClass32193938
-	{
-		static final int[] $SwitchMap$net$minecraft$src$EnumToolMaterial = new int[EnumToolMaterial.values().length];
-
-		static
-		{
-			try
-			{
-				$SwitchMap$net$minecraft$src$EnumToolMaterial[EnumToolMaterial.WOOD.ordinal()] = 1;
-			}
-			catch (NoSuchFieldError var3)
-			{
-				;
-			}
-
-			try
-			{
-				$SwitchMap$net$minecraft$src$EnumToolMaterial[EnumToolMaterial.STONE.ordinal()] = 2;
-			}
-			catch (NoSuchFieldError var2)
-			{
-				;
-			}
-
-			try
-			{
-				$SwitchMap$net$minecraft$src$EnumToolMaterial[EnumToolMaterial.IRON.ordinal()] = 3;
-			}
-			catch (NoSuchFieldError var1)
-			{
-				;
-			}
 		}
 	}
 }

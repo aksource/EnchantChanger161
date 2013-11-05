@@ -2,14 +2,7 @@ package Nanashi.AdvancedTools;
 
 import java.util.List;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -20,6 +13,12 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class Item_Negi extends ItemFood
 {
 	public Item_Negi(int var1, int var2, float var3, boolean var4)
@@ -29,9 +28,6 @@ public class Item_Negi extends ItemFood
 		this.setMaxStackSize(1);
 	}
 
-	/**
-	 * Returns True is the item is renderer in full 3D when hold.
-	 */
 	public boolean isFull3D()
 	{
 		return true;
@@ -59,10 +55,6 @@ public class Item_Negi extends ItemFood
 		return super.onEaten(var1, var2, var3);
 	}
 
-	/**
-	 * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise
-	 * the damage on the stack.
-	 */
 	public boolean hitEntity(ItemStack var1, EntityLiving var2, EntityLiving var3)
 	{
 		var1.damageItem(1, var3);
@@ -80,20 +72,13 @@ public class Item_Negi extends ItemFood
 		return 3;
 	}
 	@Override
-
-	/**
-	 * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
-	 */
 	public Multimap getItemAttributeModifiers()
 	{
 		Multimap multimap = HashMultimap.create();
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)3, 0));
 		return multimap;
 	}
-
-	/**
-	 * allows items to add custom lines of information to the mouseover description
-	 */
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack var1, List var2)
 	{
 		var2.add("You can eat this.");

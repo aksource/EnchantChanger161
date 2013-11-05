@@ -1,14 +1,9 @@
 package Nanashi.AdvancedTools;
 
-import com.google.common.collect.Multimap;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +11,11 @@ import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import com.google.common.collect.Multimap;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemUQLuckies extends ItemUniqueArms
 {
@@ -35,24 +35,18 @@ public class ItemUQLuckies extends ItemUniqueArms
 	{
 		this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "Luckluck");
 	}
-	/**
-	 * Called when item is crafted/smelted. Used only by maps so far.
-	 */
+
 	public void onCreated(ItemStack var1, World var2, EntityPlayer var3)
 	{
 		super.onCreated(var1, var2, var3);
 		var1.addEnchantment(Enchantment.looting, 7);
 	}
 
-	/**
-	 * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and
-	 * update it's contents.
-	 */
 	public void onUpdate(ItemStack var1, World var2, Entity var3, int var4, boolean var5)
 	{
 		super.onUpdate(var1, var2, var3, var4, var5);
 
-		if (!var1.hasTagCompound())
+		if (!var1.hasTagCompound() || var1.getEnchantmentTagList() == null)
 		{
 			var1.addEnchantment(Enchantment.looting, 7);
 		}

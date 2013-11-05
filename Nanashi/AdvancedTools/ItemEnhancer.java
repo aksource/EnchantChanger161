@@ -30,9 +30,6 @@ public class ItemEnhancer extends Item
         return true;
     }
 
-    /**
-     * Return an item rarity from EnumRarity
-     */
     public EnumRarity getRarity(ItemStack var1)
     {
         if(this.id == AdvancedTools.ItemID_INDEX)

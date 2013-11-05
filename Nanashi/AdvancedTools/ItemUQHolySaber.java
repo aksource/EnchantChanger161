@@ -1,9 +1,5 @@
 package Nanashi.AdvancedTools;
 
-import com.google.common.collect.Multimap;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -17,6 +13,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemUQHolySaber extends ItemUniqueArms
 {
@@ -35,12 +37,8 @@ public class ItemUQHolySaber extends ItemUniqueArms
 	public void registerIcons(IconRegister par1IconRegister)
 	{
 		this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "HolySaber");
-//		this.iconIndex = par1IconRegister.registerIcon("AdvancedTools:HolySaber");
 	}
-	/**
-	 * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and
-	 * update it's contents.
-	 */
+
 	public void onUpdate(ItemStack var1, World var2, Entity var3, int var4, boolean var5)
 	{
 		super.onUpdate(var1, var2, var3, var4, var5);
@@ -56,10 +54,6 @@ public class ItemUQHolySaber extends ItemUniqueArms
 		}
 	}
 
-	/**
-	 * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise
-	 * the damage on the stack.
-	 */
 	public boolean hitEntity(ItemStack var1, EntityLiving var2, EntityLiving var3)
 	{
 		var1.damageItem(1, var3);
@@ -86,35 +80,10 @@ public class ItemUQHolySaber extends ItemUniqueArms
 		return false;
 	}
 
-	/**
-	 * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
-	 */
 	public Multimap getItemAttributeModifiers()
 	{
-
-		Multimap multimap = super.getItemAttributeModifiers();
+		Multimap multimap = HashMultimap.create();
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", this.weaponStrength + this.dmg, 0));
 		return this.weaponStrength < 0 ? super.getItemAttributeModifiers() : multimap;
 	}
-
-//	public int getDamageVsEntity(Entity var1)
-//	{
-//		byte var2 = 0;
-//
-//		if (var1 instanceof EntityLiving)
-//		{
-//			EntityLiving var3 = (EntityLiving)var1;
-//
-//			if (var3.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD)
-//			{
-//				var2 = 7;
-//			}
-//			else if (var1 instanceof EntityEnderman)
-//			{
-//				var2 = 10;
-//			}
-//		}
-//
-//		return super.getDamageVsEntity(var1) + var2;
-//	}
 }

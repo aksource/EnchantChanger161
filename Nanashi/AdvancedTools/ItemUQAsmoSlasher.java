@@ -2,9 +2,6 @@ package Nanashi.AdvancedTools;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,6 +13,8 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemUQAsmoSlasher extends ItemUniqueArms
 {
@@ -52,36 +51,12 @@ public class ItemUQAsmoSlasher extends ItemUniqueArms
 	{
 		return this.weaponStrength;
 	}
-//	public int getDamageVsEntity(Entity var1)
-//	{
-//		if (var1 instanceof EntityCreeper)
-//		{
-//			((EntityCreeper)var1).getDataWatcher().updateObject(17, Byte.valueOf((byte)1));
-//		}
-//
-//		if (var1 instanceof EntityPig)
-//		{
-//			((EntityPig)var1).onStruckByLightning((EntityLightningBolt)null);
-//			return 0;
-//		}
-//		else
-//		{
-//			return super.getDamageVsEntity(var1);
-//		}
-//	}
 
-	/**
-	 * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and
-	 * update it's contents.
-	 */
 	public void onUpdate(ItemStack var1, World var2, Entity var3, int var4, boolean var5)
 	{
 		super.onUpdate(var1, var2, var3, var4, var5);
 	}
 
-	/**
-	 * called when the player releases the use item button. Args: itemstack, world, entityplayer, itemInUseCount
-	 */
 	public void onPlayerStoppedUsing(ItemStack var1, World var2, EntityPlayer var3, int var4)
 	{
 		int var5 = var3.getFoodStats().getFoodLevel();
@@ -139,25 +114,16 @@ public class ItemUQAsmoSlasher extends ItemUniqueArms
 		}
 	}
 
-	/**
-	 * returns the action that specifies what animation to play when the items is being used
-	 */
 	public EnumAction getItemUseAction(ItemStack var1)
 	{
 		return EnumAction.bow;
 	}
-
-	/**
-	 * allows items to add custom lines of information to the mouseover description
-	 */
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
 	{
 		par3List.add("Ability : Lightning Caller");
 	}
 
-	/**
-	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-	 */
 	public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3)
 	{
 		int var4 = var3.getFoodStats().getFoodLevel();

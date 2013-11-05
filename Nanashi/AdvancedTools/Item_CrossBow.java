@@ -1,7 +1,5 @@
 package Nanashi.AdvancedTools;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -12,6 +10,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class Item_CrossBow extends ItemBow
 {
@@ -22,9 +22,6 @@ public class Item_CrossBow extends ItemBow
 		this.setMaxDamage(192);
 	}
 
-	/**
-	 * Returns True is the item is renderer in full 3D when hold.
-	 */
 	public boolean isFull3D()
 	{
 		return true;
@@ -35,22 +32,15 @@ public class Item_CrossBow extends ItemBow
 	{
 		this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "CrossBow");
 	}
-	/**
-	 * called when the player releases the use item button. Args: itemstack, world, entityplayer, itemInUseCount
-	 */
+
 	public void onPlayerStoppedUsing(ItemStack var1, World var2, EntityPlayer var3, int var4) {}
 
-	/**
-	 * returns the action that specifies what animation to play when the items is being used
-	 */
+
 	public EnumAction getItemUseAction(ItemStack var1)
 	{
 		return EnumAction.none;
 	}
 
-	/**
-	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-	 */
 	public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3)
 	{
 		boolean var4 = var3.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, var1) > 0;

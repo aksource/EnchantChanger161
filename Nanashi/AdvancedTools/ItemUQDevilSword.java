@@ -1,10 +1,7 @@
 package Nanashi.AdvancedTools;
 
-import com.google.common.collect.Multimap;
-
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -16,6 +13,10 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -37,10 +38,6 @@ public class ItemUQDevilSword extends ItemUniqueArms
 	{
     	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "GenocideBlade");
 	}
-	/**
-	 * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and
-	 * update it's contents.
-	 */
 	public void onUpdate(ItemStack var1, World var2, Entity var3, int var4, boolean var5)
 	{
 		super.onUpdate(var1, var2, var3, var4, var5);
@@ -64,24 +61,12 @@ public class ItemUQDevilSword extends ItemUniqueArms
 		}
 	}
 
-	/**
-	 * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
-	 */
 	public Multimap getItemAttributeModifiers()
 	{
-		Multimap multimap = super.getItemAttributeModifiers();
+		Multimap multimap = HashMultimap.create();
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier",this.weaponStrength + this.dmg, 0));
 		return this.weaponStrength < 0 ? super.getItemAttributeModifiers() : multimap;
 	}
-
-//	public int getDamageVsEntity(Entity var1)
-//	{
-//		return super.getDamageVsEntity(var1) + this.dmg;
-//	}
-
-	/**
-	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-	 */
 	public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3)
 	{
 		int var4 = MathHelper.ceiling_float_int(var3.getHealth());
@@ -94,10 +79,6 @@ public class ItemUQDevilSword extends ItemUniqueArms
 		return var1;
 	}
 
-	/**
-	 * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise
-	 * the damage on the stack.
-	 */
 	@Override
 	public boolean hitEntity(ItemStack var1, EntityLivingBase var2, EntityLivingBase var3)
 	{

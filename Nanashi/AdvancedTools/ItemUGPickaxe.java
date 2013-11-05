@@ -1,12 +1,12 @@
 package Nanashi.AdvancedTools;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemUGPickaxe extends ItemUGTool
 {
@@ -51,12 +51,9 @@ public class ItemUGPickaxe extends ItemUGTool
 	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "Infinitypickaxe");
 		}
 	}
-	/**
-	 * Returns if the item (tool) can harvest results from the block type.
-	 */
+
 	public boolean canHarvestBlock(Block var1)
 	{
-//		return var1 == Block.obsidian ? this.material.getHarvestLevel() == 3 : (var1 != Block.blockDiamond && var1 != Block.oreDiamond ? (var1 != Block.oreEmerald && var1 != Block.blockEmerald ? (var1 != Block.blockGold && var1 != Block.oreGold ? (var1 != Block.blockSteel && var1 != Block.oreIron ? (var1 != Block.blockLapis && var1 != Block.oreLapis ? (var1 != Block.oreRedstone && var1 != Block.oreRedstoneGlowing ? (var1.blockMaterial == Material.rock ? true : (var1.blockMaterial == Material.iron ? true : var1.blockMaterial == Material.anvil)) : this.material.getHarvestLevel() >= 2) : this.material.getHarvestLevel() >= 1) : this.material.getHarvestLevel() >= 1) : this.material.getHarvestLevel() >= 2) : this.material.getHarvestLevel() >= 2) : this.material.getHarvestLevel() >= 2);
 		if (var1 == Block.obsidian)
 		{
 			return this.toolMaterial.getHarvestLevel() == 3;
@@ -114,10 +111,6 @@ public class ItemUGPickaxe extends ItemUGTool
 		}
 	}
 
-	/**
-	 * Returns the strength of the stack against a given block. 1.0F base, (Quality+1)*2 if correct blocktype, 1.5F if
-	 * sword
-	 */
 	public float getStrVsBlock(ItemStack var1, Block var2)
 	{
 		return var2 != null && (var2.blockMaterial == Material.iron || var2.blockMaterial == Material.rock) ? this.efficiencyOnProperMaterial : super.getStrVsBlock(var1, var2);
@@ -125,6 +118,6 @@ public class ItemUGPickaxe extends ItemUGTool
 
 	public boolean doChainDestraction(Block var1)
 	{
-		return var1 == Block.oreDiamond ? this.toolMaterial.getHarvestLevel() >= 2 : (var1 == Block.oreGold ? this.toolMaterial.getHarvestLevel() >= 2 : (var1 == Block.oreIron ? this.toolMaterial.getHarvestLevel() >= 1 : (var1 == Block.oreLapis ? this.toolMaterial.getHarvestLevel() >= 1 : (var1 != Block.oreRedstone && var1 != Block.oreRedstoneGlowing ? var1 == Block.oreCoal : this.toolMaterial.getHarvestLevel() >= 2))));
+		return var1 == Block.oreDiamond ? this.toolMaterial.getHarvestLevel() >= 2 : (var1 == Block.oreGold ? this.toolMaterial.getHarvestLevel() >= 2 : (var1 == Block.oreIron ? this.toolMaterial.getHarvestLevel() >= 1 : (var1 == Block.oreLapis ? this.toolMaterial.getHarvestLevel() >= 1 : (var1 != Block.oreRedstone && var1 != Block.oreRedstoneGlowing ? var1 == Block.oreCoal || var1 == Block.oreNetherQuartz : this.toolMaterial.getHarvestLevel() >= 2))));
 	}
 }

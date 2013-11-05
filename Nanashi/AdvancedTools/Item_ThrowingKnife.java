@@ -1,9 +1,6 @@
 package Nanashi.AdvancedTools;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -11,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class Item_ThrowingKnife extends Item
 {
@@ -23,9 +22,6 @@ public class Item_ThrowingKnife extends Item
 		this.addPoison = var2;
 	}
 
-	/**
-	 * Returns True is the item is renderer in full 3D when hold.
-	 */
 	public boolean isFull3D()
 	{
 		return true;
@@ -39,9 +35,7 @@ public class Item_ThrowingKnife extends Item
 		else if(this.getUnlocalizedName().equals("item.PoisonKnife"))
 			this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "PoisonKnife");
 	}
-	/**
-	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-	 */
+
 	public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3)
 	{
 		if (var3.capabilities.isCreativeMode || var3.inventory.hasItem(this.itemID))
@@ -59,10 +53,6 @@ public class Item_ThrowingKnife extends Item
 		return var1;
 	}
 
-	/**
-	 * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise
-	 * the damage on the stack.
-	 */
 	@Override
 	public boolean hitEntity(ItemStack var1, EntityLivingBase var2, EntityLivingBase var3)
 	{

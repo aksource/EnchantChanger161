@@ -42,9 +42,7 @@ public class ItemUniqueArms extends ItemSword
 		else if(this.getUnlocalizedName().equals("item.GenocideBlade"))
 			this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "GenocideBlade");
 	}
-	/**
-	 * Called when item is crafted/smelted. Used only by maps so far.
-	 */
+
 	public void onCreated(ItemStack var1, World var2, EntityPlayer var3)
 	{
 		super.onCreated(var1, var2, var3);
@@ -55,15 +53,11 @@ public class ItemUniqueArms extends ItemSword
 		}
 	}
 
-	/**
-	 * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and
-	 * update it's contents.
-	 */
 	public void onUpdate(ItemStack var1, World var2, Entity var3, int var4, boolean var5)
 	{
 		super.onUpdate(var1, var2, var3, var4, var5);
 
-		if (!var1.hasTagCompound())
+		if (!var1.hasTagCompound() || var1.getEnchantmentTagList() == null)
 		{
 			if (var1.getItem() == AdvancedTools.SmashBat)
 			{
@@ -76,21 +70,10 @@ public class ItemUniqueArms extends ItemSword
 		return this.weaponStrength;
 	}
 	@Override
-
-	/**
-	 * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
-	 */
 	public Multimap getItemAttributeModifiers()
 	{
 		Multimap multimap = HashMultimap.create();
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.weaponStrength, 0));
 		return this.weaponStrength < 0 ? super.getItemAttributeModifiers() : multimap;
 	}
-	/**
-	 * Returns the damage against a given entity.
-	 */
-//	public int getDamageVsEntity(Entity var1)
-//	{
-//		return this.weaponStrength < 0 ? super.getDamageVsEntity(var1) : this.weaponStrength;
-//	}
 }
