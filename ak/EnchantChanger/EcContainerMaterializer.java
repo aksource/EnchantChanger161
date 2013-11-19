@@ -424,24 +424,24 @@ public class EcContainerMaterializer extends Container {
 	 {
 		 int var1 = par1ItemStack.itemID;
 		 System.out.println(var1);
-		 for(int i=0;i<EnchantChanger.SwordIdArray.size();i++)
+		 for(int i=0;i<EnchantChanger.extraSwordIDs.length;i++)
 		 {
-			 if(var1 == EnchantChanger.SwordIdArray.get(i))
+			 if(var1 == EnchantChanger.extraSwordIDs[i])
 				 return 1;
 		 }
-		 for(int i=0;i<EnchantChanger.BowIdArray.size();i++)
+		 for(int i=0;i<EnchantChanger.extraBowIDs.length;i++)
 		 {
-			 if(var1 == EnchantChanger.BowIdArray.get(i))
+			 if(var1 == EnchantChanger.extraBowIDs[i])
 				 return 2;
 		 }
-		 for(int i=0;i<EnchantChanger.ToolIdArray.size();i++)
+		 for(int i=0;i<EnchantChanger.extraToolIDs.length;i++)
 		 {
-			 if(var1 == EnchantChanger.ToolIdArray.get(i))
+			 if(var1 == EnchantChanger.extraToolIDs[i])
 				 return 3;
 		 }
-		 for(int i=0;i<EnchantChanger.ArmorIdArray.size();i++)
+		 for(int i=0;i<EnchantChanger.extraArmorIDs.length;i++)
 		 {
-			 if(var1 == EnchantChanger.ArmorIdArray.get(i))
+			 if(var1 == EnchantChanger.extraArmorIDs[i])
 				 return 6;
 		 }
 		 return 0;

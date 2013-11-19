@@ -1,6 +1,5 @@
 package ak.EnchantChanger;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -29,7 +28,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="EnchantChanger", name="EnchantChanger", version="1.6m-universal",dependencies="required-after:FML")
+@Mod(modid="EnchantChanger", name="EnchantChanger", version="1.6n-universal",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false, channels={"EC|Levi","EC|CSC","EC|CS","EC|Sw"}, packetHandler=Packet_EnchantChanger.class)
 public class EnchantChanger
 {
@@ -64,14 +63,10 @@ public class EnchantChanger
 	public static boolean Debug;
 	public static float MeteoPower;
 	public static float MeteoSize;
-	public static String SwordIds = "";
-	public static ArrayList<Integer> SwordIdArray = new ArrayList<Integer>();
-	public static String ToolIds = "";
-	public static ArrayList<Integer> ToolIdArray = new ArrayList<Integer>();
-	public static String BowIds = "";
-	public static ArrayList<Integer> BowIdArray = new ArrayList<Integer>();
-	public static String ArmorIds = "";
-	public static ArrayList<Integer> ArmorIdArray = new ArrayList<Integer>();
+	public static int[] extraSwordIDs;
+	public static int[] extraToolIDs;
+	public static int[] extraBowIDs;
+	public static int[] extraArmorIDs;
 
 	public static boolean DecMateriaLv;
 	public static boolean YouAreTera;
@@ -109,7 +104,6 @@ public class EnchantChanger
 	public static String EcTextureDomain = "enchantchanger:";
 	public static String EcAssetsDomain ="enchantchanger";
 
-	public static boolean incompatible = false;
 	public static boolean loadMTH = false;
 	@Mod.Instance("EnchantChanger")
 	public static EnchantChanger instance;
@@ -149,10 +143,10 @@ public class EnchantChanger
 		enableAPSystem = config.get(Configuration.CATEGORY_GENERAL, "enableAPSystem", true).getBoolean(true);
 		enableDungeonLoot = config.get(Configuration.CATEGORY_GENERAL, "enableDungeonLoot", true).getBoolean(true);
 		aPBasePoint = config.get(Configuration.CATEGORY_GENERAL, "APBAsePoint", 200).getInt();
-		SwordIds= config.get(Configuration.CATEGORY_GENERAL, "Extra SwordIds", "267","Put Ids which you want to operate as  swords. Usage: 1,2,3").getString();
-		ToolIds = config.get(Configuration.CATEGORY_GENERAL, "Extra ToolIds", "257","Put Ids which you want to operate as  swords. Usage: 1,2,3").getString();
-		BowIds = config.get(Configuration.CATEGORY_GENERAL, "Extra BowIds", "261","Put Ids which you want to operate as  bows. Usage: 1,2,3").getString();
-		ArmorIds = config.get(Configuration.CATEGORY_GENERAL, "Extra ArmorIds", "298","Put Ids which you want to operate as  armors. Usage: 1,2,3").getString();
+		extraSwordIDs = config.get(Configuration.CATEGORY_GENERAL, "Extra SwordIds", new int[]{267}, "Put Ids which you want to operate as  swords.").getIntList();
+		extraToolIDs = config.get(Configuration.CATEGORY_GENERAL, "Extra ToolIds", new int[]{257}, "Put Ids which you want to operate as  tools.").getIntList();
+		extraBowIDs = config.get(Configuration.CATEGORY_GENERAL, "Extra BowIds", new int[]{261}, "Put Ids which you want to operate as  bows.").getIntList();
+		extraArmorIDs = config.get(Configuration.CATEGORY_GENERAL, "Extra ArmorIds", new int[]{298}, "Put Ids which you want to operate as  armors.").getIntList();
 
 		DecMateriaLv = config.get(Configuration.CATEGORY_GENERAL, "DecMateriaLv", false,"TRUE:The level of extracted Materia is decreased by the item damage").getBoolean(false);
 		YouAreTera = config.get(Configuration.CATEGORY_GENERAL, "YouAreTera", false,"TRUE:You become Tera in FF4. It means that you can use Magic Materia when your MP is exhausted").getBoolean(false);
@@ -221,11 +215,6 @@ public class EnchantChanger
 			MinecraftForge.setBlockHarvestLevel(block, "FF7", 0);
 		}
 
-		StringtoInt(SwordIds,SwordIdArray);
-		StringtoInt(ToolIds,ToolIdArray);
-		StringtoInt(BowIds,BowIdArray);
-		StringtoInt(ArmorIds,ArmorIdArray);
-
 		if(this.Difficulty < 2)
 			GameRegistry.addRecipe(new EcMateriaRecipe());
 		GameRegistry.addRecipe(new EcMasterMateriaRecipe());
@@ -248,14 +237,11 @@ public class EnchantChanger
 		AddLocalization();
 		if(this.enableDungeonLoot)
 			this.DungeonLootItemResist();
-		if(this.Debug)
-			DebugSystem();
 	}
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
 		this.loadMTH = Loader.isModLoaded("MultiToolHolders");
-		this.incompatible = this.checkCompatibility();
 	}
 	public void AddLocalization()
 	{
@@ -407,58 +393,6 @@ public class EnchantChanger
 		}
 		return Lv;
 	}
-	public void StringtoInt(String ExtraIDs, ArrayList<Integer> IDList)
-	{
-		if(!ExtraIDs.isEmpty())
-		{
-			StringBuffer IDNum=new StringBuffer();
-			int shift=0;
-			for(int i=0; i < ExtraIDs.length(); i++)
-			{
-				if(ExtraIDs.charAt(i) == ',')
-				{
-					for(int j=shift; j < i;j++)
-					{
-						IDNum.append(ExtraIDs.charAt(j));
-					}
-					System.out.println(IDNum);
-					IDList.add(Integer.valueOf(IDNum.toString())-256);
-					shift = i+1;
-					IDNum = new StringBuffer();
-				}
-			}
-			for(int j=shift; j < ExtraIDs.length();j++)
-			{
-				IDNum.append(ExtraIDs.charAt(j));
-			}
-			System.out.println(IDNum);
-			IDList.add(Integer.valueOf(IDNum.toString()));
-		}
-		else
-		{
-			IDList.add(Integer.valueOf(0));
-		}
-	}
-	public void StringtoArray(String ExtraNames, ArrayList<String> NameList)
-	{
-		if(!ExtraNames.isEmpty())
-		{
-			int shift=0;
-			for(int i=0; i < ExtraNames.length(); i++)
-			{
-				if(ExtraNames.charAt(i) == ',')
-				{
-					NameList.add(ExtraNames.substring(shift,i));
-					shift = i+1;
-				}
-			}
-			NameList.add(ExtraNames.substring(shift));
-		}
-		else
-		{
-			NameList.add("");
-		}
-	}
 	public void DungeonLootItemResist()
 	{
 		WeightedRandomChestContent materiaInChest;
@@ -476,13 +410,5 @@ public class EnchantChanger
 			ChestGenHooks.addItem(ChestGenHooks.BONUS_CHEST, materiaInChest);
 			ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, materiaInChest);
 		}
-	}
-	public void DebugSystem()
-	{
-
-	}
-	public boolean checkCompatibility()
-	{
-		return Loader.isModLoaded("GraviSuite") || Loader.isModLoaded("ic2ca");
 	}
 }
