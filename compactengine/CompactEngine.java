@@ -24,7 +24,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="CompactEngine", name="CompactEngine", version="build 3(for mc1.6.2  bc4.0.1  Forge#804 )", dependencies ="required-after:BuildCraft|Energy")
+@Mod(modid="CompactEngine", name="CompactEngine", version="build 4(for mc1.6.2-1.6.4  bc4.1.2  Forge#916 )", dependencies ="required-after:BuildCraft|Energy")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 public class CompactEngine
 {

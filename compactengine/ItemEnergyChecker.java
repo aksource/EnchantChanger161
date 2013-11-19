@@ -23,7 +23,7 @@ public class ItemEnergyChecker extends Item
 	public ItemEnergyChecker(int par1)
 	{
 		super(par1);
-		setCreativeTab(CreativeTabBuildCraft.tabBuildCraft);
+		setCreativeTab(CreativeTabBuildCraft.MACHINES.get());
 	}
 
 	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)

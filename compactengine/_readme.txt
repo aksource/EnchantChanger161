@@ -1,6 +1,6 @@
-Minecraft 1.6.4　MinecraftForge 9.10.0.871　BuildCraft 4.1.0　アドオン
+Minecraft 1.6.4　MinecraftForge 9.11.1.916　BuildCraft 4.1.2　アドオン
 
-BuildCraftアドオンCompactEngine-4.1.0　圧縮木エンジンMOD
+BuildCraftアドオンCompactEngine-4.1.2　圧縮木エンジンMOD
 
 概要
 	木エンジンを圧縮して出力をアップさせた、圧縮エンジンを追加する。
@@ -94,8 +94,8 @@ BuildCraftアドオンCompactEngine-4.1.0　圧縮木エンジンMOD
 
 導入方法
 	Minecraft 1.6.4
-	MinecraftForge 9.10.871 ～ 
-	BuildCraft 4.1.0
+	MinecraftForge 9.11.1.916 ～ 
+	BuildCraft 4.1.2
 	以上が導入されている状態で、modsフォルダに入れる
 
 
@@ -127,6 +127,7 @@ BuildCraftアドオンCompactEngine-4.1.0　圧縮木エンジンMOD
 
 
 更新履歴
+1.0 build4 BC4.1.2対応
 1.0 build3 エネルギー計測器の右クリックの不具合を修正。
 1.0 build2 エンジンの爆発周りの変更。
 1.0 公開。

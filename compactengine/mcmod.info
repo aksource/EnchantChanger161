@@ -2,9 +2,9 @@
 {
   "modid": "CompactEngine",
   "name": "CompactEngine",
-  "description": "Add some compact wood engine to mc162",
-  "version": "Build 2",
-  "mcversion": "1.6.2",
+  "description": "Add some compact wood engine to mc16",
+  "version": "Build 4",
+  "mcversion": "1.6.2-1.6.4",
   "url": "http://forum.minecraftuser.jp/viewtopic.php?f=13&t=6672",
   "updateUrl": "",
   "authors": [
