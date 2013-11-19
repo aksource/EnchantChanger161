@@ -35,12 +35,8 @@ public class ChainDestruction
 	public static int[] itemsConfig;
 	public static int[] blocksConfig;
 	public static boolean digUnder;
-	public int[] vanillaTools = new int[]{
-			Item.axeDiamond.itemID,Item.axeGold.itemID,Item.axeIron.itemID,Item.axeStone.itemID,Item.axeWood.itemID,
-			Item.shovelDiamond.itemID,Item.shovelGold.itemID,Item.shovelIron.itemID,Item.shovelStone.itemID,Item.shovelWood.itemID,
-			Item.pickaxeDiamond.itemID,Item.pickaxeGold.itemID,Item.pickaxeIron.itemID,Item.pickaxeStone.itemID,Item.pickaxeWood.itemID};
-	public int[] vanillaBlocks = new int[]{Block.obsidian.blockID,Block.oreCoal.blockID,Block.oreDiamond.blockID,Block.oreEmerald.blockID,
-			Block.oreGold.blockID,Block.oreIron.blockID,Block.oreLapis.blockID, Block.oreNetherQuartz.blockID,Block.oreRedstone.blockID,Block.oreRedstoneGlowing.blockID};
+	public static int[] vanillaTools;
+	public static int[] vanillaBlocks;
 	public static int maxDestroyedBlock;
 	public static boolean dropOnPlayer = true;
 	public ConfigSavable config;
@@ -100,5 +96,12 @@ public class ChainDestruction
 			config.save();
 		}
 	}
-
+	static{
+		vanillaTools = new int[]{
+				Item.axeDiamond.itemID,Item.axeGold.itemID,Item.axeIron.itemID,Item.axeStone.itemID,Item.axeWood.itemID,
+				Item.shovelDiamond.itemID,Item.shovelGold.itemID,Item.shovelIron.itemID,Item.shovelStone.itemID,Item.shovelWood.itemID,
+				Item.pickaxeDiamond.itemID,Item.pickaxeGold.itemID,Item.pickaxeIron.itemID,Item.pickaxeStone.itemID,Item.pickaxeWood.itemID};
+		vanillaBlocks = new int[]{Block.obsidian.blockID,Block.oreCoal.blockID,Block.oreDiamond.blockID,Block.oreEmerald.blockID,
+				Block.oreGold.blockID,Block.oreIron.blockID,Block.oreLapis.blockID, Block.oreNetherQuartz.blockID,Block.oreRedstone.blockID,Block.oreRedstoneGlowing.blockID};
+	}
 }
