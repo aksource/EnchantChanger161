@@ -23,7 +23,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="AdvancedTools", name="AdvancedTools", version="2.0p-Unofficial",dependencies="required-after:FML")
+@Mod(modid="AdvancedTools", name="AdvancedTools", version="2.0q-Unofficial",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false, channels="AT|Tool", packetHandler=PacketHandler.class)
 
 public class AdvancedTools
@@ -33,6 +33,7 @@ public class AdvancedTools
 	public static int UGTools_SaftyCounter;
 	public static boolean spawnHiGradeMob;
 	public static boolean hasMultiToolHolder;
+	public static boolean dropGather;
 
 	public static Item RedEnhancer;
 	public static Item BlueEnhancer;
@@ -88,6 +89,7 @@ public class AdvancedTools
 		UGTools_DestroyRangeLV = config.get(Configuration.CATEGORY_GENERAL, "Destroy Range Lv", 1).getInt();
 		UGTools_SaftyCounter = config.get(Configuration.CATEGORY_GENERAL, "Safty Counter", 100).getInt();
 		spawnHiGradeMob = config.get(Configuration.CATEGORY_GENERAL, "Spawn Hi-Grade Mobs", true).getBoolean(true);
+		dropGather = config.get(Configuration.CATEGORY_GENERAL, "dropGather", false,"drop block gather under player's foot").getBoolean(false);
 		config.save();
 		this.itemSetup();
 	}

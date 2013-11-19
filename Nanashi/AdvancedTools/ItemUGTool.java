@@ -15,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 
@@ -281,7 +282,14 @@ public class ItemUGTool extends ItemTool
 		if (var6)
 		{
 			Block.blocksList[var2].onBlockDestroyedByPlayer(world, var2, var1.x, var1.y, var1.z);
-			Block.blocksList[var2].harvestBlock(world, var4, var1.x, var1.y, var1.z, var5);
+			if(AdvancedTools.dropGather)
+			{
+				Block.blocksList[var2].harvestBlock(world, var4, MathHelper.ceiling_double_int( var4.posX), MathHelper.ceiling_double_int( var4.posY), MathHelper.ceiling_double_int( var4.posZ), var5);
+			}
+			else
+			{
+				Block.blocksList[var2].harvestBlock(world, var4, var1.x, var1.y, var1.z, var5);
+			}
 
 			if (EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, var3) <= 0)
 			{
