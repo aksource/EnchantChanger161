@@ -5,7 +5,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 
-@Mod(modid="DigBedrock", name="DigBedrock", version="1.6srg-1",dependencies="required-after:FML")
+@Mod(modid="DigBedrock", name="DigBedrock", version="1.6srg-2",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 
 public class DigBedrock
