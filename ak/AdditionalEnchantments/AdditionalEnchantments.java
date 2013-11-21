@@ -10,7 +10,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="AdditionalEnchantments", name="AdditionalEnchantments", version="1.1",dependencies="required-after:FML")
+@Mod(modid="AdditionalEnchantments", name="AdditionalEnchantments", version="1.1a",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 
 public class AdditionalEnchantments
