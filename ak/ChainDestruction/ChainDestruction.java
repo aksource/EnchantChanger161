@@ -11,10 +11,7 @@ import net.minecraftforge.event.world.WorldEvent.Save;
 import ak.akapi.ConfigSavable;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.PostInit;
-import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -42,7 +39,7 @@ public class ChainDestruction
 	public ConfigSavable config;
 	public InteractBlockHook interactblockhook;
 	public static boolean loadMTH = false;
-	@PreInit
+	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		config = new ConfigSavable(event.getSuggestedConfigurationFile());
@@ -53,7 +50,7 @@ public class ChainDestruction
 		digUnder = config.get(Configuration.CATEGORY_GENERAL, "digUnder", true).getBoolean(true);
 		config.save();
 	}
-	@Init
+	@Mod.EventHandler
 	public void load(FMLInitializationEvent event)
 	{
 		proxy.registerClientInfo();
@@ -66,7 +63,7 @@ public class ChainDestruction
 		LanguageRegistry.instance().addStringLocalization("Key.CDDIgUnder", "Dig Under Key");
 		LanguageRegistry.instance().addStringLocalization("Key.CDDIgUnder", "ja_JP","下方採掘キー");
 	}
-	@PostInit
+	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent evet)
 	{
 		addItemsAndBlocks();

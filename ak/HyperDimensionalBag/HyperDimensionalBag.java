@@ -39,7 +39,7 @@ public class HyperDimensionalBag
 	public static boolean hardRecipe;
 	public static Item HDBag;
 	
-	@Mod.PreInit
+	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
@@ -48,7 +48,7 @@ public class HyperDimensionalBag
 		hardRecipe = config.get(Configuration.CATEGORY_GENERAL, "HardRecipe", false).getBoolean(false);
 		config.save();
 	}
-	@Mod.Init
+	@Mod.EventHandler
 	public void load(FMLInitializationEvent event)
 	{
 		MinecraftForge.EVENT_BUS.register(new PlayerPickHook());
@@ -62,7 +62,7 @@ public class HyperDimensionalBag
 			GameRegistry.addShapedRecipe(new ItemStack(HDBag, 1, 15), new Object[]{"LDL","DCD","LDL", 'L',Item.leather,'D',Item.diamond,'C',Item.netherStar});
 		
 	}
-	@Mod.PostInit
+	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
 		loadSB = Loader.isModLoaded("mod_StorageBox");

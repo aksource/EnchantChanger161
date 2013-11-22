@@ -23,7 +23,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
-import net.minecraft.src.ModLoader;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
@@ -33,7 +32,9 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -271,10 +272,10 @@ public class IDwakander
 	private Map loadVanillaLangData(Map map)
 	{
 		Locale locale = new Locale();
-		ReloadableResourceManager RRM = ModLoader.getPrivateValue(Minecraft.class, minecraft, 61);
+		ReloadableResourceManager RRM = ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, minecraft, 61);
 		ArrayList list = Lists.newArrayList(new String[] {minecraft.gameSettings.language});
 		locale.loadLocaleDataFiles(RRM, list);
-		Map mapLocale = ModLoader.getPrivateValue(Locale.class, locale, 2);
+		Map mapLocale = ObfuscationReflectionHelper.getPrivateValue(Locale.class, locale, 2);
 		map.putAll(mapLocale);
 		return map;
 	}
@@ -433,7 +434,7 @@ public class IDwakander
 		}
 		catch (IOException e)
 		{
-			ModLoader.throwException(String.format("IDwakander: %s に書き込みできません。", file.getName()), e);
+			FMLCommonHandler.instance().raiseException(e, String.format("IDwakander: %s に書き込みできません。", file.getName()), true);
 		}
 	}
 }

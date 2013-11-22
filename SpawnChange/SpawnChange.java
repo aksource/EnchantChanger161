@@ -5,7 +5,6 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.src.ModLoader;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraftforge.common.Configuration;
@@ -13,6 +12,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.EntityRegistry;
 
 @Mod(modid="SpawnChange", name="SpawnChange", version="1.6srg-1",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
@@ -48,16 +48,16 @@ public class SpawnChange
 		
 		if(SlimeSpawnHeight != 40)
 		{
-			ModLoader.removeSpawn(EntitySlime.class, EnumCreatureType.monster);
-			ModLoader.registerEntityID(scEntitySlime.class, "Slime", 55);
-			ModLoader.addSpawn(scEntitySlime.class, 10, 4, 4,EnumCreatureType.monster);
+			EntityRegistry.removeSpawn(EntitySlime.class, EnumCreatureType.monster);
+			EntityRegistry.registerGlobalEntityID(scEntitySlime.class, "Slime", 55);
+			EntityRegistry.addSpawn(scEntitySlime.class, 10, 4, 4,EnumCreatureType.monster);
 		}
 		
 		if(netherSpawnLightValue != 15)
 		{
-			ModLoader.registerEntityID(scEntityGhast.class, "Ghast", 56);
-			ModLoader.registerEntityID(scEntityPigZombie.class, "PigZombie", 57);
-			ModLoader.registerEntityID(scEntityMagmaCube.class, "LavaSlime", 62);
+			EntityRegistry.registerGlobalEntityID(scEntityGhast.class, "Ghast", 56);
+			EntityRegistry.registerGlobalEntityID(scEntityPigZombie.class, "PigZombie", 57);
+			EntityRegistry.registerGlobalEntityID(scEntityMagmaCube.class, "LavaSlime", 62);
 			List monsterList = BiomeGenBase.hell.getSpawnableList(EnumCreatureType.monster);
 			monsterList.clear();
 			monsterList.add(new SpawnListEntry(scEntityGhast.class, 50, 4, 4));
