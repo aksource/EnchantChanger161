@@ -6,12 +6,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
-import net.minecraft.src.ModLoader;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(modid="StackSizeChange", name="StackSizeChange", version="1.6srg-2",dependencies="required-after:FML")
@@ -158,10 +158,10 @@ public class StackSizeChange
 			addName(bucketWater, "Stackable Bucket Water", "スタック水入りバケツ");
 			addName(bucketLava,  "Stackable Bucket Lava",  "スタック溶岩入りバケツ");
 			addName(bucketMilk,  "Stackable Bucket Milk",  "スタック牛乳");
-			ModLoader.addRecipe(new ItemStack(bucketEmpty, 2), new Object[]{ "I I","III"," I ", 'I',Item.ingotIron });
-			ModLoader.addShapelessRecipe(new ItemStack(bucketEmpty, 1), new Object[]{ Item.bucketEmpty });
-			ModLoader.addShapelessRecipe(new ItemStack(Item.bucketEmpty, 1), new Object[]{ bucketEmpty });
-			ModLoader.addRecipe(new ItemStack(Item.cake, 1), new Object[]
+			GameRegistry.addRecipe(new ItemStack(bucketEmpty, 2), new Object[]{ "I I","III"," I ", 'I',Item.ingotIron });
+			GameRegistry.addShapelessRecipe(new ItemStack(bucketEmpty, 1), new Object[]{ Item.bucketEmpty });
+			GameRegistry.addShapelessRecipe(new ItemStack(Item.bucketEmpty, 1), new Object[]{ bucketEmpty });
+			GameRegistry.addRecipe(new ItemStack(Item.cake, 1), new Object[]
 				{ "MMM","SES","WWW", 'M',bucketMilk, 'S',Item.sugar, 'E',Item.egg, 'W',Item.wheat });
 		}
 		if(BucketReplace || addStackableBucket)
