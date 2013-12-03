@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -24,7 +25,6 @@ import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import ak.MultiToolHolders.ItemMultiToolHolder;
-import ak.MultiToolHolders.ToolHolderData;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -190,12 +190,12 @@ public class InteractBlockHook
 		}
 		boolean isMultiToolHolder = false;
 		int slotNum = 0;
-		ToolHolderData tooldata = null;
+		IInventory tooldata = null;
 		if(ChainDestruction.loadMTH && item.getItem() instanceof ItemMultiToolHolder)
 		{
 			tooldata = ((ItemMultiToolHolder)item.getItem()).tools;
 			slotNum = ((ItemMultiToolHolder)item.getItem()).SlotNum;
-			item = tooldata.tools[slotNum];
+			item = ((IInventory)tooldata).getStackInSlot(slotNum);
 			isMultiToolHolder = true;
 		}
 		Iterator it = blocklist.iterator();
@@ -228,7 +228,7 @@ public class InteractBlockHook
 			else flag = true;
 		}
 	}
-	public void destroyItem(EntityPlayer player, ItemStack item, boolean isInMultiTool, ToolHolderData tools, int slotnum)
+	public void destroyItem(EntityPlayer player, ItemStack item, boolean isInMultiTool, IInventory tools, int slotnum)
 	{
 		if(isInMultiTool)
 		{

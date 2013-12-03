@@ -19,7 +19,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="ChainDestruction", name="ChainDestruction", version="1.0c")
+@Mod(modid="ChainDestruction", name="ChainDestruction", version="1.0d")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false, channels = {"CD|RegKey"}, packetHandler=PacketHandler.class)
 public class ChainDestruction
 {
