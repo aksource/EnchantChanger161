@@ -24,14 +24,6 @@ public class EcItemUltimateWeapon extends EcItemSword
 		super(par1, EnumToolMaterial.EMERALD);
         this.setTextureName(EnchantChanger.EcTextureDomain + "UltimateWeapon");
 	}
-//	public float func_82803_g()
-//	{
-//		return this.ultimateWeaponDamage;
-//	}
-
-	/**
-	 * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
-	 */
 	public Multimap getItemAttributeModifiers()
 	{
 		Multimap multimap = HashMultimap.create();
@@ -46,11 +38,6 @@ public class EcItemUltimateWeapon extends EcItemSword
 			float mobmaxhealth =((EntityLivingBase) entity).getMaxHealth() / 3 + 1;
 			float weaponDmgFromHP = WeaponDamagefromHP(player);
 			ultimateWeaponDamage = (mobmaxhealth > weaponDmgFromHP)?mobmaxhealth:weaponDmgFromHP;
-//			if(mobmaxhealth > ultimateWeaponDamage+WeaponDamagefromHP(player)){
-//				ultimateWeaponDamage = mobmaxhealth;
-//			}else{
-//				ultimateWeaponDamage = weaponDmgFromHP;
-//			}
 		}else if(entity instanceof EntityDragonPart){
 			ultimateWeaponDamage = 100;
 		}else{
