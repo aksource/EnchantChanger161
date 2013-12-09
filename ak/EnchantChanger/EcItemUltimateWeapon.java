@@ -10,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -49,11 +48,6 @@ public class EcItemUltimateWeapon extends EcItemSword
 	private void changeItemDamageStrength(EntityLivingBase entity, ItemStack item){
 		BaseAttributeMap attributeMap = ObfuscationReflectionHelper.getPrivateValue(EntityLivingBase.class, entity, 2);
 		attributeMap.applyAttributeModifiers(item.getAttributeModifiers());
-	}
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
-	{
-		par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
-		return par1ItemStack;
 	}
 	public float WeaponDamagefromHP(EntityPlayer player)
 	{
