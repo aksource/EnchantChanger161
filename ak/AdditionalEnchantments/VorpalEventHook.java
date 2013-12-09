@@ -28,15 +28,12 @@ public class VorpalEventHook
 		ItemStack equipItem = event.entityPlayer.getCurrentEquippedItem();
 		int vorpalLv;
 		vorpaled = false;
-		if(AdditionalEnchantments.addVorpal && event.target instanceof EntityLivingBase &&equipItem != null && EnchantmentHelper.getEnchantmentLevel(AdditionalEnchantments.idVorpal, equipItem) > 0)
-		{
+		if(AdditionalEnchantments.addVorpal && event.target instanceof EntityLivingBase &&equipItem != null && EnchantmentHelper.getEnchantmentLevel(AdditionalEnchantments.idVorpal, equipItem) > 0){
 			vorpalLv = EnchantmentHelper.getEnchantmentLevel(AdditionalEnchantments.idVorpal, equipItem);
 			EntityLivingBase entityliving = (EntityLivingBase) event.target;
-			if(vorpalLv * 10 >= rand.nextInt(100))
-			{
+			if(vorpalLv * 10 > rand.nextInt(100)){
 				vorpaled = true;
 				entityliving.attackEntityFrom(DamageSource.causePlayerDamage(event.entityPlayer), 9999999F);
-
 			}
 		}
 	}
@@ -48,11 +45,9 @@ public class VorpalEventHook
 			EntityPlayer player = (EntityPlayer) event.source.getEntity();
 			ItemStack equipItem = player.getCurrentEquippedItem();
 			int vorpalLv = EnchantmentHelper.getEnchantmentLevel(AdditionalEnchantments.idVorpal, equipItem);
-			if((vorpaled|| vorpalLv * 20 >= rand.nextInt(100)) && !skullInDrops(event.drops))
-			{
+			if((vorpaled|| vorpalLv * 20 > rand.nextInt(100)) && !skullInDrops(event.drops)){
 				int skullmeta = skullKind(event.entityLiving);
-				if(skullmeta >= 0)
-				{
+				if(skullmeta >= 0){
 					ItemStack skull = new ItemStack(Item.skull.itemID, 1, skullmeta);
 					EntityItem entityitem = new EntityItem(event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY, event.entityLiving.posZ);
 					entityitem.setEntityItemStack(skull);
@@ -64,27 +59,18 @@ public class VorpalEventHook
 	}
 	private int skullKind(EntityLivingBase living)
 	{
-		if(living instanceof EntitySkeleton)
-		{
+		if(living instanceof EntitySkeleton){
 			if(((EntitySkeleton)living).getSkeletonType() == 0)
 				return 0;
 			else
 				return 1;
-		}
-		else if(living instanceof EntityPlayer)
-		{
-			return 2;
-		}
-		else if(living instanceof EntityZombie)
-		{
+		}else if(living instanceof EntityPlayer){
 			return 3;
-		}
-		else if(living instanceof EntityCreeper)
-		{
+		}else if(living instanceof EntityZombie){
+			return 2;
+		}else if(living instanceof EntityCreeper){
 			return 4;
-		}
-		else
-		{
+		}else{
 			return -1;
 		}
 	}
