@@ -2,32 +2,20 @@ package ak.EnchantChanger;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.BaseAttributeMap;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.util.MathHelper;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 public class EcItemUltimateWeapon extends EcItemSword
 {
-	private double ultimateWeaponDamage = 0;
+	private float ultimateWeaponDamage = 0;
 	public EcItemUltimateWeapon(int par1)
 	{
 		super(par1, EnumToolMaterial.EMERALD);
         this.setTextureName(EnchantChanger.EcTextureDomain + "UltimateWeapon");
-	}
-	public Multimap getItemAttributeModifiers()
-	{
-		Multimap multimap = HashMultimap.create();
-		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", this.ultimateWeaponDamage, 0));
-		return multimap;
 	}
 	@Override
 	public boolean onLeftClickEntity(ItemStack itemstack, EntityPlayer player, Entity entity)
@@ -42,12 +30,8 @@ public class EcItemUltimateWeapon extends EcItemSword
 		}else{
 			ultimateWeaponDamage = 10;
 		}
-		changeItemDamageStrength(player, itemstack);
+		ObfuscationReflectionHelper.setPrivateValue(ItemSword.class, (ItemSword)itemstack.getItem(), ultimateWeaponDamage, 0);
 		return false;
-	}
-	private void changeItemDamageStrength(EntityLivingBase entity, ItemStack item){
-		BaseAttributeMap attributeMap = ObfuscationReflectionHelper.getPrivateValue(EntityLivingBase.class, entity, 2);
-		attributeMap.applyAttributeModifiers(item.getAttributeModifiers());
 	}
 	public float WeaponDamagefromHP(EntityPlayer player)
 	{

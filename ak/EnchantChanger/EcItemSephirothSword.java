@@ -26,8 +26,7 @@ public class EcItemSephirothSword extends EcItemSword
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
 		par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
-		if(par3EntityPlayer.isSneaking())
-		{
+		if(par3EntityPlayer.isSneaking()){
 			if(!par3EntityPlayer.capabilities.isCreativeMode)
 				par3EntityPlayer.setHealth(1);
 			par3EntityPlayer.addPotionEffect(new PotionEffect(1,1200,3));
@@ -44,8 +43,7 @@ public class EcItemSephirothSword extends EcItemSword
 
 	public boolean onLeftClickEntity(ItemStack itemstack, EntityPlayer player, Entity entity)
 	{
-		if(player.isSprinting()&& !this.SephirothSprintAttack)
-		{
+		if(player.isSprinting()&& !this.SephirothSprintAttack){
 			this.SephirothSprintAttack=true;
 			this.SephirothSprintAttackEntity=entity;
 		}
@@ -55,8 +53,7 @@ public class EcItemSephirothSword extends EcItemSword
 	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
 	{
 		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
-		if(this.SephirothSprintAttack && par3Entity instanceof EntityPlayer)
-		{
+		if(this.SephirothSprintAttack && par3Entity instanceof EntityPlayer){
 			this.SephirothSprintAttack(par2World, (EntityPlayer)par3Entity);
 			this.SephirothSprintAttack = false;
 		}
@@ -66,14 +63,11 @@ public class EcItemSephirothSword extends EcItemSword
 	{
 		Entity entity = SephirothSprintAttackEntity;
 
-		if(entity instanceof EntityLiving)
-		{
+		if(entity instanceof EntityLiving){
 			List EntityList = world.getEntitiesWithinAABB(EntityLiving.class, entity.boundingBox.expand(BoxSize, BoxSize, BoxSize));
-			for (int i=0; i < EntityList.size();i++)
-			{
+			for (int i=0; i < EntityList.size();i++){
 				Entity entity1=(Entity) EntityList.get(i);
-				if(entity1 != entity && entity1 != player)
-				{
+				if(entity1 != entity && entity1 != player){
 					player.attackTargetEntityWithCurrentItem(entity1);
 				}
 			}

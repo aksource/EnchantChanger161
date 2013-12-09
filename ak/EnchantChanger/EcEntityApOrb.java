@@ -44,10 +44,6 @@ public class EcEntityApOrb extends Entity
 		this.apValue = par8;
 	}
 
-	/**
-	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
-	 * prevent them from trampling crops
-	 */
 	protected boolean canTriggerWalking()
 	{
 		return false;
@@ -89,9 +85,6 @@ public class EcEntityApOrb extends Entity
 		return var4 | var5 << 16;
 	}
 
-	/**
-	 * Called to update the entity's position/logic.
-	 */
 	public void onUpdate()
 	{
 		super.onUpdate();
@@ -167,26 +160,16 @@ public class EcEntityApOrb extends Entity
 		}
 	}
 
-	/**
-	 * Returns if this entity is in water and will end up adding the waters velocity to the entity
-	 */
 	public boolean handleWaterMovement()
 	{
 		return this.worldObj.handleMaterialAcceleration(this.boundingBox, Material.water, this);
 	}
 
-	/**
-	 * Will deal the specified amount of damage to the entity if the entity isn't immune to fire damage. Args:
-	 * amountDamage
-	 */
 	protected void dealFireDamage(int par1)
 	{
 		this.attackEntityFrom(DamageSource.inFire, par1);
 	}
 
-	/**
-	 * Called when the entity is attacked.
-	 */
 	public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
 	{
 		this.setBeenAttacked();
@@ -200,9 +183,6 @@ public class EcEntityApOrb extends Entity
 		return false;
 	}
 
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
 	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
 		par1NBTTagCompound.setShort("Health", (short)((byte)this.apOrbHealth));
@@ -210,9 +190,6 @@ public class EcEntityApOrb extends Entity
 		par1NBTTagCompound.setShort("Value", (short)this.apValue);
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
 	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
 		this.apOrbHealth = par1NBTTagCompound.getShort("Health") & 255;
@@ -220,9 +197,6 @@ public class EcEntityApOrb extends Entity
 		this.apValue = par1NBTTagCompound.getShort("Value");
 	}
 
-	/**
-	 * Called by a player entity when they collide with an entity
-	 */
 	public void onCollideWithPlayer(EntityPlayer par1EntityPlayer)
 	{
 		if (!this.worldObj.isRemote)
@@ -306,34 +280,22 @@ public class EcEntityApOrb extends Entity
 			((NBTTagCompound)enchantList.tagAt(j)).setInteger("ap", nowAp);
 		}
 	}
-	/**
-	 * Returns the XP value of this XP orb.
-	 */
+
 	public int getApValue()
 	{
 		return this.apValue;
 	}
 
-	/**
-	 * Returns a number from 1 to 10 based on how much XP this orb is worth. This is used by RenderXPOrb to determine
-	 * what texture to use.
-	 */
 	public int getTextureByXP()
 	{
 		return this.apValue >= 2477 ? 10 : (this.apValue >= 1237 ? 9 : (this.apValue >= 617 ? 8 : (this.apValue >= 307 ? 7 : (this.apValue >= 149 ? 6 : (this.apValue >= 73 ? 5 : (this.apValue >= 37 ? 4 : (this.apValue >= 17 ? 3 : (this.apValue >= 7 ? 2 : (this.apValue >= 3 ? 1 : 0)))))))));
 	}
 
-	/**
-	 * Get xp split rate (Is called until the xp drop code in EntityLiving.onEntityUpdate is complete)
-	 */
 	public static int getXPSplit(int par0)
 	{
 		return par0 >= 2477 ? 2477 : (par0 >= 1237 ? 1237 : (par0 >= 617 ? 617 : (par0 >= 307 ? 307 : (par0 >= 149 ? 149 : (par0 >= 73 ? 73 : (par0 >= 37 ? 37 : (par0 >= 17 ? 17 : (par0 >= 7 ? 7 : (par0 >= 3 ? 3 : 1)))))))));
 	}
 
-	/**
-	 * If returns false, the item will not inflict any damage against entities.
-	 */
 	public boolean canAttackWithItem()
 	{
 		return false;
