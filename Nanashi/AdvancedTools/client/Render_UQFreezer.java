@@ -3,6 +3,7 @@ package Nanashi.AdvancedTools.client;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
@@ -18,6 +19,7 @@ public class Render_UQFreezer extends Render
 	public void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9)
 	{
 		Entity_IHFrozenMob var10 = (Entity_IHFrozenMob)var1;
+		this.bindEntityTexture(var10);
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float)var2, (float)var4, (float)var6);
 		GL11.glRotatef(180.0F - var8, 0.0F, 1.0F, 0.0F);
@@ -30,11 +32,7 @@ public class Render_UQFreezer extends Render
 	}
 
 	@Override
-
-	/**
-	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-	 */
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return tex;
+		return TextureMap.locationBlocksTexture;
 	}
 }

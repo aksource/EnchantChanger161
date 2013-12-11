@@ -7,7 +7,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -118,18 +117,18 @@ public class ItemUQIceHold extends ItemUniqueArms
 					}
 				}
 
-				List var19 = var2.getEntitiesWithinAABB(EntityLivingBase.class, var3.boundingBox.expand(5.0D, 1.0D, 5.0D));
+				List var19 = var2.getEntitiesWithinAABB(EntityLiving.class, var3.boundingBox.expand(5.0D, 1.0D, 5.0D));
 
 				for (var12 = 0; var12 < var19.size(); ++var12)
 				{
-					EntityLivingBase var21 = (EntityLivingBase)var19.get(var12);
+					EntityLiving var21 = (EntityLiving)var19.get(var12);
 					DamageSource var24 = DamageSource.causePlayerDamage(var3);
 
 					if (var21 instanceof EntityEnderman)
 					{
 						var21.attackEntityFrom(var24, this.weaponStrength * 3);
 					}
-					else if (var21 != var3)
+					else
 					{
 						var21.attackEntityFrom(var24, 0);
 						Entity_IHFrozenMob var15 = new Entity_IHFrozenMob(var2, var21, var3);
