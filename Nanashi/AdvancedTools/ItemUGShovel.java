@@ -24,47 +24,33 @@ public class ItemUGShovel extends ItemUGTool
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister)
 	{
-		if(this.getUnlocalizedName().equals("item.UpgradedWoodenShovel"))
-		{
+		if(this.getUnlocalizedName().equals("item.UpgradedWoodenShovel")){
 	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGWoodshovel");
-		}
-		else if(this.getUnlocalizedName().equals("item.UpgradedStoneShovel"))
-		{
+		}else if(this.getUnlocalizedName().equals("item.UpgradedStoneShovel")){
 	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGStoneshovel");
-		}
-		else if(this.getUnlocalizedName().equals("item.UpgradedIronShovel"))
-		{
+		}else if(this.getUnlocalizedName().equals("item.UpgradedIronShovel")){
 	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGIronshovel");
-		}
-		else if(this.getUnlocalizedName().equals("item.UpgradedGoldenShovel"))
-		{
+		}else if(this.getUnlocalizedName().equals("item.UpgradedGoldenShovel")){
 	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGGoldshovel");
-		}
-		else if(this.getUnlocalizedName().equals("item.UpgradedDiamondShovel"))
-		{
+		}else if(this.getUnlocalizedName().equals("item.UpgradedDiamondShovel")){
 	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGDiamondshovel");
-		}
-		else if(this.getUnlocalizedName().equals("item.InfinityShovel"))
-		{
+		}else if(this.getUnlocalizedName().equals("item.InfinityShovel")){
 	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "Infinityshovel");
 		}
 	}
 
 	public boolean canHarvestBlock(Block var1)
 	{
-		for (int var2 = 0; var2 < blocksEffectiveAgainst.length; ++var2)
-		{
-			if (blocksEffectiveAgainst[var2] == var1)
-			{
+		for (int var2 = 0; var2 < blocksEffectiveAgainst.length; ++var2){
+			if (blocksEffectiveAgainst[var2] == var1){
 				return true;
 			}
 		}
-
 		return false;
 	}
 
 	public boolean doChainDestraction(Block var1)
 	{
-		return var1 == Block.blockClay || var1 == Block.gravel;
+		return checkArrays(var1, AdvancedTools.addBlockForShovel) && this.canHarvestBlock(var1);
 	}
 }

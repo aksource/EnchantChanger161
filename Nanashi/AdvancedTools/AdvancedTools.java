@@ -12,6 +12,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -24,13 +25,16 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(modid="AdvancedTools", name="AdvancedTools", version="2.0r-Unofficial",dependencies="required-after:FML")
-@NetworkMod(clientSideRequired=true, serverSideRequired=false, channels="AT|Tool", packetHandler=PacketHandler.class)
+@NetworkMod(clientSideRequired=true, serverSideRequired=false)
 
 public class AdvancedTools
 {
 	public static int ItemID_INDEX = 3000;
 	public static int UGTools_DestroyRangeLV;
 	public static int UGTools_SaftyCounter;
+	public static int[] addBlockForPickaxe;
+	public static int[] addBlockForShovel;
+	public static int[] addBlockForAxe;
 	public static boolean spawnHiGradeMob;
 	public static boolean hasMultiToolHolder;
 	public static boolean dropGather;
@@ -90,14 +94,17 @@ public class AdvancedTools
 		UGTools_SaftyCounter = config.get(Configuration.CATEGORY_GENERAL, "Safty Counter", 100).getInt();
 		spawnHiGradeMob = config.get(Configuration.CATEGORY_GENERAL, "Spawn Hi-Grade Mobs", true).getBoolean(true);
 		dropGather = config.get(Configuration.CATEGORY_GENERAL, "dropGather", false,"drop block gather under player's foot").getBoolean(false);
+		addBlockForPickaxe = config.get(Configuration.CATEGORY_GENERAL, "blocklistForUGPickaxe", new int[]{Block.oreDiamond.blockID, Block.oreGold.blockID, Block.oreIron.blockID, Block.oreLapis.blockID,Block.oreCoal.blockID, Block.oreRedstone.blockID, Block.oreRedstoneGlowing.blockID, Block.oreNetherQuartz.blockID, Block.oreEmerald.blockID}).getIntList();
+		addBlockForShovel = config.get(Configuration.CATEGORY_GENERAL, "blocklistForUGShovel", new int[]{Block.blockClay.blockID,Block.gravel.blockID}).getIntList();
+		addBlockForAxe = config.get(Configuration.CATEGORY_GENERAL, "blocklistForUGAxe", new int[]{Block.wood.blockID}).getIntList();
 		config.save();
 		this.itemSetup();
 	}
 	@Mod.EventHandler
 	public void load(FMLInitializationEvent event)
 	{
+		MinecraftForge.EVENT_BUS.register(new PlayerClickHook());
 		this.addRecipe();
-//		this.setItemIcon();
 		this.setName();
 		this.entitySetup();
 		proxy.registerRenderInformation();
@@ -110,13 +117,6 @@ public class AdvancedTools
 
 	public void entitySetup()
 	{
-//		EntityRegistry.registerGlobalEntityID(Entity_HighSkeleton.class, "HighSkeleton", EntityRegistry.findGlobalUniqueEntityId(), 0, 0);
-//		EntityRegistry.registerGlobalEntityID(Entity_SkeletonSniper.class, "SkeletonSniper", EntityRegistry.findGlobalUniqueEntityId(), 0, 0);
-//		EntityRegistry.registerGlobalEntityID(Entity_ZombieWarrior.class, "ZombieWarrior", EntityRegistry.findGlobalUniqueEntityId(), 0, 0);
-//		EntityRegistry.registerGlobalEntityID(Entity_FireZombie.class, "FireZombie", EntityRegistry.findGlobalUniqueEntityId(), 0, 0);
-//		EntityRegistry.registerGlobalEntityID(Entity_HighSpeedCreeper.class, "HighSpeedCreeper", EntityRegistry.findGlobalUniqueEntityId(), 0, 0);
-//		EntityRegistry.registerGlobalEntityID(Entity_GoldCreeper.class, "GoldCreeper", EntityRegistry.findGlobalUniqueEntityId(), 0, 0);
-
 		EntityRegistry.registerModEntity(Entity_ThrowingKnife.class, "ThrowingKnife", 0, this, 250, 1, true);
 		EntityRegistry.registerModEntity(Entity_HighSkeleton.class, "HighSkeleton", 1, this, 250, 1, true);
 		EntityRegistry.registerModEntity(Entity_SkeletonSniper.class, "SkeletonSniper", 2, this, 250, 1, true);
@@ -128,17 +128,14 @@ public class AdvancedTools
 		EntityRegistry.registerModEntity(Entity_IHFrozenMob.class, "IHFrozenMob", 8, this, 250, 1, true);
 		EntityRegistry.registerModEntity(Entity_PGPowerBomb.class, "PGPowerBomb", 9, this, 250, 1, true);
 		EntityRegistry.registerModEntity(Entity_SBWindEdge.class, "SBWindEdge", 10, this, 250, 1, true);
-		if (spawnHiGradeMob)
-		{
-			for(int i = 0; i <BiomeGenBase.biomeList.length;i++)
-			{
+		if (spawnHiGradeMob){
+			for(int i = 0; i <BiomeGenBase.biomeList.length;i++){
 				if(BiomeGenBase.biomeList[i] != null
 						&& BiomeGenBase.biomeList[i] != BiomeGenBase.hell
 						&& BiomeGenBase.biomeList[i] != BiomeGenBase.mushroomIsland
 						&& BiomeGenBase.biomeList[i] != BiomeGenBase.mushroomIslandShore
 						&& BiomeGenBase.biomeList[i] != BiomeGenBase.sky
-						&& BiomeGenBase.biomeList[i].getSpawnableList(EnumCreatureType.monster).size() >= 5)
-				{
+						&& BiomeGenBase.biomeList[i].getSpawnableList(EnumCreatureType.monster).size() >= 5){
 					EntityRegistry.addSpawn(Entity_HighSkeleton.class, 2, 1, 4, EnumCreatureType.monster, BiomeGenBase.biomeList[i]);
 					EntityRegistry.addSpawn(Entity_SkeletonSniper.class, 3, 1, 4, EnumCreatureType.monster, BiomeGenBase.biomeList[i]);
 					EntityRegistry.addSpawn(Entity_ZombieWarrior.class, 2, 1, 4, EnumCreatureType.monster, BiomeGenBase.biomeList[i]);
@@ -205,10 +202,8 @@ public class AdvancedTools
 		GameRegistry.addShapelessRecipe(new ItemStack(Item.ingotGold), new Object[] {BlueEnhancer, BlueEnhancer});
 		GameRegistry.addShapelessRecipe(new ItemStack(Item.diamond), new Object[] {BlueEnhancer, BlueEnhancer, BlueEnhancer, BlueEnhancer, BlueEnhancer, BlueEnhancer, BlueEnhancer, BlueEnhancer, BlueEnhancer});
 
-		for (int var5 = 0; var5 < var1[0].length; ++var5)
-		{
-			for (int var6 = 0; var6 < var1.length; ++var6)
-			{
+		for (int var5 = 0; var5 < var1[0].length; ++var5){
+			for (int var6 = 0; var6 < var1.length; ++var6){
 				GameRegistry.addRecipe(new ItemStack(var1[var6][var5]), new Object[] {var4[var6], 'X', var3[var5], '#', var2[var5], 'Z', Item.stick});
 			}
 		}
@@ -226,46 +221,6 @@ public class AdvancedTools
 		GameRegistry.addShapelessRecipe(new ItemStack(PoisonKnife), new Object[] {ThrowingKnife, Item.spiderEye});
 	}
 
-	public void setItemIcon()
-	{
-//		RedEnhancer.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/EnhancerR.png"));
-//		BlueEnhancer.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/EnhancerB.png"));
-//		UGWoodPickaxe.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/UGWoodpickaxe.png"));
-//		UGWoodShovel.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/UGWoodshovel.png"));
-//		UGWoodAxe.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/UGWoodaxe.png"));
-//		UGStonePickaxe.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/UGStonepickaxe.png"));
-//		UGStoneShovel.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/UGStoneshovel.png"));
-//		UGStoneAxe.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/UGStoneaxe.png"));
-//		UGIronPickaxe.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/UGIronpickaxe.png"));
-//		UGIronShovel.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/UGIronshovel.png"));
-//		UGIronAxe.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/UGIronaxe.png"));
-//		UGDiamondPickaxe.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/UGDiamondpickaxe.png"));
-//		UGDiamondShovel.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/UGDiamondshovel.png"));
-//		UGDiamondAxe.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/UGDiamondaxe.png"));
-//		UGGoldPickaxe.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/UGGoldpickaxe.png"));
-//		UGGoldShovel.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/UGGoldshovel.png"));
-//		UGGoldAxe.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/UGGoldaxe.png"));
-//		BlazeBlade.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/BlazeBlade.png"));
-//		IceHold.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/IceHold.png"));
-//		AsmoSlasher.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/AsmoSlasher.png"));
-//		PlanetGuardian.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/PlanetGuardian.png"));
-//		StormBringer.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/StormBringer.png"));
-//		NEGI.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/NEGI.png"));
-//		LuckLuck.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/Luckluck.png"));
-//		SmashBat.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/SmashBat.png"));
-//		HolySaber.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/HolySaber.png"));
-//		DevilSword.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/GenocideBlade.png"));
-//		InfiniteSword.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/Infinitysword.png"));
-//		InfinitePickaxe.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/Infinitypickaxe.png"));
-//		InfiniteAxe.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/Infinityaxe.png"));
-//		InfiniteShovel.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/Infinityshovel.png"));
-//		InfiniteHoe.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/Infinityhoe.png"));
-//		CrossBow.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/CrossBow.png"));
-//		ThrowingKnife.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/ThrowingKnife.png"));
-//		PoisonKnife.setIconIndex(ModLoader.addOverride("/gui/items.png", "/UGTools/PoisonKnife.png"));
-//		GenocideBlade.setIconIndex(DevilSword.iconIndex);
-	}
-
 	public void setName()
 	{
 		LanguageRegistry.addName(RedEnhancer, "RedEnhancer");
@@ -277,10 +232,8 @@ public class AdvancedTools
 		LanguageRegistry.addName(InfiniteHoe, "Infinity Hoe");
 		Item[][] var1 = new Item[][] {{UGWoodShovel, UGStoneShovel, UGIronShovel, UGDiamondShovel, UGGoldShovel, InfiniteShovel}, {UGWoodPickaxe, UGStonePickaxe, UGIronPickaxe, UGDiamondPickaxe, UGGoldPickaxe, InfinitePickaxe}, {UGWoodAxe, UGStoneAxe, UGIronAxe, UGDiamondAxe, UGGoldAxe, InfiniteAxe}};
 
-		for (int var2 = 0; var2 < var1.length; ++var2)
-		{
-			for (int var3 = 0; var3 < var1[0].length; ++var3)
-			{
+		for (int var2 = 0; var2 < var1.length; ++var2){
+			for (int var3 = 0; var3 < var1[0].length; ++var3){
 				String var4 = "item." + ((ItemUGTool)var1[var2][var3]).BaseName + ".name";
 				LanguageRegistry.instance().addStringLocalization(var4, ((ItemUGTool)var1[var2][var3]).BaseName);
 			}
