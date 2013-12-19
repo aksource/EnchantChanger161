@@ -15,7 +15,6 @@ import java.util.Properties;
 import java.util.Set;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.Locale;
 import net.minecraft.client.resources.ReloadableResourceManager;
 import net.minecraft.entity.EntityList;
@@ -41,7 +40,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="IDwakander", name="IDwakander", version="1.6srg-1",dependencies="required-after:FML")
+@Mod(modid="IDwakander", name="IDwakander", version="1.6srg-2",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 public class IDwakander
 {
@@ -87,7 +86,7 @@ public class IDwakander
 		outputEntityIDs = config.get(Configuration.CATEGORY_GENERAL, "outputEntityIDs", true, "EntityIDリストを出力する。").getBoolean(true);
 		outputMetadataNull = config.get(Configuration.CATEGORY_GENERAL, "outputMetadataNull", true, "メタデータを持つアイテムの基本名も出力する。").getBoolean(true);
 		outputVanillaLanguage = config.get(Configuration.CATEGORY_GENERAL, "outputVanillaLanguage", false, "バニラの翻訳データも出力する。").getBoolean(false);
-		outputMetadataDetailNames = config.get(Configuration.CATEGORY_GENERAL, "outputMetadataDetailNames", "tile.rpwire", "メタデータを詳細に取得するアイテムの基本名。 ,（カンマ）区切りで複数指定可能").getString();
+		outputMetadataDetailNames = config.get(Configuration.CATEGORY_GENERAL, "outputMetadataDetailNames", "item.potion,tile.rpwire", "メタデータを詳細に取得するアイテムの基本名。 ,（カンマ）区切りで複数指定可能").getString();
 		nullItemMetadata = config.get(Configuration.CATEGORY_GENERAL, "nullItemMetadata", false, "ブロック/アイテムの空きメタデータも出力する。").getBoolean(false);
 		outputErrorLogs = config.get(Configuration.CATEGORY_GENERAL, "outputErrorLogs", false, "エラーレポートを出力する。").getBoolean(false);
 		config.save();
@@ -119,7 +118,6 @@ public class IDwakander
 	}
 	private void printItemIDs()
 	{
-//		LanguageRegistry.reloadLanguageTable();
 		start = System.currentTimeMillis();
 		int s1,s2,s3;
 		s1 = checkItems(1, 256);
@@ -193,8 +191,8 @@ public class IDwakander
 				}
 				try
 				{
-					name = itemstack.getItem().getUnlocalizedName(itemstack);
-					if(name!=null && !("".equals(name)))
+					name = itemstack.getUnlocalizedName();
+					if(/*name!=null && */!("".equals(name)))
 					{
 						if(!metaNames.contains(name) || nullItemMetadata)
 						{
@@ -281,10 +279,8 @@ public class IDwakander
 	}
 	private void addData(ItemStack itemstack)
 	{
-		String name = itemstack.getItem().getUnlocalizedName(itemstack);
-		//不具合：MODのブロック・アイテムの翻訳がこの時点でUnlocalizedNameに紐付けされていない．langファイルは正常に出るなぞ．．
-//		String transname = itemstack.getItem().getItemStackDisplayName(itemstack);
-		String transname = I18n.getString(itemstack.getItem().getUnlocalizedName(itemstack) + ".name");//アプローチは違うが同じ結果
+		String name = itemstack.getUnlocalizedName();
+		String transname = itemstack.getDisplayName();
 		String meta = (getMetadata && itemstack.getHasSubtypes() && !itemstack.isItemStackDamageable()) ? itemstack.getItemDamage()+"" : "";
 		String record;
 		if(itemstack.getItem() instanceof ItemRecord)
@@ -301,7 +297,7 @@ public class IDwakander
 				{
 					format = "%d,%d,%s,%s,%s"+crlf;
 				}else{
-					format = "%d(%d)%s = %s (%s)"+crlf;
+					format = "%d(%d):%s = %s (%s)"+crlf;
 				}
 				IDs.add(String.format(format, id, id-256, meta, name, transname));
 			}else{
@@ -309,7 +305,7 @@ public class IDwakander
 				{
 					format = "%d,%s,%s,%s"+crlf;
 				}else{
-					format = "%d%s = %s (%s)"+crlf;
+					format = "%d:%s = %s (%s)"+crlf;
 				}
 				IDs.add(String.format(format, id, meta, name, transname));
 			}
