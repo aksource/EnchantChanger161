@@ -300,7 +300,7 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 	{
 		if(this.tools !=null && this.tools.getStackInSlot(SlotNum) != null)
 		{
-		boolean ret = this.tools.getStackInSlot(SlotNum).getItem().onItemUseFirst(this.tools.getStackInSlot(SlotNum), player, world, x, y, z, side, hitX, hitY, hitZ);
+			boolean ret = this.tools.getStackInSlot(SlotNum).getItem().onItemUseFirst(this.tools.getStackInSlot(SlotNum), player, world, x, y, z, side, hitX, hitY, hitZ);
 			if (this.tools.getStackInSlot(SlotNum).stackSize <= 0)
 			{
 				this.destroyTheItem(player, this.tools.getStackInSlot(SlotNum));
@@ -348,13 +348,11 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 		{
 			this.tools.setInventorySlotContents(SlotNum, this.tools.getStackInSlot(SlotNum).getItem().onItemRightClick(this.tools.getStackInSlot(SlotNum), par2World, par3EntityPlayer));
 		}
-		par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
+		if(this.getItemUseAction(par1ItemStack) != EnumAction.none)
+			par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
 		return par1ItemStack;
 	}
 
-    /**
-     * Returns true if the item can be used on the given entity, e.g. shears on sheep.
-     */
     public boolean itemInteractionForEntity(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, EntityLivingBase par3EntityLivingBase)
     {
 		if(this.tools != null && this.tools.getStackInSlot(SlotNum) != null)
@@ -380,16 +378,7 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 		else
 			return super.getMaxItemUseDuration(par1ItemStack);
 	}
-//	public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player)
-//	{
-//		if(this.tools !=null && this.tools.getStackInSlot(SlotNum) != null)
-//		{
-//			this.onPlayerDestroyBlock(X, Y, Z, this.tools.getStackInSlot(SlotNum), player, player.worldObj);
-//			return true;
-//		}
-//		else
-//			return false;
-//	}
+
 	public float getStrVsBlock(ItemStack par1ItemStack, Block par2Block){
 		if(this.tools !=null && this.tools.getStackInSlot(SlotNum) != null)
 			return this.tools.getStackInSlot(SlotNum).getStrVsBlock(par2Block);
@@ -406,37 +395,6 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 		else
 			return super.getStrVsBlock(stack, block, meta);
 	}
-//	public Multimap getItemAttributeModifiers()
-//	{
-//		Multimap multimap = HashMultimap.create();
-//		double weapondmg = 0;
-//		if(this.tools !=null && this.tools.getStackInSlot(SlotNum) != null)
-//		{
-//			Multimap slotMM = this.tools.getStackInSlot(SlotNum).getItem().getItemAttributeModifiers();
-//			AttributeModifier am = (AttributeModifier) slotMM.get(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName());
-//			weapondmg= am.getAmount();
-//		}
-//		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", weapondmg, 0));
-//		return multimap;
-//	}
-//	public int getDamageVsEntity(Entity par1Entity)
-//	{
-//		if(this.tools !=null && this.tools.getStackInSlot(SlotNum) != null)
-//		{
-//			return this.tools.getStackInSlot(SlotNum).getItem().getDamageVsEntity(par1Entity);
-//		}
-//		else
-//			return super.getDamageVsEntity(par1Entity);
-//	}
-//	public int getDamageVsEntity(Entity par1Entity, ItemStack itemStack)
-//	{
-//		if(this.tools !=null && this.tools.getStackInSlot(SlotNum) != null)
-//		{
-//			return this.tools.getStackInSlot(SlotNum).getItem().getDamageVsEntity(par1Entity, this.tools.getStackInSlot(SlotNum));
-//		}
-//		else
-//			return super.getDamageVsEntity(par1Entity, itemStack);
-//	}
 	public boolean canHarvestBlock(Block par1Block)
 	{
 		if(this.tools !=null && this.tools.getStackInSlot(SlotNum) != null)
@@ -462,59 +420,6 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 		else
 			return super.onBlockDestroyed(par1ItemStack, par2World, par3, par4, par5, par6, par7EntityLiving);
     }
-//	public boolean onPlayerDestroyBlock(int par1, int par2, int par3, /*int par4,*/ ItemStack stack, EntityPlayer player, World world)
-//	{
-//		mc = Minecraft.getMinecraft();
-//		if (stack != null && stack.getItem() != null && stack.getItem().onBlockStartBreak(stack, par1, par2, par3, player))
-//		{
-//			return false;
-//		}
-//		if (!player.capabilities.allowEdit && !this.canCurrentToolHarvestBlock(par1, par2, par3, player, stack))
-//		{
-//			return false;
-//		}
-//		else
-//		{
-//			Block block = Block.blocksList[world.getBlockId(par1, par2, par3)];
-//
-//			if (block == null)
-//			{
-//				return false;
-//			}
-//			else
-//			{
-//				world.playAuxSFX(2001, par1, par2, par3, block.blockID + (world.getBlockMetadata(par1, par2, par3) << 12));
-//				int i1 = world.getBlockMetadata(par1, par2, par3);
-//				boolean flag = block.removeBlockByPlayer(world, player, par1, par2, par3);
-//
-//				if (flag)
-//				{
-//					System.out.println("0");
-//					block.onBlockDestroyedByPlayer(world, par1, par2, par3, i1);
-//				}
-//
-//				System.out.println("1");
-//				//				this.currentBlockY = -1;
-//
-//				if (!player.capabilities.isCreativeMode)
-//				{
-//					ItemStack itemstack = stack;
-//
-//					if (itemstack != null)
-//					{
-//						itemstack.onBlockDestroyed(world, block.blockID, par1, par2, par3, player);
-//
-//						if (itemstack.stackSize == 0)
-//						{
-//							this.destroyTheItem(player, stack);
-//						}
-//					}
-//				}
-//
-//				return flag;
-//			}
-//		}
-//	}
 	public void attackTargetEntityWithTheItem(Entity par1Entity, EntityPlayer player,ItemStack stack)
 	{
 		if (MinecraftForge.EVENT_BUS.post(new AttackEntityEvent(player, par1Entity)))
@@ -715,40 +620,7 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 			}
 		}
 	}
-//	public boolean canCurrentToolHarvestBlock(int par1, int par2, int par3, EntityPlayer player, ItemStack stack)
-//	{
-//		if (player.capabilities.allowEdit)
-//		{
-//			return true;
-//		}
-//		else
-//		{
-//			int l = player.worldObj.getBlockId(par1, par2, par3);
-//
-//			if (l > 0)
-//			{
-//				Block block = Block.blocksList[l];
-//
-//				if (block.blockMaterial.isAlwaysHarvested())
-//				{
-//					return true;
-//				}
-//
-//				if (stack != null)
-//				{
-//					ItemStack itemstack = stack;
-//
-//					if (itemstack.canHarvestBlock(block) || itemstack.getStrVsBlock(block) > 1.0F)
-//					{
-//						return true;
-//					}
-//				}
-//			}
-//
-//			return false;
-//		}
-//	}
-	// パケットの読み込み(パケットの受け取りはPacketHandlerで行う)
+
 	public void readPacketData(ByteArrayDataInput data)
 	{
 		try
@@ -762,7 +634,6 @@ public class ItemMultiToolHolder extends Item implements IItemRenderer
 		}
 	}
 
-	// パケットの書き込み(パケットの生成自体はPacketHandlerで行う)
 	public void writePacketData(DataOutputStream dos)
 	{
 		try
