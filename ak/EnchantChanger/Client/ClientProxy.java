@@ -38,8 +38,9 @@ public class ClientProxy extends CommonProxy
 		MinecraftForgeClient.registerItemRenderer(EnchantChanger.CloudSwordItemID, (IItemRenderer) EnchantChanger.ItemCloudSword);
 		MinecraftForgeClient.registerItemRenderer(EnchantChanger.UltimateWeaponItemID, (IItemRenderer) EnchantChanger.ItemUltimateWeapon);
 		MinecraftForgeClient.registerItemRenderer(EnchantChanger.ImitateSephSwordID, (IItemRenderer)EnchantChanger.ItemImitateSephirothSword);
-		MinecraftForgeClient.registerItemRenderer(EnchantChanger.MateriaID, (IItemRenderer) EnchantChanger.ItemMat);
-		MinecraftForgeClient.registerItemRenderer(EnchantChanger.MasterMateriaID, (IItemRenderer) EnchantChanger.MasterMateria);
+		IItemRenderer materiaRenderer = new EcRenderMateria();
+		MinecraftForgeClient.registerItemRenderer(EnchantChanger.MateriaID, materiaRenderer);
+		MinecraftForgeClient.registerItemRenderer(EnchantChanger.MasterMateriaID, materiaRenderer);
 	}
 
 	@Override
