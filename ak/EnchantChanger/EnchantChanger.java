@@ -162,20 +162,34 @@ public class EnchantChanger
 		config.save();
 
 		ItemMat = (new EcItemMateria(MateriaID-256)).setUnlocalizedName(this.EcTextureDomain + "Materia").setCreativeTab(tabsEChanger);
+		GameRegistry.registerItem(ItemMat, "materia","EnchantChanger");
 		ItemExExpBottle =new EcItemExExpBottle(ExExpBottleID-256).setUnlocalizedName(this.EcTextureDomain + "ExExpBottle").setCreativeTab(tabsEChanger);
+		GameRegistry.registerItem(ItemExExpBottle, "exexpbottle", "EnchantChanger");
 		ItemZackSword = (new EcItemZackSword(ZackSwordItemID-256)).setUnlocalizedName(this.EcTextureDomain + "ZackSword").setCreativeTab(tabsEChanger);
+		GameRegistry.registerItem(ItemZackSword, "zacksword", "EnchantChanger");
 		ItemCloudSwordCore = (new EcItemCloudSwordCore(FirstSwordItemID -256)).setUnlocalizedName(this.EcTextureDomain + "CloudSwordCore").setCreativeTab(tabsEChanger);
+		GameRegistry.registerItem(ItemCloudSwordCore, "cloudswordcore", "EnchantChanger");
 		ItemCloudSword = (new EcItemCloudSword(CloudSwordItemID-256)).setUnlocalizedName(this.EcTextureDomain + "CloudSword").setCreativeTab(null);
+		GameRegistry.registerItem(ItemCloudSword, "cloudsword", "EnchantChanger");
 		ItemSephirothSword = (new EcItemSephirothSword(SephirothSwordItemID-256)).setUnlocalizedName(this.EcTextureDomain + "MasamuneBlade").setCreativeTab(tabsEChanger);
+		GameRegistry.registerItem(ItemSephirothSword, "masamuneblade", "EnchantChanger");
 		ItemUltimateWeapon = (new EcItemUltimateWeapon(UltimateWeaponItemID - 256)).setUnlocalizedName(this.EcTextureDomain + "UltimateWeapon").setCreativeTab(tabsEChanger);
+		GameRegistry.registerItem(ItemUltimateWeapon, "ultimateweapon", "EnchantChanger");
 		ItemPortableEnchantChanger = (new EcItemMaterializer(PortableEnchantChangerID - 256)).setUnlocalizedName(this.EcTextureDomain + "PortableEnchantChanger").setCreativeTab(tabsEChanger);
+		GameRegistry.registerItem(ItemPortableEnchantChanger, "portableenchantchanger", "EnchantChanger");
 		ItemPortableEnchantmentTable = (new EcItemEnchantmentTable(PortableEnchantmentTableID - 256)).setUnlocalizedName(this.EcTextureDomain + "PortableEnchantmentTable").setCreativeTab(tabsEChanger);
+		GameRegistry.registerItem(ItemPortableEnchantmentTable, "portableenchantmenttable", "EnchantChanger");
 		MasterMateria = new EcItemMasterMateria(MasterMateriaID - 256).setUnlocalizedName(this.EcTextureDomain + "MasterMateria").setCreativeTab(tabsEChanger);
+		GameRegistry.registerItem(MasterMateria, "mastermateria", "EnchantChanger");
 		ItemImitateSephirothSword = (new EcItemSephirothSwordImit(ImitateSephSwordID-256)).setUnlocalizedName(this.EcTextureDomain + "ImitateMasamuneBlade").setCreativeTab(tabsEChanger);
+		GameRegistry.registerItem(ItemImitateSephirothSword, "imitationmasamuneblade", "EnchantChanger");
 		BlockMat = (new EcBlockMaterialize(EnchantChangerID)).setCreativeTab(tabsEChanger).setUnlocalizedName("EnchantChanger");
+		GameRegistry.registerBlock(BlockMat,"EnchantChanger");		
 		HugeMateria = new EcBlockHugeMateria(HugeMateriaID).setUnlocalizedName("HugeMateria");
+		GameRegistry.registerBlock(HugeMateria, "hugemateria");
 		ItemHugeMateria = new EcItemHugeMateria(HugeMateria.blockID - 256).setUnlocalizedName(this.EcTextureDomain + "HugeMateria").setCreativeTab(tabsEChanger);
-		GameRegistry.registerBlock(BlockMat,"EnchantChanger");
+		GameRegistry.registerItem(ItemHugeMateria, "hugemateria", "EnchantChanger");
+
 		Meteo = new EcEnchantmentMeteo(this.EnchantmentMeteoId,0);
 		Holy = new EcEnchantmentHoly(this.EndhantmentHolyId,0);
 		Telepo = new EcEnchantmentTeleport(this.EnchantmentTelepoId,0);

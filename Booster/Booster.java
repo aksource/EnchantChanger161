@@ -58,7 +58,9 @@ public class Booster
 		movement = config.get(Configuration.CATEGORY_GENERAL, "movement", 1d).getDouble(1);
 		config.save();
 		Booster08 = new ItemBooster(BoosterID - 256,EnumArmorMaterial.IRON ,2,1).setUnlocalizedName(TextureDomain + "Booster08").setCreativeTab(CreativeTabs.tabCombat);
+		GameRegistry.registerItem(Booster08, "booster08", "Booster");
 		Booster20 = new ItemBooster(BoosterID - 256 + 1,EnumArmorMaterial.DIAMOND ,3,1).setUnlocalizedName(TextureDomain + "Booster20").setCreativeTab(CreativeTabs.tabCombat);
+		GameRegistry.registerItem(Booster20, "booster20", "Booster");
 	}
 	@Mod.EventHandler
 	public void load(FMLInitializationEvent event)

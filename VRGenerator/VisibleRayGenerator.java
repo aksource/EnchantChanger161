@@ -82,6 +82,7 @@ public class VisibleRayGenerator
 		solarBlock = new CESolarBlock(blockID_Solar).setUnlocalizedName("CE_Solar");
 		GameRegistry.registerBlock(solarBlock, CESolarItem.class, "visibleraysolor");
 		lavaUpdater = new CEItemLavaUpdater(itemID_lavaUpdater).setUnlocalizedName(TexDomain + "CE_LavaUpdater").setTextureName(TexDomain + "CE_LavaUpdater");
+		GameRegistry.registerItem(lavaUpdater, "lavaupdater");
 		if(FMLCommonHandler.instance().getEffectiveSide().isClient()){
 			getICTab();
 		}

@@ -68,8 +68,11 @@ public class CompactEngine
 //		OilFlowingSpeed = config.get(Configuration.CATEGORY_GENERAL, "OilFlowingSpeed", 20, "Change OilFlowingSpeed. Default:20tick").getInt();
 		config.save();
 		engineBlock =new BlockCompactEngine(blockID_CompactEngine);	
+		GameRegistry.registerBlock(engineBlock, "compactengine");
 		engineItem  = new ItemCompactEngine(blockID_CompactEngine - 256);		
+		GameRegistry.registerItem(engineItem, "compactengine", "CompactEngine");
 		energyChecker = new ItemEnergyChecker(itemID_energyChecker - 256).setUnlocalizedName("compactengine:energyChecker").setTextureName("compactengine:energyChecker");
+		GameRegistry.registerItem(energyChecker, "energychecker", "CompactEngine");
 	}
 	@Mod.EventHandler
 	public void load(FMLInitializationEvent event)

@@ -150,42 +150,79 @@ public class AdvancedTools
 	public void itemSetup()
 	{
 		RedEnhancer = (new ItemEnhancer(ItemID_INDEX + 0)).setUnlocalizedName("RedEnhancer").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(RedEnhancer, "redenhancer");
 		BlueEnhancer = (new ItemEnhancer(ItemID_INDEX + 1)).setUnlocalizedName("BlueEnhancer").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(BlueEnhancer, "blueenhancer");
 		UGWoodShovel = (new ItemUGShovel(ItemID_INDEX + 2, EnumToolMaterial.WOOD)).setUnlocalizedName("UpgradedWoodenShovel").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(UGWoodShovel, "ugwoodshovel");
 		UGStoneShovel = (new ItemUGShovel(ItemID_INDEX + 3, EnumToolMaterial.STONE, 1.5F)).setUnlocalizedName("UpgradedStoneShovel").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(UGStoneShovel, "ugstoneshovel");
 		UGIronShovel = (new ItemUGShovel(ItemID_INDEX + 4, EnumToolMaterial.IRON, 2.0F)).setUnlocalizedName("UpgradedIronShovel").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(UGIronShovel, "ugironshovel");
 		UGDiamondShovel = (new ItemUGShovel(ItemID_INDEX + 5, EnumToolMaterial.EMERALD, 3.0F)).setUnlocalizedName("UpgradedDiamondShovel").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(UGDiamondShovel, "ugdiamondshovel");
 		UGGoldShovel = (new ItemUGShovel(ItemID_INDEX + 6, EnumToolMaterial.GOLD, 2.5F)).setUnlocalizedName("UpgradedGoldenShovel").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(UGGoldShovel, "uggoldshovel");
 		UGWoodPickaxe = (new ItemUGPickaxe(ItemID_INDEX + 7, EnumToolMaterial.WOOD)).setUnlocalizedName("UpgradedWoodenPickaxe").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(UGWoodPickaxe, "ugwoodpickaxe");
 		UGStonePickaxe = (new ItemUGPickaxe(ItemID_INDEX + 8, EnumToolMaterial.STONE, 1.5F)).setUnlocalizedName("UpgradedStonePickaxe").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(UGStonePickaxe, "ugstonepickaxe");
 		UGIronPickaxe = (new ItemUGPickaxe(ItemID_INDEX + 9, EnumToolMaterial.IRON, 2.0F)).setUnlocalizedName("UpgradedIronPickaxe").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(UGIronPickaxe, "ugironpickaxe");
 		UGDiamondPickaxe = (new ItemUGPickaxe(ItemID_INDEX + 10, EnumToolMaterial.EMERALD, 3.0F)).setUnlocalizedName("UpgradedDiamondPickaxe").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(UGDiamondPickaxe, "ugdiamondpickaxe");
 		UGGoldPickaxe = (new ItemUGPickaxe(ItemID_INDEX + 11, EnumToolMaterial.GOLD, 2.5F)).setUnlocalizedName("UpgradedGoldenPickaxe").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(UGIronPickaxe, "uggoldpickaxe");
 		UGWoodAxe = (new ItemUGAxe(ItemID_INDEX + 12, EnumToolMaterial.WOOD)).setUnlocalizedName("UpgradedWoodenAxe").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(UGWoodAxe, "ugwoodaxe");
 		UGStoneAxe = (new ItemUGAxe(ItemID_INDEX + 13, EnumToolMaterial.STONE, 1.5F)).setUnlocalizedName("UpgradedStoneAxe").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(UGStoneAxe, "ugstoneaxe");
 		UGIronAxe = (new ItemUGAxe(ItemID_INDEX + 14, EnumToolMaterial.IRON, 2.0F)).setUnlocalizedName("UpgradedIronAxe").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(UGIronAxe, "ugironaxe");
 		UGDiamondAxe = (new ItemUGAxe(ItemID_INDEX + 15, EnumToolMaterial.EMERALD, 3.0F)).setUnlocalizedName("UpgradedDiamondAxe").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(UGDiamondAxe, "ugdiamondaxe");
 		UGGoldAxe = (new ItemUGAxe(ItemID_INDEX + 16, EnumToolMaterial.GOLD, 2.5F)).setUnlocalizedName("UpgradedGoldenAxe").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(UGIronAxe, "uggoldaxe");
 		BlazeBlade = (new ItemUQBlazeBlade(ItemID_INDEX + 17, EnumToolMaterial.EMERALD, 4)).setUnlocalizedName("BlazeBlade").setMaxDamage(1200).setCreativeTab(tabsAT);
+		GameRegistry.registerItem(BlazeBlade, "blazeblade");
 		IceHold = (new ItemUQIceHold(ItemID_INDEX + 18, EnumToolMaterial.EMERALD, 4)).setUnlocalizedName("FreezeHold").setMaxDamage(1200).setCreativeTab(tabsAT);
+		GameRegistry.registerItem(IceHold, "icehold");
 		AsmoSlasher = (new ItemUQAsmoSlasher(ItemID_INDEX + 19, EnumToolMaterial.EMERALD, 4)).setUnlocalizedName("AsmoSlasher").setMaxDamage(1200).setCreativeTab(tabsAT);
+		GameRegistry.registerItem(AsmoSlasher, "asmoslasher");
 		PlanetGuardian = (new ItemUQPlanetGuardian(ItemID_INDEX + 20, EnumToolMaterial.EMERALD, 4)).setUnlocalizedName("Planet Guardian").setMaxDamage(1200).setCreativeTab(tabsAT);
+		GameRegistry.registerItem(PlanetGuardian, "planetguardian");
 		StormBringer = (new ItemUQStormBringer(ItemID_INDEX + 21, EnumToolMaterial.EMERALD, 4)).setUnlocalizedName("StormBringer").setMaxDamage(1200).setCreativeTab(tabsAT);
+		GameRegistry.registerItem(StormBringer, "stormbringer");
 		NEGI = (new Item_Negi(ItemID_INDEX + 22, 1, 0.1F, false)).setUnlocalizedName("NEGI").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(NEGI, "negi");
 		LuckLuck = (new ItemUQLuckies(ItemID_INDEX + 23, EnumToolMaterial.GOLD, 2)).setUnlocalizedName("Lucky&Lucky").setMaxDamage(77).setCreativeTab(tabsAT);
+		GameRegistry.registerItem(LuckLuck, "luckluck");
 		SmashBat = (new ItemUniqueArms(ItemID_INDEX + 24, EnumToolMaterial.WOOD, 1)).setUnlocalizedName("SmashBat").setMaxDamage(95).setCreativeTab(tabsAT);
+		GameRegistry.registerItem(SmashBat, "smashbat");
 		DevilSword = (new ItemUQDevilSword(ItemID_INDEX + 25, EnumToolMaterial.EMERALD, 1)).setUnlocalizedName("DevilSword").setMaxDamage(427).setCreativeTab(tabsAT);
+		GameRegistry.registerItem(DevilSword, "devilsword");
 		HolySaber = (new ItemUQHolySaber(ItemID_INDEX + 26, EnumToolMaterial.GOLD, 5)).setUnlocalizedName("HolySaber").setMaxDamage(280).setCreativeTab(tabsAT);
+		GameRegistry.registerItem(HolySaber, "holysaber");
 		ThrowingKnife = (new Item_ThrowingKnife(ItemID_INDEX + 27, false)).setUnlocalizedName("ThrowingKnife").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(ThrowingKnife, "throwingknife");
 		PoisonKnife = (new Item_ThrowingKnife(ItemID_INDEX + 28, true)).setUnlocalizedName("PoisonKnife").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(PoisonKnife, "poisonknife");
 		CrossBow = (new Item_CrossBow(ItemID_INDEX + 29)).setUnlocalizedName("A_CrossBow").setCreativeTab(tabsAT);
+		GameRegistry.registerItem(CrossBow, "crossbow");
 		InfiniteSword = (new ItemUniqueArms(ItemID_INDEX + 30, EnumToolMaterial.GOLD, 8)).setUnlocalizedName("InfiniteSword").setMaxDamage(0).setCreativeTab(tabsAT);
+		GameRegistry.registerItem(InfiniteSword, "infinitesword");
 		InfinitePickaxe = (new ItemUGPickaxe(ItemID_INDEX + 31, EnumToolMaterial.EMERALD)).setUnlocalizedName("InfinityPickaxe").setMaxDamage(0).setCreativeTab(tabsAT);
+		GameRegistry.registerItem(InfinitePickaxe, "infinitepickaxe");
 		InfiniteAxe = (new ItemUGAxe(ItemID_INDEX + 32, EnumToolMaterial.GOLD)).setUnlocalizedName("InfinityAxe").setMaxDamage(0).setCreativeTab(tabsAT);
+		GameRegistry.registerItem(InfiniteHoe, "infiniteaxe");
 		InfiniteShovel = (new ItemUGShovel(ItemID_INDEX + 33, EnumToolMaterial.GOLD)).setUnlocalizedName("InfinityShovel").setMaxDamage(0).setCreativeTab(tabsAT);
+		GameRegistry.registerItem(InfiniteShovel, "infiniteshovel");
 		InfiniteHoe = (new ItemInfHoe(ItemID_INDEX + 34, EnumToolMaterial.GOLD)).setUnlocalizedName("InfinityHoe").setMaxDamage(0).setCreativeTab(tabsAT);
+		GameRegistry.registerItem(InfiniteHoe, "infinitehoe");
 		GenocideBlade = (new ItemUniqueArms(ItemID_INDEX + 36, EnumToolMaterial.EMERALD, 10000)).setUnlocalizedName("GenocideBlade").setMaxDamage(0).setCreativeTab(tabsAT);
+		GameRegistry.registerItem(GenocideBlade, "genocideblade");
 	}
+	
 
 	public void addRecipe()
 	{
