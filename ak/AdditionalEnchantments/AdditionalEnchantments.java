@@ -10,7 +10,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="AdditionalEnchantments", name="AdditionalEnchantments", version="1.1b",dependencies="required-after:FML")
+@Mod(modid="AdditionalEnchantments", name="AdditionalEnchantments", version="1.2",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 
 public class AdditionalEnchantments
@@ -29,6 +29,12 @@ public class AdditionalEnchantments
 	public static Enchantment waterAspect;
 	public static boolean addWaterAspect;
 	public static int idWaterAspect;
+	public static Enchantment magicProtection;
+	public static boolean addMagicProtection;
+	public static int idMagicProtection;
+	public static Enchantment voidJump;
+	public static boolean addVoidJump;
+	public static int idVoidJump;
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -41,6 +47,10 @@ public class AdditionalEnchantments
 		idDisjunction = config.get(Configuration.CATEGORY_GENERAL, "idDisjunction", 23, "Disjunction Enchantment Id").getInt();
 		addWaterAspect = config.get(Configuration.CATEGORY_GENERAL, "addWaterAspect", true, "add WaterAspect Enchantment").getBoolean(true);;
 		idWaterAspect = config.get(Configuration.CATEGORY_GENERAL, "idWaterAspect", 24, "WaterAspect Enchantment Id").getInt();;
+		addMagicProtection = config.get(Configuration.CATEGORY_GENERAL, "addMagicProtection", true, "add Magic Protection Enchantment").getBoolean(true);;
+		idMagicProtection = config.get(Configuration.CATEGORY_GENERAL, "idMagicProtection", 10, "Magic Protection Enchantment Id").getInt();;
+		addVoidJump = config.get(Configuration.CATEGORY_GENERAL, "addVoidJump", true, "add Void Jump Enchantment").getBoolean(true);;
+		idVoidJump = config.get(Configuration.CATEGORY_GENERAL, "idVoidJump", 11, "Void Jump Enchantment Id").getInt();;
 		config.save();
 	}
 	@Mod.EventHandler
@@ -61,6 +71,17 @@ public class AdditionalEnchantments
 		{
 			waterAspect = new EnchantmentWaterAspect(idWaterAspect, 5).setName("wateraspect");
 			addLocalLanguage("enchantment.wateraspect", "Water Aspect", "水属性");
+		}
+		if(addMagicProtection)
+		{
+			magicProtection = new EnchantmentMagicProtection(idMagicProtection, 5).setName("magicprotection");
+			addLocalLanguage("enchantment.magicprotection", "Magic Protection", "魔法耐性");
+		}
+		if(addVoidJump)
+		{
+			voidJump = new EnchantmentVoidJump(idVoidJump, 1).setName("voidjump");
+			addLocalLanguage("enchantment.voidjump","VoidJump", "奈落跳び");
+			MinecraftForge.EVENT_BUS.register(new VoidJumpEventHook());
 		}
 	}
 	@Mod.EventHandler
