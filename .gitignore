@@ -16,7 +16,6 @@ local.properties
 .settings/
 .loadpath
 *.lzma
-*.lang
 /cpw
 /argo
 /ibxm
@@ -29,6 +28,10 @@ local.properties
 /assets/ee3
 /assets/buildcraft
 /assets/minecraft
+/assets/forge
+/ak/ee3aa
+/assets/ee3aa
+/ExVein
 /net/minecraftforge
 /net/minecraft/block
 /net/minecraft/client

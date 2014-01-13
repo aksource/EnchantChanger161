@@ -1,17 +1,11 @@
 package ak.EnchantChanger;
 
-import java.util.ArrayList;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-
-import ak.EnchantChanger.Client.ClientProxy;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class EcItemExExpBottle extends Item
 {
@@ -45,10 +39,4 @@ public class EcItemExExpBottle extends Item
 
 		return par1ItemStack;
 	}
-//	@Override
-//	public Item setIconIndex(int par1)
-//	{
-//		this.iconIndex = par1;
-//		return this;
-//	}
 }

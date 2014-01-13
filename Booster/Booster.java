@@ -10,13 +10,11 @@ import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="Booster", name="Booster", version="1.6.2v3",dependencies="required-after:FML")
+@Mod(modid="Booster", name="Booster", version="1.6.4v4",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false, channels={"Booster"}, packetHandler=PacketHandler.class)
 public class Booster
 {
@@ -88,13 +86,5 @@ public class Booster
 			GameRegistry.addShapelessRecipe(new ItemStack(Booster20,1), new Object[]{ new ItemStack(Block.sand, 1)});
 			GameRegistry.addShapelessRecipe(new ItemStack(Item.plateChain,1), new Object[]{ new ItemStack(Block.workbench, 1)});
 		}
-	}
-	@Mod.EventHandler
-	public void postInit(FMLPostInitializationEvent event)
-	{
-		LanguageRegistry.addName(Booster08, "Booster0.8");
-		LanguageRegistry.addName(Booster20, "Booster2.0");
-		LanguageRegistry.instance().addStringLocalization("Key.BoosterSwitch", "ja_JP", "ブースタースイッチ");
-		LanguageRegistry.instance().addStringLocalization("Key.BoosterSwitch", "en_US", "BoosterSwitch");
 	}
 }

@@ -7,9 +7,9 @@ import net.minecraft.item.ItemStack;
 
 public class EcItemMasterMateria extends Item
 {
-	public static final String[] MasterMateriaNames = new String[] {"Ultimatum","Protection","Water","Attack","Digging","Bow","Addition"};
-	public static final String[] MasterMateriaJPNames = new String[] {"究極","防御","水","攻撃","採掘","弓", "追加"};
-	public static int MasterMateriaNum = MasterMateriaNames.length;
+//	public static final String[] MasterMateriaNames = new String[] {"Ultimatum","Protection","Water","Attack","Digging","Bow","Addition"};
+//	public static final String[] MasterMateriaJPNames = new String[] {"究極","防御","水","攻撃","採掘","弓", "追加"};
+	public static int MasterMateriaNum = 7;
 	public EcItemMasterMateria(int par1)
 	{
 		super(par1);

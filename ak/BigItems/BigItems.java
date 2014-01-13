@@ -4,7 +4,6 @@ import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 
@@ -35,11 +34,5 @@ public class BigItems
 	public void load(FMLInitializationEvent event)
 	{
 		proxy.registerClientInformation();
-	}
-	@Mod.EventHandler
-	public void postInit(FMLPostInitializationEvent event)
-	{
-//		for(int i = 0;i<ItemIDs.length;i++)
-//			System.out.println(ItemIDs[i]);
 	}
 }

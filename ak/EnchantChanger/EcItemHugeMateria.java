@@ -1,9 +1,6 @@
 package ak.EnchantChanger;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,7 +12,6 @@ public class EcItemHugeMateria extends Item
 	{
 		super(par1);
         this.setTextureName(EnchantChanger.EcTextureDomain + "HugeMateria");
-//		this.setTextureFile(EnchantChanger.EcSprites);
 	}
 	@Override
 	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
@@ -38,11 +34,9 @@ public class EcItemHugeMateria extends Item
 			}
 			else
 			{
-//				par3World.editingBlocks = true;
 				par3World.setBlock(par4, par5, par6, hugemateria.blockID, 0, 1);
 				par3World.setBlock(par4, par5 + 1, par6, hugemateria.blockID, 1, 1);
 				par3World.setBlock(par4, par5 + 2, par6, hugemateria.blockID, 2, 1);
-//				par3World.editingBlocks = false;
 				par3World.notifyBlocksOfNeighborChange(par4, par5, par6, hugemateria.blockID);
 				par3World.notifyBlocksOfNeighborChange(par4, par5 + 1, par6, hugemateria.blockID);
 				par3World.notifyBlocksOfNeighborChange(par4, par5 + 2, par6, hugemateria.blockID);
@@ -55,8 +49,4 @@ public class EcItemHugeMateria extends Item
 			return false;
 		}
 	}
-//	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
-//	{
-//		par3List.add(new ItemStack(this));
-//	}
 }

@@ -5,20 +5,16 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="AdditionalEnchantments", name="AdditionalEnchantments", version="1.2",dependencies="required-after:FML")
+@Mod(modid="AdditionalEnchantments", name="AdditionalEnchantments", version="1.2a",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 
 public class AdditionalEnchantments
 {
 	@Mod.Instance("AdditionalEnchantments")
 	public static AdditionalEnchantments instance;
-//	@SidedProxy(clientSide = "ClientProxy", serverSide = "CommonProxy")
-//	public static CommonProxy proxy;
 	
 	public static Enchantment vorpal;
 	public static boolean addVorpal;
@@ -59,39 +55,24 @@ public class AdditionalEnchantments
 		if(addVorpal)
 		{
 			vorpal = new EnchantmentVorpal(idVorpal, 2).setName("vorpal");
-			addLocalLanguage("enchantment.vorpal", "Vorpal", "首狩り");
 			MinecraftForge.EVENT_BUS.register(new VorpalEventHook());
 		}
 		if(addDisjunction)
 		{
 			disjunction = new EnchantmentDisjunction(idDisjunction, 5).setName("disjunction");
-			addLocalLanguage("enchantment.disjunction", "Disjunction", "エンダーマン特効");
 		}
 		if(addWaterAspect)
 		{
 			waterAspect = new EnchantmentWaterAspect(idWaterAspect, 5).setName("wateraspect");
-			addLocalLanguage("enchantment.wateraspect", "Water Aspect", "水属性");
 		}
 		if(addMagicProtection)
 		{
 			magicProtection = new EnchantmentMagicProtection(idMagicProtection, 5).setName("magicprotection");
-			addLocalLanguage("enchantment.magicprotection", "Magic Protection", "魔法耐性");
 		}
 		if(addVoidJump)
 		{
 			voidJump = new EnchantmentVoidJump(idVoidJump, 1).setName("voidjump");
-			addLocalLanguage("enchantment.voidjump","VoidJump", "奈落跳び");
 			MinecraftForge.EVENT_BUS.register(new VoidJumpEventHook());
 		}
-	}
-	@Mod.EventHandler
-	public void postInit(FMLPostInitializationEvent event)
-	{
-
-	}
-	public static void addLocalLanguage(String key, String en, String jp)
-	{
-		LanguageRegistry.instance().addStringLocalization(key, en);
-		LanguageRegistry.instance().addStringLocalization(key,"ja_JP", jp);
 	}
 }

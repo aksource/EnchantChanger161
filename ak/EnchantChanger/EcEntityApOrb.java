@@ -291,11 +291,6 @@ public class EcEntityApOrb extends Entity
 		return this.apValue >= 2477 ? 10 : (this.apValue >= 1237 ? 9 : (this.apValue >= 617 ? 8 : (this.apValue >= 307 ? 7 : (this.apValue >= 149 ? 6 : (this.apValue >= 73 ? 5 : (this.apValue >= 37 ? 4 : (this.apValue >= 17 ? 3 : (this.apValue >= 7 ? 2 : (this.apValue >= 3 ? 1 : 0)))))))));
 	}
 
-	public static int getXPSplit(int par0)
-	{
-		return par0 >= 2477 ? 2477 : (par0 >= 1237 ? 1237 : (par0 >= 617 ? 617 : (par0 >= 307 ? 307 : (par0 >= 149 ? 149 : (par0 >= 73 ? 73 : (par0 >= 37 ? 37 : (par0 >= 17 ? 17 : (par0 >= 7 ? 7 : (par0 >= 3 ? 3 : 1)))))))));
-	}
-
 	public boolean canAttackWithItem()
 	{
 		return false;

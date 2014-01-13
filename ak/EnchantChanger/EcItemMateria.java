@@ -37,7 +37,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class EcItemMateria extends Item
 {
 	public static final String[] MateriaMagicNames   = new String[]{"Black","White","Teleport","Floating","Thunder","Despell","Haste","Absorption"};
-	public static final String[] MateriaMagicJPNames = new String[]{"黒"   ,"白"   ,"瞬間移動","浮遊"    ,"雷"     ,"解呪"   ,"加速" ,"吸収"};
+//	public static final String[] MateriaMagicJPNames = new String[]{"黒"   ,"白"   ,"瞬間移動","浮遊"    ,"雷"     ,"解呪"   ,"加速" ,"吸収"};
 	public static int MagicMateriaNum = MateriaMagicNames.length;
 	public static int[] magicEnch = new int[]{EnchantChanger.EnchantmentMeteoId, EnchantChanger.EndhantmentHolyId, EnchantChanger.EnchantmentTelepoId, EnchantChanger.EnchantmentFloatId, EnchantChanger.EnchantmentThunderId};
 	public static boolean GGEnable = false;
@@ -65,6 +65,7 @@ public class EcItemMateria extends Item
 		}
 		return false;
 	}
+	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
 	{
 		if(itemstack.stackSize > 1){
@@ -156,7 +157,7 @@ public class EcItemMateria extends Item
 			return "ItemMateria."+MateriaMagicNames[var3];
 		}
 	}
-
+	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List itemList)
 	{
 		itemList.add(new ItemStack(this, 1, 0));
@@ -175,9 +176,9 @@ public class EcItemMateria extends Item
 				}
 			}
 		}
-		for(int i=0;i < MagicMateriaNum; i++){
+		for(int i = 0;i < MagicMateriaNum; i++){
 			ItemStack magic = new ItemStack(this, 1,1 + i);
-			if(i<this.magicEnch.length)
+			if(i < this.magicEnch.length)
 				magic.addEnchantment(Enchantment.enchantmentsList[this.magicEnch[i]], 1);
 			itemList.add(magic);
 		}
@@ -189,11 +190,13 @@ public class EcItemMateria extends Item
 				return true;
 		return false;
 	}
+	@Override
 	@SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack par1ItemStack, int pass)
 	{
 		return par1ItemStack.getItemDamage() > 0;
 	}
+	@Override
 	public EnumRarity getRarity(ItemStack item)
 	{
 		if(item.getItemDamage() > 0)
@@ -296,35 +299,30 @@ public class EcItemMateria extends Item
 	public static Vec3 setTeleportPoint(World world, EntityPlayer entityplayer)
 	{
 		float var1=1F;
-		double Dislimit = 150.0D;
+		double distLimit = 150.0D;
 		double viewX = entityplayer.getLookVec().xCoord;
 		double viewY = entityplayer.getLookVec().yCoord;
 		double viewZ = entityplayer.getLookVec().zCoord;
-		double PlayerposX = entityplayer.prevPosX + (entityplayer.posX - entityplayer.prevPosX) * (double)var1;
-		double PlayerposY = entityplayer.prevPosY + (entityplayer.posY - entityplayer.prevPosY) * (double)var1 + 1.62D - (double)entityplayer.yOffset;
-		double PlayerposZ = entityplayer.prevPosZ + (entityplayer.posZ - entityplayer.prevPosZ) * (double)var1;
-		Vec3 PlayerPosition = Vec3.createVectorHelper(PlayerposX, PlayerposY, PlayerposZ);
-		Vec3 PlayerLookVec = PlayerPosition.addVector(viewX*Dislimit, viewY*Dislimit, viewZ*Dislimit);
+//		double PlayerposX = entityplayer.prevPosX + (entityplayer.posX - entityplayer.prevPosX) * (double)var1;
+//		double PlayerposY = entityplayer.prevPosY + (entityplayer.posY - entityplayer.prevPosY) * (double)var1 + 1.62D - (double)entityplayer.yOffset;
+//		double PlayerposZ = entityplayer.prevPosZ + (entityplayer.posZ - entityplayer.prevPosZ) * (double)var1;
+		Vec3 PlayerPosition = world.getWorldVec3Pool().getVecFromPool(entityplayer.posX, entityplayer.posY + 1.62D - (double)entityplayer.yOffset, entityplayer.posZ);
+		Vec3 PlayerLookVec = PlayerPosition.addVector(viewX * distLimit, viewY * distLimit, viewZ * distLimit);
 		MovingObjectPosition MOP = world.clip(PlayerPosition, PlayerLookVec, true);
-		if(MOP !=null){
-			if (MOP.typeOfHit == EnumMovingObjectType.TILE){
-				int BlockposX = MOP.blockX;
-				int BlockposY = MOP.blockY;
-				int BlockposZ = MOP.blockZ;
-				int Blockside = MOP.sideHit;
-				switch(Blockside){
-				case 0:BlockposY -=2;break;
-				case 1:BlockposY++;break;
-				case 2:BlockposZ--;break;
-				case 3:BlockposZ++;break;
-				case 4:BlockposX--;break;
-				case 5:BlockposX++;break;
-				}
-				Vec3 TelepoVec = Vec3.createVectorHelper(BlockposX, BlockposY, BlockposZ);
-				return TelepoVec;
-			}else{
-				return null;
+		if(MOP != null && MOP.typeOfHit == EnumMovingObjectType.TILE){
+			int BlockposX = MOP.blockX;
+			int BlockposY = MOP.blockY;
+			int BlockposZ = MOP.blockZ;
+			int Blockside = MOP.sideHit;
+			switch(Blockside){
+			case 0:BlockposY -=2;break;
+			case 1:BlockposY++;break;
+			case 2:BlockposZ--;break;
+			case 3:BlockposZ++;break;
+			case 4:BlockposX--;break;
+			case 5:BlockposX++;break;
 			}
+			return world.getWorldVec3Pool().getVecFromPool(BlockposX, BlockposY, BlockposZ);
 		}else{
 			return null;
 		}
@@ -338,7 +336,6 @@ public class EcItemMateria extends Item
 			Entity entity=(Entity) EntityList.get(i);
 			if(((EntityLivingBase)entity).isEntityUndead()){
 				int var1 = MathHelper.floor_float(((EntityLivingBase) entity).getMaxHealth()/2);
-//				int var1 = 10;
 				entity.attackEntityFrom(DamageSource.magic, var1);
 			}
 		}

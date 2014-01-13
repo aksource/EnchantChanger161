@@ -1,23 +1,16 @@
 package ak.EnchantChanger;
 
-import java.io.DataOutputStream;
 import java.util.List;
 
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
-
-import com.google.common.io.ByteArrayDataInput;
-
-import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -31,17 +24,18 @@ public class EcItemCloudSword extends EcItemSword
         super(par1, EnumToolMaterial.EMERALD);
         this.setTextureName(EnchantChanger.EcTextureDomain + "CloudSword");
     }
-
+	@Override
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity)
 	{
-		if(this.SlotNum == 5)
+		if(getSlotNum(stack) == 5)
 			return false;
-		else if(this.SwordData.getStackInSlot(SlotNum) != null){
-			this.attackTargetEntityWithTheItem(entity, player, this.SwordData.getStackInSlot(SlotNum));
+		else if(this.SwordData.getStackInSlot(getSlotNum(stack)) != null){
+			this.attackTargetEntityWithTheItem(entity, player, this.SwordData.getStackInSlot(getSlotNum(stack)), false);
 			return true;
 		}else
 			return false;
 	}
+	@Override
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
 		if(par3EntityPlayer.isSneaking()){
@@ -49,18 +43,20 @@ public class EcItemCloudSword extends EcItemSword
 			return this.makeCloudSwordCore(par1ItemStack);
 		}else{
 			par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
-			if(par2World.isRemote){
-				if(this.SlotNum == 5)
-					this.SlotNum = 0;
-				else
-					this.SlotNum++;
-    			PacketDispatcher.sendPacketToServer(Packet_EnchantChanger.getPacketCS(this));
-    			if(this.SlotNum != 5)
-        			par3EntityPlayer.addChatMessage(this.SwordData.getStackInSlot(SlotNum).getDisplayName());
+			if(!par2World.isRemote){
+//				if(this.SlotNum == 5)
+//					this.SlotNum = 0;
+//				else
+//					this.SlotNum++;
+//    			PacketDispatcher.sendPacketToPlayer(Packet_EnchantChanger.getPacketCS(this), (Player) par3EntityPlayer);
+				increaseSlotNum(par1ItemStack);
+    			if(getSlotNum(par1ItemStack) != 5)
+        			par3EntityPlayer.addChatMessage(this.SwordData.getStackInSlot(getSlotNum(par1ItemStack)).getDisplayName());
 			}
 			return par1ItemStack;
 		}
     }
+    @Override
     public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {
 		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
     	if (!par2World.isRemote && par3Entity instanceof EntityPlayer){
@@ -70,7 +66,8 @@ public class EcItemCloudSword extends EcItemSword
     }
 	private EcCloudSwordData getSwordData(ItemStack var1, World var2)
 	{
-		String var3 = "swords";
+		int uId = (var1.hasTagCompound())?var1.getTagCompound().getInteger("CloudSwordStrage"):0;
+		String var3 = String.format("swords_%s", uId);
 		EcCloudSwordData var4 = (EcCloudSwordData)var2.loadItemData(EcCloudSwordData.class, var3);
 
 		if (var4 == null){
@@ -83,19 +80,8 @@ public class EcItemCloudSword extends EcItemSword
 	}
 	public ItemStack makeCloudSwordCore(ItemStack stack)
 	{
-    	int EnchNum;
-    	int EnchLv;
     	ItemStack ChangeSwordCore = new ItemStack(EnchantChanger.ItemCloudSwordCore, 1);
-		NBTTagList enchOnItem = stack.getEnchantmentTagList();
-		if(enchOnItem !=null){
-			for (int i = 0; i < enchOnItem.tagCount(); ++i){
-				if(((NBTTagCompound)enchOnItem.tagAt(i)).getShort("lvl") > 0){
-					EnchNum = ((NBTTagCompound)enchOnItem.tagAt(i)).getShort("id");
-					EnchLv = ((NBTTagCompound)enchOnItem.tagAt(i)).getShort("lvl");
-					ChangeSwordCore.addEnchantment(Enchantment.enchantmentsList[EnchNum], EnchLv);
-				}
-			}
-		}
+    	ChangeSwordCore.setTagCompound(stack.getTagCompound());
 		return ChangeSwordCore;
 	}
 	public void doCastOffSwords(World world, EntityPlayer player)
@@ -115,144 +101,72 @@ public class EcItemCloudSword extends EcItemSword
 			}
 		}
 	}
-//	public void attackTargetEntityWithTheItem(Entity par1Entity, EntityPlayer player,ItemStack stack)
-//	{
-//		if (MinecraftForge.EVENT_BUS.post(new AttackEntityEvent(player, par1Entity))){
-//			return;
-//		}
-//		if (stack != null && stack.getItem().onLeftClickEntity(stack, player, par1Entity)){
-//			return;
-//		}
-//		if (par1Entity.canAttackWithItem()){
-//			if (!par1Entity.hitByEntity(player)){
-//                float var2 = (float)this.getItemStrength(stack);
-//				if (player.isPotionActive(Potion.damageBoost)){
-//					var2 += 3 << player.getActivePotionEffect(Potion.damageBoost).getAmplifier();
-//				}
-//
-//				if (player.isPotionActive(Potion.weakness)){
-//					var2 -= 2 << player.getActivePotionEffect(Potion.weakness).getAmplifier();
-//				}
-//
-//				int var3 = 0;
-//				int var4 = 0;
-//
-//				if (par1Entity instanceof EntityLivingBase){
-//					var4 = this.getEnchantmentModifierLiving(stack, player, (EntityLivingBase)par1Entity);
-//					var3 += EnchantmentHelper.getEnchantmentLevel(Enchantment.knockback.effectId, stack);
-//				}
-//
-//				if (player.isSprinting()){
-//					++var3;
-//				}
-//
-//				if (var2 > 0 || var4 > 0){
-//					boolean var5 = player.fallDistance > 0.0F && !player.onGround && !player.isOnLadder() && !player.isInWater() && !player.isPotionActive(Potion.blindness) && player.ridingEntity == null && par1Entity instanceof EntityLivingBase;
-//
-//					if (var5 && var2 > 0){
-//						var2 *= 1.5F;
-//					}
-//
-//					var2 += var4;
-//					boolean var6 = false;
-//					int var7 = EnchantmentHelper.getEnchantmentLevel(Enchantment.fireAspect.effectId, stack);
-//
-//					if (par1Entity instanceof EntityLivingBase && var7 > 0 && !par1Entity.isBurning()){
-//						var6 = true;
-//						par1Entity.setFire(1);
-//					}
-//
-//					boolean var8 = par1Entity.attackEntityFrom(DamageSource.causePlayerDamage(player), var2);
-//
-//					if (var8){
-//						if (var3 > 0){
-//							par1Entity.addVelocity((double)(-MathHelper.sin(player.rotationYaw * (float)Math.PI / 180.0F) * (float)var3 * 0.5F), 0.1D, (double)(MathHelper.cos(player.rotationYaw * (float)Math.PI / 180.0F) * (float)var3 * 0.5F));
-//							player.motionX *= 0.6D;
-//							player.motionZ *= 0.6D;
-//							player.setSprinting(false);
-//						}
-//
-//						if (var5){
-//							player.onCriticalHit(par1Entity);
-//						}
-//
-//						if (var4 > 0){
-//							player.onEnchantmentCritical(par1Entity);
-//						}
-//
-//						if (var2 >= 18){
-//							player.triggerAchievement(AchievementList.overkill);
-//						}
-//
-//						player.setLastAttacker(par1Entity);
-//
-//						if (par1Entity instanceof EntityLivingBase){
-//							EnchantmentThorns.func_92096_a(player, (EntityLivingBase)par1Entity, player.worldObj.rand);
-//						}
-//					}
-//
-//					ItemStack var9 = stack;
-//
-//					if (var9 != null && par1Entity instanceof EntityLivingBase){
-//						var9.hitEntity((EntityLivingBase)par1Entity, player);
-//
-//						if (var9.stackSize <= 0){
-//							this.destroyTheItem(player, stack);
-//						}
-//					}
-//
-//					if (par1Entity instanceof EntityLivingBase){
-//
-//
-//						player.addStat(StatList.damageDealtStat, Math.round(var2 * 10.0F));
-//
-//						if (var7 > 0 && var8){
-//							par1Entity.setFire(var7 * 4);
-//						}else if (var6){
-//							par1Entity.extinguish();
-//						}
-//					}
-//
-//					player.addExhaustion(0.3F);
-//				}
-//			}
-//		}
-//	}
 	public void destroyTheItem(EntityPlayer player, ItemStack orig)
 	{
-		this.SwordData.setInventorySlotContents(this.SlotNum, (ItemStack)null);
+		this.SwordData.setInventorySlotContents(getSlotNum(orig), (ItemStack)null);
 		MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(player, orig));
 		this.doCastOffSwords(player.worldObj, player);
 		player.inventory.setInventorySlotContents(player.inventory.currentItem, this.makeCloudSwordCore(player.getCurrentEquippedItem()));
 	}
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
 		List slotItem;
-		if(this.SlotNum != 5 && this.SwordData.getStackInSlot(SlotNum) != null)
+		if(getSlotNum(par1ItemStack) != 5 && this.SwordData.getStackInSlot(getSlotNum(par1ItemStack)) != null)
 		{
-			slotItem = this.SwordData.getStackInSlot(SlotNum).getTooltip(par2EntityPlayer, par4);
+			slotItem = this.SwordData.getStackInSlot(getSlotNum(par1ItemStack)).getTooltip(par2EntityPlayer, par4);
 			par3List.addAll(slotItem);
 		}
 	}
-    public boolean hitEntity(ItemStack par1ItemStack, EntityLiving par2EntityLiving, EntityLiving par3EntityLiving)
+	@Override
+    public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLiving, EntityLivingBase par3EntityLiving)
     {
     	par2EntityLiving.hurtResistantTime = 0;
     	return super.hitEntity(par1ItemStack, par2EntityLiving, par3EntityLiving);
     }
- 	public void readPacketData(ByteArrayDataInput data)
- 	{
- 		try{
- 			this.SlotNum = data.readInt();
- 		}catch (Exception e){
- 			e.printStackTrace();
- 		}
- 	}
- 	public void writePacketData(DataOutputStream dos)
- 	{
- 		try{
- 			dos.writeInt(SlotNum);
- 		}catch (Exception e){
- 			e.printStackTrace();
- 		}
- 	}
+	private int getSlotNum(ItemStack item)
+	{
+		if(item.hasTagCompound()){
+			if(!item.getTagCompound().hasKey("slot")){
+				item.getTagCompound().setInteger("slot", 5);
+			}
+		}else{
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setInteger("slot", 5);
+			item.setTagCompound(nbt);
+		}
+		return item.getTagCompound().getInteger("slot");
+	}
+	private void increaseSlotNum(ItemStack item)
+	{
+		if(item.hasTagCompound()){
+			if(!item.getTagCompound().hasKey("slot")){
+				item.getTagCompound().setInteger("slot", 5);
+			}
+		}else{
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setInteger("slot", 5);
+			item.setTagCompound(nbt);
+		}
+		int newSlot = item.getTagCompound().getInteger("slot") + 1;
+		if(newSlot > 5)
+			newSlot = 0;
+		item.getTagCompound().setInteger("slot", newSlot);
+	}
+// 	public void readPacketData(ByteArrayDataInput data)
+// 	{
+// 		try{
+// 			this.SlotNum = data.readInt();
+// 		}catch (Exception e){
+// 			e.printStackTrace();
+// 		}
+// 	}
+// 	public void writePacketData(DataOutputStream dos)
+// 	{
+// 		try{
+// 			dos.writeInt(SlotNum);
+// 		}catch (Exception e){
+// 			e.printStackTrace();
+// 		}
+// 	}
 }

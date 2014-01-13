@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 public class EcTileEntityHugeMateria extends TileEntity implements IInventory {
@@ -209,7 +210,7 @@ public class EcTileEntityHugeMateria extends TileEntity implements IInventory {
 	{
 		for(int i= 0;i<EnchArray[dmg].length;i++)
 		{
-			if(EnchArray[dmg][i] != -1 && MaterialArray[EnchArray[dmg][i]].isItemEqual(material))
+			if(EnchArray[dmg][i] != -1 && isValidItem(MaterialArray[EnchArray[dmg][i]], material))
 			{
 				if(magicArray.contains(EnchArray[dmg][i]))
 					result = new ItemStack(EnchantChanger.ItemMat,1,magicArray.indexOf(EnchArray[dmg][i]) + 1);
@@ -227,6 +228,13 @@ public class EcTileEntityHugeMateria extends TileEntity implements IInventory {
 			}
 		}
 		return false;
+	}
+	private boolean isValidItem(ItemStack item1, ItemStack item2)
+	{
+		if(item1.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+			return item1.itemID == item2.itemID;
+		else
+			return item1.isItemEqual(item2);
 	}
 	private boolean materiaLvUp(ItemStack materia, int lvPlus)
 	{
@@ -315,11 +323,11 @@ public class EcTileEntityHugeMateria extends TileEntity implements IInventory {
 		MaterialArray[18] = new ItemStack(Item.spiderEye);
 		MaterialArray[19] = new ItemStack(Item.slimeBall);
 		MaterialArray[20] = new ItemStack(Item.blazeRod);
-		MaterialArray[21] = new ItemStack(Item.appleGold);
+		MaterialArray[21] = new ItemStack(Item.appleGold, 1, OreDictionary.WILDCARD_VALUE);
 		MaterialArray[32] = new ItemStack(Item.pickaxeGold);
 		MaterialArray[33] = new ItemStack(Item.silk);
 		MaterialArray[34] = new ItemStack(Item.ingotIron);
-		MaterialArray[35] = new ItemStack(Item.appleGold);
+		MaterialArray[35] = new ItemStack(Item.appleGold, 1, OreDictionary.WILDCARD_VALUE);
 		MaterialArray[48] = new ItemStack(Item.fireballCharge);
 		MaterialArray[49] = new ItemStack(Item.slimeBall);
 		MaterialArray[50] = new ItemStack(Item.blazeRod);

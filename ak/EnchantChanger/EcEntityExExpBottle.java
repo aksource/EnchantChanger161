@@ -1,7 +1,6 @@
 package ak.EnchantChanger;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -68,7 +67,6 @@ public class EcEntityExExpBottle extends EntityThrowable implements IThrowableEn
 	@Override
 	public void setThrower(Entity entity)
 	{
-		// TODO 自動生成されたメソッド・スタブ
 
 	}
 }

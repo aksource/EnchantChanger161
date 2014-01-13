@@ -159,6 +159,5 @@ public class EcContainerHugeMateria extends Container {
 
 		return retitem;
 
-		//return super.transferStackInSlot(par1EntityPlayer, par2);
 	}
 }

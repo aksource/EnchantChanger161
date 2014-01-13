@@ -31,6 +31,7 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EcEntityMeteo.class, new EcRenderItemThrowable(EnchantChanger.MeteoSize));
 		RenderingRegistry.registerEntityRenderingHandler(EcEntityApOrb.class, new EcRenderApOrb());
 		TickRegistry.registerTickHandler(new CommonTickHandler(), Side.SERVER);
+//		TickRegistry.registerTickHandler(new ClientTickHandler(), Side.CLIENT);
 		KeyBindingRegistry.registerKeyBinding(new EcKeyHandler(new KeyBinding[]{MagicKey},new boolean[]{false}));
 		MinecraftForgeClient.registerItemRenderer(EnchantChanger.SephirothSwordItemID, (IItemRenderer) EnchantChanger.ItemSephirothSword);
 		MinecraftForgeClient.registerItemRenderer(EnchantChanger.ZackSwordItemID, (IItemRenderer) EnchantChanger.ItemZackSword);

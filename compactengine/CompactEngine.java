@@ -17,14 +17,12 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="CompactEngine", name="CompactEngine", version="build 4(for mc1.6.2-1.6.4  bc4.1.2  Forge#916 )", dependencies ="required-after:BuildCraft|Energy")
+@Mod(modid="CompactEngine", name="CompactEngine", version="build 5(for mc1.6.2-1.6.4  bc4.2.1  Forge#965 )", dependencies ="required-after:BuildCraft|Energy")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 public class CompactEngine
 {
@@ -68,9 +66,9 @@ public class CompactEngine
 //		OilFlowingSpeed = config.get(Configuration.CATEGORY_GENERAL, "OilFlowingSpeed", 20, "Change OilFlowingSpeed. Default:20tick").getInt();
 		config.save();
 		engineBlock =new BlockCompactEngine(blockID_CompactEngine);	
-		GameRegistry.registerBlock(engineBlock, "compactengine");
+		GameRegistry.registerBlock(engineBlock, "compactengineblock");
 		engineItem  = new ItemCompactEngine(blockID_CompactEngine - 256);		
-		GameRegistry.registerItem(engineItem, "compactengine", "CompactEngine");
+		GameRegistry.registerItem(engineItem, "compactengineitem", "CompactEngine");
 		energyChecker = new ItemEnergyChecker(itemID_energyChecker - 256).setUnlocalizedName("compactengine:energyChecker").setTextureName("compactengine:energyChecker");
 		GameRegistry.registerItem(energyChecker, "energychecker", "CompactEngine");
 	}
@@ -88,7 +86,6 @@ public class CompactEngine
 		engine3 = new ItemStack(engineBlock, 1, 2);
 		engine4 = new ItemStack(engineBlock, 1, 3);
 		proxy.registerTileEntitySpecialRenderer();
-//		GameRegistry.registerTileEntity(TileCompactEngine.class, "tile.compactengine");
 		GameRegistry.registerTileEntity(TileCompactEngine8.class, "tile.compactengine8");
 		GameRegistry.registerTileEntity(TileCompactEngine32.class, "tile.compactengine32");
 		GameRegistry.registerTileEntity(TileCompactEngine128.class, "tile.compactengine128");
@@ -113,48 +110,6 @@ public class CompactEngine
 		}
 		GameRegistry.addRecipe(new ItemStack(energyChecker), new Object[]{"w", "i",
 			'w', BuildCraftTransport.pipePowerWood, 'i', Item.ingotIron});
-	}
-	@Mod.EventHandler
-	public void postInit(FMLPostInitializationEvent event)
-	{
-		LanguageRegistry.addName(engine1, "Redstone Engine x8");
-		LanguageRegistry.instance().addNameForObject(engine1, "ja_JP", "8倍圧縮 木エンジン");
-		LanguageRegistry.addName(engine2, "Redstone Engine x32");
-		LanguageRegistry.instance().addNameForObject(engine2, "ja_JP", "32倍圧縮 木エンジン");
-		LanguageRegistry.addName(engine3, "Redstone Engine x128");
-		LanguageRegistry.instance().addNameForObject(engine3, "ja_JP", "128倍圧縮 木エンジン");
-		LanguageRegistry.addName(engine4, "Redstone Engine x512");
-		LanguageRegistry.instance().addNameForObject(engine4, "ja_JP", "512倍圧縮 木エンジン");
-//		LanguageRegistry.addName(engine5, "Redstone Engine x2048");
-//		LanguageRegistry.instance().addNameForObject(engine5, "ja_JP", "2048倍圧縮 木エンジン");
-		LanguageRegistry.addName(energyChecker, "Energy Checker");
-		LanguageRegistry.instance().addNameForObject(energyChecker, "ja_JP", "エネルギー計測器");
-		LanguageRegistry.instance().addStringLocalization("tile.CompactEngineWood.level_1", "Redstone Engine x8");
-		LanguageRegistry.instance().addStringLocalization("tile.CompactEngineWood.level_1", "ja_JP", "8倍圧縮 木エンジン");
-		LanguageRegistry.instance().addStringLocalization("tile.CompactEngineWood.level_2", "Redstone Engine x32");
-		LanguageRegistry.instance().addStringLocalization("tile.CompactEngineWood.level_2", "ja_JP", "32倍圧縮 木エンジン");
-		LanguageRegistry.instance().addStringLocalization("tile.CompactEngineWood.level_3", "Redstone Engine x128");
-		LanguageRegistry.instance().addStringLocalization("tile.CompactEngineWood.level_3", "ja_JP", "128倍圧縮 木エンジン");
-		LanguageRegistry.instance().addStringLocalization("tile.CompactEngineWood.level_4", "Redstone Engine x512");
-		LanguageRegistry.instance().addStringLocalization("tile.CompactEngineWood.level_4", "ja_JP", "512倍圧縮 木エンジン");
-//		LanguageRegistry.instance().addStringLocalization("tile.CompactEngineWood.level_5.name", "Redstone Engine x2048");
-//		LanguageRegistry.instance().addStringLocalization("tile.CompactEngineWood.level_5.name", "ja_JP", "2048倍圧縮 木エンジン");
-
-		LanguageRegistry.instance().addStringLocalization("energyChecker.maxPower"  , "maxPower"  );
-		LanguageRegistry.instance().addStringLocalization("energyChecker.maxPower"  , "ja_JP", "出力"  );
-		LanguageRegistry.instance().addStringLocalization("energyChecker.energy"    , "energy"    );
-		LanguageRegistry.instance().addStringLocalization("energyChecker.energy"    , "ja_JP", "熱量"    );
-		LanguageRegistry.instance().addStringLocalization("energyChecker.workEnergy", "workEnergy");
-		LanguageRegistry.instance().addStringLocalization("energyChecker.workEnergy", "ja_JP", "受入限界");
-		LanguageRegistry.instance().addStringLocalization("energyChecker.pipeEnergy", "pipeEnergy");
-		LanguageRegistry.instance().addStringLocalization("energyChecker.pipeEnergy", "ja_JP", "流量");
-		LanguageRegistry.instance().addStringLocalization("energyChecker.heat",       "Heat");
-		LanguageRegistry.instance().addStringLocalization("energyChecker.heat",       "ja_JP","温度");
-		LanguageRegistry.instance().addStringLocalization("engine.alert", "CompactEngine x %s explosion is limit %d:00 (x:%d y:%d z:%d)");
-		LanguageRegistry.instance().addStringLocalization("engine.alert", "ja_JP", "%s倍圧縮木エンジンがあと%d分で爆発します。  座標 x:%d y:%d z:%d");
-		LanguageRegistry.instance().addStringLocalization("engine.explode", "Explode! range %s (x:%d y:%d z:%d)");
-		LanguageRegistry.instance().addStringLocalization("engine.explode", "ja_JP", "爆発力%sの圧縮木エンジンが爆発しました。  座標 x:%d y:%d z:%d");
-
 	}
 	public static void addChat(String message)
 	{

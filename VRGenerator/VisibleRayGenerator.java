@@ -23,9 +23,8 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="VisibleRayGenerator", name="VisibleRayGenerator", version="build 3 (for mc1.6.4  ic22.0.336ex  Forge#953)", dependencies ="required-after:IC2")
+@Mod(modid="VisibleRayGenerator", name="VisibleRayGenerator", version="build 4 (for mc1.6.4  ic22.0.336ex  Forge#965)", dependencies ="required-after:IC2")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 public class VisibleRayGenerator
 {
@@ -122,23 +121,6 @@ public class VisibleRayGenerator
 	
 	public void initIC()
 	{
-		LanguageRegistry.addName(solarBlock, "CE Solar");
-		LanguageRegistry.instance().addNameForObject(solarBlock, "ja_JP", "人工光ソーラー");
-		LanguageRegistry.instance().addStringLocalization("tile.CESolar.name", "VisibleRay Generator");
-		LanguageRegistry.instance().addStringLocalization("tile.CESolar.name", "ja_JP", "人工光ソーラー");
-		LanguageRegistry.addName(lavaUpdater, "Lava Updater");
-		LanguageRegistry.instance().addNameForObject(lavaUpdater, "ja_JP", "溶岩流更新器");
-		for(int i = 0; i < CESolarTileEntity.power.length; i++)
-		{
-			LanguageRegistry.instance().addStringLocalization("CE.block.Solar."+i+".name", "CE Solar "+CESolarTileEntity.power[i]+" EU/t");
-			LanguageRegistry.instance().addStringLocalization("CE.block.Solar."+i+".name", "ja_JP", "人工光ソーラー "+CESolarTileEntity.power[i]+" EU/t");
-		}
-		for(int i = 0; i < CEGeneratorTileEntity.power.length; i++)
-		{
-			addName("CE.block.Generator."+i+".name",
-				"CE Permanent light generator "+CEGeneratorTileEntity.power[i]+" EU/t",
-				"永久光発電機 "+CEGeneratorTileEntity.power[i]+" EU/t");
-		}
 		GameRegistry.registerTileEntity(CESolarTileEntity.class, "CE_Solar");
 		GameRegistry.registerTileEntity(CEGeneratorTileEntity.class, "CE_Generator");
 		
@@ -243,27 +225,5 @@ public class VisibleRayGenerator
 		}
 		
 
-	}
-	public static void addName(Block block, String en, String jp)
-	{
-		LanguageRegistry.addName(block, en);
-		LanguageRegistry.instance().addNameForObject(block, "ja_JP", jp);
-	}
-
-	public static void addName(Item item, String en, String jp)
-	{
-		LanguageRegistry.addName(item, en);
-		LanguageRegistry.instance().addNameForObject(item, "ja_JP", jp);
-	}
-
-	public static void addName(String name, String en, String jp)
-	{
-		LanguageRegistry.instance().addStringLocalization(name, en);
-		LanguageRegistry.instance().addStringLocalization(name, "ja_JP", jp);
-	}
-
-	public static void localize(String name, String jp)
-	{
-		LanguageRegistry.instance().addStringLocalization(name, "ja_JP", jp);
 	}
 }

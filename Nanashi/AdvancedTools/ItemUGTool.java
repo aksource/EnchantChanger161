@@ -223,7 +223,7 @@ public class ItemUGTool extends ItemTool
 		boolean var6 = world.setBlock(var1.x, var1.y, var1.z, 0);
 
 		if (var6){
-			Block.blocksList[var2].onBlockDestroyedByPlayer(world, var2, var1.x, var1.y, var1.z);
+			Block.blocksList[var2].onBlockDestroyedByPlayer(world, var1.x, var1.y, var1.z, var5);
 			if(AdvancedTools.dropGather){
 				Block.blocksList[var2].harvestBlock(world, var4, MathHelper.ceiling_double_int( var4.posX), MathHelper.ceiling_double_int( var4.posY), MathHelper.ceiling_double_int( var4.posZ), var5);
 			}else{

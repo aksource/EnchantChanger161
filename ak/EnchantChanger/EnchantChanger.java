@@ -2,16 +2,23 @@ package ak.EnchantChanger;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,10 +33,9 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(modid="EnchantChanger", name="EnchantChanger", version="1.6n-universal",dependencies="required-after:FML")
-@NetworkMod(clientSideRequired=true, serverSideRequired=false, channels={"EC|Levi","EC|CSC","EC|CS","EC|Sw"}, packetHandler=Packet_EnchantChanger.class)
+@NetworkMod(clientSideRequired=true, serverSideRequired=false, channels={"EC|Sw"}, packetHandler=Packet_EnchantChanger.class)
 public class EnchantChanger
 {
 	public static int ExExpBottleID ;
@@ -186,9 +192,9 @@ public class EnchantChanger
 		BlockMat = (new EcBlockMaterialize(EnchantChangerID)).setCreativeTab(tabsEChanger).setUnlocalizedName("EnchantChanger");
 		GameRegistry.registerBlock(BlockMat,"EnchantChanger");		
 		HugeMateria = new EcBlockHugeMateria(HugeMateriaID).setUnlocalizedName("HugeMateria");
-		GameRegistry.registerBlock(HugeMateria, "hugemateria");
+		GameRegistry.registerBlock(HugeMateria, "blockhugemateria");
 		ItemHugeMateria = new EcItemHugeMateria(HugeMateria.blockID - 256).setUnlocalizedName(this.EcTextureDomain + "HugeMateria").setCreativeTab(tabsEChanger);
-		GameRegistry.registerItem(ItemHugeMateria, "hugemateria", "EnchantChanger");
+		GameRegistry.registerItem(ItemHugeMateria, "itemhugemateria", "EnchantChanger");
 
 		Meteo = new EcEnchantmentMeteo(this.EnchantmentMeteoId,0);
 		Holy = new EcEnchantmentHoly(this.EndhantmentHolyId,0);
@@ -234,7 +240,10 @@ public class EnchantChanger
 		GameRegistry.addRecipe(new EcMasterMateriaRecipe());
 		GameRegistry.addShapelessRecipe(new ItemStack(ItemMat,1, 0), new Object[]{new ItemStack(Item.diamond, 1), new ItemStack(Item.enderPearl, 1)});
 		GameRegistry.addRecipe(new ItemStack(ItemZackSword, 1), new Object[]{" X","XX"," Y", Character.valueOf('X'),Block.blockIron, Character.valueOf('Y'),Item.ingotIron});
-		GameRegistry.addRecipe(new ItemStack(ItemCloudSwordCore, 1), new Object[]{" X ","XYX"," Z ", Character.valueOf('X'), Block.blockIron, Character.valueOf('Y'), new ItemStack(ItemMat, 1,0), Character.valueOf('Z'),Item.ingotIron});
+		if(this.Difficulty < 2)
+			GameRegistry.addRecipe(new ItemStack(ItemCloudSwordCore, 1), new Object[]{" X ","XYX"," Z ", Character.valueOf('X'), Block.blockIron, Character.valueOf('Y'), new ItemStack(ItemMat, 1,0), Character.valueOf('Z'),Item.ingotIron});
+		else
+			GameRegistry.addRecipe(new ItemStack(ItemCloudSwordCore, 1), new Object[]{" X ","DYD"," Z ", Character.valueOf('X'), Block.blockIron, Character.valueOf('Y'), new ItemStack(ItemMat, 1,0), Character.valueOf('Z'),Item.ingotIron, 'D', Item.diamond});
 		GameRegistry.addRecipe(new ItemStack(ItemSephirothSword, 1), new Object[]{"  A"," B ","C  ",Character.valueOf('A'),Item.ingotIron, Character.valueOf('B'),new ItemStack(Item.swordDiamond, 1, 0), Character.valueOf('C'),new ItemStack(ItemMat, 1, 1)});
 		GameRegistry.addRecipe(new ItemStack(ItemUltimateWeapon, 1), new Object[]{" A ","ABA"," C ", Character.valueOf('A'),Block.blockDiamond, Character.valueOf('B'), new ItemStack(MasterMateria, 1,OreDictionary.WILDCARD_VALUE), Character.valueOf('C'),Item.stick});
 		GameRegistry.addRecipe(new ItemStack(ItemImitateSephirothSword), "  A"," A ", "B  ", 'A', Item.ingotIron, 'B', Item.swordIron);
@@ -248,7 +257,6 @@ public class EnchantChanger
 			GameRegistry.addRecipe(new ItemStack(Item.expBottle, 8), new Object[]{"XXX","XYX","XXX", Character.valueOf('X'),new ItemStack(Item.potion, 1, 0), Character.valueOf('Y'), new ItemStack(Item.diamond, 1)});
 		GameRegistry.addRecipe(new ItemStack(ItemExExpBottle, 8), new Object[]{"XXX","XYX","XXX", Character.valueOf('X'),new ItemStack(Item.expBottle, 1, 0), Character.valueOf('Y'), new ItemStack(Block.blockDiamond, 1)});
 		GameRegistry.addRecipe(new ItemStack(Block.dragonEgg,1), new Object[]{"XXX","XYX","XXX",Character.valueOf('X'), Item.eyeOfEnder, Character.valueOf('Y'), new ItemStack(MasterMateria,1,OreDictionary.WILDCARD_VALUE)});
-		AddLocalization();
 		if(this.enableDungeonLoot)
 			this.DungeonLootItemResist();
 	}
@@ -256,66 +264,6 @@ public class EnchantChanger
 	public void postInit(FMLPostInitializationEvent event)
 	{
 		this.loadMTH = Loader.isModLoaded("MultiToolHolders");
-	}
-	public void AddLocalization()
-	{
-		LanguageRegistry.addName(ItemExExpBottle, "Ex Exp Bottle");
-		LanguageRegistry.addName(BlockMat, "Enchant Changer");
-		LanguageRegistry.addName(ItemMat,  "Materia");
-		LanguageRegistry.addName(HugeMateria, "HugeMateria");
-		LanguageRegistry.addName(ItemHugeMateria, "HugeMateria");
-		LanguageRegistry.addName(ItemZackSword, "Buster Sword");
-		LanguageRegistry.addName(ItemCloudSword, "Union Sword");
-		LanguageRegistry.addName(ItemCloudSwordCore, "First Sword");
-		LanguageRegistry.addName(ItemSephirothSword, "Masamune Blade");
-		LanguageRegistry.addName(ItemUltimateWeapon, "Ultimate Weapon");
-		LanguageRegistry.addName(ItemPortableEnchantChanger, "Portable Enchant Changer");
-		LanguageRegistry.addName(ItemPortableEnchantmentTable,"Portable Enchantment Table");
-		LanguageRegistry.addName(ItemImitateSephirothSword, "1/1 Masamune Blade(Imitation)");
-		LanguageRegistry.instance().addStringLocalization("enchantment.Meteo", "Meteo");
-		LanguageRegistry.instance().addStringLocalization("enchantment.Holy", "Holy");
-		LanguageRegistry.instance().addStringLocalization("enchantment.Teleport", "Teleport");
-		LanguageRegistry.instance().addStringLocalization("enchantment.Floating", "Floating");
-		LanguageRegistry.instance().addStringLocalization("enchantment.Thunder", "Thunder");
-		LanguageRegistry.instance().addNameForObject(BlockMat, "ja_JP","エンチャントチェンジャー");
-		LanguageRegistry.instance().addNameForObject(ItemMat, "ja_JP", "マテリア");
-		LanguageRegistry.instance().addNameForObject(HugeMateria, "ja_JP","ヒュージマテリア");
-		LanguageRegistry.instance().addNameForObject(ItemHugeMateria, "ja_JP","ヒュージマテリア");
-		LanguageRegistry.instance().addNameForObject(ItemExExpBottle, "ja_JP", "エンチャントの瓶EX");
-		LanguageRegistry.instance().addNameForObject(ItemZackSword, "ja_JP","バスターソード");
-		LanguageRegistry.instance().addNameForObject(ItemCloudSword, "ja_JP","合体剣");
-		LanguageRegistry.instance().addNameForObject(ItemCloudSwordCore,"ja_JP" ,"ファースト剣");
-		LanguageRegistry.instance().addNameForObject(ItemSephirothSword,"ja_JP","正宗");
-		LanguageRegistry.instance().addNameForObject(ItemUltimateWeapon,"ja_JP","究極剣");
-		LanguageRegistry.instance().addNameForObject(ItemPortableEnchantChanger, "ja_JP","携帯エンチャントチェンジャー");
-		LanguageRegistry.instance().addNameForObject(ItemPortableEnchantmentTable, "ja_JP","携帯エンチャントテーブル");
-		LanguageRegistry.instance().addNameForObject(ItemImitateSephirothSword, "ja_JP","1/1 マサムネブレード");
-		LanguageRegistry.instance().addStringLocalization("ItemMateria.Base.name", "Inactive Materia");
-		LanguageRegistry.instance().addStringLocalization("ItemMateria.Base.name", "ja_JP","不活性マテリア");
-		LanguageRegistry.instance().addStringLocalization("ItemMateria.name", "Materia");
-		LanguageRegistry.instance().addStringLocalization("ItemMateria.name", "ja_JP","マテリア");
-		LanguageRegistry.instance().addStringLocalization("container.materializer", "Enchant Changer");
-		LanguageRegistry.instance().addStringLocalization("container.materializer", "ja_JP", "エンチャントチェンジャー");
-		LanguageRegistry.instance().addStringLocalization("container.hugeMateria", "HugeMateria");
-		LanguageRegistry.instance().addStringLocalization("container.hugeMateria", "ja_JP", "ヒュージマテリア");
-		LanguageRegistry.instance().addStringLocalization("Key.EcMagic", "Magic Key");
-		LanguageRegistry.instance().addStringLocalization("Key.EcMagic", "ja_JP", "魔法キー");
-
-		for(int i=0;i < EcItemMateria.MagicMateriaNum;i++)
-		{
-			LanguageRegistry.instance().addStringLocalization("ItemMateria." + EcItemMateria.MateriaMagicNames[i]+".name", EcItemMateria.MateriaMagicNames[i]+" Materia");
-			LanguageRegistry.instance().addStringLocalization("ItemMateria." + EcItemMateria.MateriaMagicNames[i]+".name", "ja_JP",EcItemMateria.MateriaMagicJPNames[i]+"マテリア");
-		}
-
-		for(int i = 0;i< EcItemMasterMateria.MasterMateriaNum;i++)
-		{
-			LanguageRegistry.instance().addStringLocalization("ItemMasterMateria." + i + ".name", "Master Materia of " + EcItemMasterMateria.MasterMateriaNames[i]);
-			LanguageRegistry.instance().addStringLocalization("ItemMasterMateria." + i + ".name","ja_JP", EcItemMasterMateria.MasterMateriaJPNames[i] + "のマスターマテリア");
-		}
-		for(int i = 11;i<this.MaxLv + 1;i++)
-		{
-			LanguageRegistry.instance().addStringLocalization("enchantment.level."+i, i+"");
-		}
 	}
 	private void initMaps()
 	{
@@ -406,6 +354,62 @@ public class EnchantChanger
 			}
 		}
 		return Lv;
+	}
+	public static MovingObjectPosition getMouseOverCustom(EntityPlayer player, World world, double reach)
+	{
+		Entity pointedEntity = null;
+		float var1=1F;
+		double distLimit = reach;
+		double distBlock = distLimit;
+		double viewX = player.getLookVec().xCoord;
+		double viewY = player.getLookVec().yCoord;
+		double viewZ = player.getLookVec().zCoord;
+		double PlayerposX = player.posX;//player.prevPosX + (player.posX - player.prevPosX) * (double)var1;
+		double PlayerposY = player.posY + 1.62D - (double)player.yOffset;//player.prevPosY + (player.posY - player.prevPosY) * (double)var1;
+		double PlayerposZ = player.posZ;//player.prevPosZ + (player.posZ - player.prevPosZ) * (double)var1;
+		Vec3 PlayerPosition = world.getWorldVec3Pool().getVecFromPool(PlayerposX, PlayerposY, PlayerposZ);
+		Vec3 PlayerLookVec = PlayerPosition.addVector(viewX * distLimit, viewY * distLimit, viewZ * distLimit);
+		MovingObjectPosition MOP = world.clip(PlayerPosition, PlayerLookVec);
+		if(MOP != null)
+			distBlock = MOP.hitVec.distanceTo(PlayerPosition);
+		List list = world.getEntitiesWithinAABBExcludingEntity(player, player.boundingBox.addCoord(viewX * distLimit, viewY * distLimit, viewZ * distLimit).expand((double)var1, (double)var1, (double)var1));
+		double dist1 = distBlock;
+		for (int i = 0; i < list.size(); ++i)
+		{
+			Entity entity = (Entity)list.get(i);
+
+			if (entity.canBeCollidedWith())
+			{
+				float f2 = entity.getCollisionBorderSize();
+				AxisAlignedBB axisalignedbb = entity.boundingBox.expand((double)f2, (double)f2, (double)f2);
+				MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(PlayerPosition, PlayerLookVec);
+
+				if (axisalignedbb.isVecInside(PlayerPosition))
+				{
+					if (0.0D < dist1 || dist1 == 0.0D)
+					{
+						pointedEntity = entity;
+						dist1 = 0.0D;
+					}
+				}
+				else if (movingobjectposition != null)
+				{
+					double d3 = PlayerPosition.distanceTo(movingobjectposition.hitVec);
+
+					if (d3 < dist1 || dist1 == 0.0D)
+					{
+						pointedEntity = entity;
+						dist1 = d3;
+					}
+				}
+			}
+		}
+
+		if (pointedEntity != null && (dist1 < distBlock || MOP == null))
+		{
+			MOP = new MovingObjectPosition(pointedEntity);
+		}
+		return MOP;
 	}
 	public void DungeonLootItemResist()
 	{

@@ -48,19 +48,18 @@ public class EcItemSword extends ItemSword implements IItemRenderer
 	public EcItemSword(int par1 , EnumToolMaterial toolMaterial)
 	{
 		super(par1, toolMaterial);
-		this.setMaxDamage(-1);
+//		this.setMaxDamage(-1);
 	}
 	@Override
-	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {
-		if(par3Entity instanceof EntityPlayer && par5)
-		{
-			if(par2World.isRemote)
-			{
+	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5){
+		if(par3Entity instanceof EntityPlayer && par5){
+			if(par2World.isRemote){
 				this.toggle = EcKeyHandler.MagicKeyDown && EcKeyHandler.MagicKeyUp;
 				PacketDispatcher.sendPacketToServer(Packet_EnchantChanger.getPacketSword(this));
+			}else if(par1ItemStack.getItemDamage() > 0 && par2World.getTotalWorldTime() % 100L == 0L){
+				par1ItemStack.setItemDamage(par1ItemStack.getItemDamage() - 1);;
 			}
-			if(toggle)
-			{
+			if(toggle){
 				EcKeyHandler.MagicKeyUp = false;
 				doMagic(par1ItemStack, par2World, (EntityPlayer) par3Entity);
 			}
@@ -87,14 +86,7 @@ public class EcItemSword extends ItemSword implements IItemRenderer
 	}
 	public static boolean hasFloat(ItemStack itemstack)
 	{
-		if(EnchantmentHelper.getEnchantmentLevel(EnchantChanger.EnchantmentFloatId, itemstack) > 0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return EnchantmentHelper.getEnchantmentLevel(EnchantChanger.EnchantmentFloatId, itemstack) > 0;
 	}
 	public Item setNoRepair()
 	{
@@ -116,13 +108,14 @@ public class EcItemSword extends ItemSword implements IItemRenderer
 		else if(item.getItem() instanceof EcItemCloudSword)
 			CModel.renderItem(item, (EntityLivingBase) data[1]);
 		else if(item.getItem() instanceof EcItemCloudSwordCore)
-			CCModel.renderItem(item, (EntityLivingBase) data[1], ((EcItemCloudSwordCore)item.getItem()).ActiveMode);
+			CCModel.renderItem(item, (EntityLivingBase) data[1], ((EcItemCloudSwordCore)item.getItem()).isActive(item));
 		else if(item.getItem() instanceof EcItemSephirothSword || item.getItem() instanceof EcItemSephirothSwordImit)
 			SModel.renderItem(item, (EntityLivingBase) data[1]);
 		else if(item.getItem() instanceof EcItemUltimateWeapon)
 			UModel.renderItem(item, (EntityLivingBase) data[1]);
 	}
-	public void attackTargetEntityWithTheItem(Entity par1Entity, EntityPlayer player,ItemStack stack)
+	//内蔵武器切り替え用攻撃メソッドの移植
+	public void attackTargetEntityWithTheItem(Entity par1Entity, EntityPlayer player,ItemStack stack, boolean cancelHurt)
 	{
 		if (MinecraftForge.EVENT_BUS.post(new AttackEntityEvent(player, par1Entity))){
 			return;
@@ -202,7 +195,8 @@ public class EcItemSword extends ItemSword implements IItemRenderer
 
 					if (var9 != null && par1Entity instanceof EntityLivingBase){
 						var9.hitEntity((EntityLivingBase)par1Entity, player);
-						par1Entity.hurtResistantTime = 0;
+						if(cancelHurt)
+							par1Entity.hurtResistantTime = 0;
 						if (var9.stackSize <= 0){
 							this.destroyTheItem(player, stack);
 						}
@@ -265,7 +259,8 @@ public class EcItemSword extends ItemSword implements IItemRenderer
 		return calc > 0 ? 1 + attacker.worldObj.rand.nextInt(calc) : 0;
 	}
 	public void destroyTheItem(EntityPlayer player, ItemStack orig){}
-	public void readPacketData(ByteArrayDataInput data)
+	//魔法キーのトグル判定用パケット読み込み
+	public void readPacketToggleData(ByteArrayDataInput data)
 	{
 		try
 		{
@@ -276,7 +271,8 @@ public class EcItemSword extends ItemSword implements IItemRenderer
 			e.printStackTrace();
 		}
 	}
-	public void writePacketData(DataOutputStream dos)
+	//魔法キーのトグル判定用パケット書き込み
+	public void writePacketToggleData(DataOutputStream dos)
 	{
 		try
 		{

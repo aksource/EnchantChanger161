@@ -22,9 +22,8 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="AdvancedTools", name="AdvancedTools", version="2.0r-Unofficial",dependencies="required-after:FML")
+@Mod(modid="AdvancedTools", name="AdvancedTools", version="2.0s-Unofficial",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 
 public class AdvancedTools
@@ -105,7 +104,6 @@ public class AdvancedTools
 	{
 		MinecraftForge.EVENT_BUS.register(new PlayerClickHook());
 		this.addRecipe();
-		this.setName();
 		this.entitySetup();
 		proxy.registerRenderInformation();
 	}
@@ -172,7 +170,7 @@ public class AdvancedTools
 		UGDiamondPickaxe = (new ItemUGPickaxe(ItemID_INDEX + 10, EnumToolMaterial.EMERALD, 3.0F)).setUnlocalizedName("UpgradedDiamondPickaxe").setCreativeTab(tabsAT);
 		GameRegistry.registerItem(UGDiamondPickaxe, "ugdiamondpickaxe");
 		UGGoldPickaxe = (new ItemUGPickaxe(ItemID_INDEX + 11, EnumToolMaterial.GOLD, 2.5F)).setUnlocalizedName("UpgradedGoldenPickaxe").setCreativeTab(tabsAT);
-		GameRegistry.registerItem(UGIronPickaxe, "uggoldpickaxe");
+		GameRegistry.registerItem(UGGoldPickaxe, "uggoldpickaxe");
 		UGWoodAxe = (new ItemUGAxe(ItemID_INDEX + 12, EnumToolMaterial.WOOD)).setUnlocalizedName("UpgradedWoodenAxe").setCreativeTab(tabsAT);
 		GameRegistry.registerItem(UGWoodAxe, "ugwoodaxe");
 		UGStoneAxe = (new ItemUGAxe(ItemID_INDEX + 13, EnumToolMaterial.STONE, 1.5F)).setUnlocalizedName("UpgradedStoneAxe").setCreativeTab(tabsAT);
@@ -182,7 +180,7 @@ public class AdvancedTools
 		UGDiamondAxe = (new ItemUGAxe(ItemID_INDEX + 15, EnumToolMaterial.EMERALD, 3.0F)).setUnlocalizedName("UpgradedDiamondAxe").setCreativeTab(tabsAT);
 		GameRegistry.registerItem(UGDiamondAxe, "ugdiamondaxe");
 		UGGoldAxe = (new ItemUGAxe(ItemID_INDEX + 16, EnumToolMaterial.GOLD, 2.5F)).setUnlocalizedName("UpgradedGoldenAxe").setCreativeTab(tabsAT);
-		GameRegistry.registerItem(UGIronAxe, "uggoldaxe");
+		GameRegistry.registerItem(UGGoldAxe, "uggoldaxe");
 		BlazeBlade = (new ItemUQBlazeBlade(ItemID_INDEX + 17, EnumToolMaterial.EMERALD, 4)).setUnlocalizedName("BlazeBlade").setMaxDamage(1200).setCreativeTab(tabsAT);
 		GameRegistry.registerItem(BlazeBlade, "blazeblade");
 		IceHold = (new ItemUQIceHold(ItemID_INDEX + 18, EnumToolMaterial.EMERALD, 4)).setUnlocalizedName("FreezeHold").setMaxDamage(1200).setCreativeTab(tabsAT);
@@ -214,7 +212,7 @@ public class AdvancedTools
 		InfinitePickaxe = (new ItemUGPickaxe(ItemID_INDEX + 31, EnumToolMaterial.EMERALD)).setUnlocalizedName("InfinityPickaxe").setMaxDamage(0).setCreativeTab(tabsAT);
 		GameRegistry.registerItem(InfinitePickaxe, "infinitepickaxe");
 		InfiniteAxe = (new ItemUGAxe(ItemID_INDEX + 32, EnumToolMaterial.GOLD)).setUnlocalizedName("InfinityAxe").setMaxDamage(0).setCreativeTab(tabsAT);
-		GameRegistry.registerItem(InfiniteHoe, "infiniteaxe");
+		GameRegistry.registerItem(InfiniteAxe, "infiniteaxe");
 		InfiniteShovel = (new ItemUGShovel(ItemID_INDEX + 33, EnumToolMaterial.GOLD)).setUnlocalizedName("InfinityShovel").setMaxDamage(0).setCreativeTab(tabsAT);
 		GameRegistry.registerItem(InfiniteShovel, "infiniteshovel");
 		InfiniteHoe = (new ItemInfHoe(ItemID_INDEX + 34, EnumToolMaterial.GOLD)).setUnlocalizedName("InfinityHoe").setMaxDamage(0).setCreativeTab(tabsAT);
@@ -256,47 +254,6 @@ public class AdvancedTools
 		GameRegistry.addRecipe(new ItemStack(HolySaber), new Object[] {"XBX", "EAC", "XDX", 'A', BlazeBlade, 'B', IceHold, 'C', AsmoSlasher, 'D', PlanetGuardian, 'E', StormBringer, 'X', Block.glowStone});
 		GameRegistry.addRecipe(new ItemStack(ThrowingKnife, 16), new Object[] {" X", "# ", 'X', Item.ingotIron, '#', Item.stick});
 		GameRegistry.addShapelessRecipe(new ItemStack(PoisonKnife), new Object[] {ThrowingKnife, Item.spiderEye});
-	}
-
-	public void setName()
-	{
-		LanguageRegistry.addName(RedEnhancer, "RedEnhancer");
-		LanguageRegistry.addName(BlueEnhancer, "BlueEnhancer");
-		LanguageRegistry.addName(InfiniteSword, "Infinite Possibility");
-		LanguageRegistry.addName(InfinitePickaxe, "Infinity Pickaxe");
-		LanguageRegistry.addName(InfiniteAxe, "Infinity Axe");
-		LanguageRegistry.addName(InfiniteShovel, "Infinity Shovel");
-		LanguageRegistry.addName(InfiniteHoe, "Infinity Hoe");
-		Item[][] var1 = new Item[][] {{UGWoodShovel, UGStoneShovel, UGIronShovel, UGDiamondShovel, UGGoldShovel, InfiniteShovel}, {UGWoodPickaxe, UGStonePickaxe, UGIronPickaxe, UGDiamondPickaxe, UGGoldPickaxe, InfinitePickaxe}, {UGWoodAxe, UGStoneAxe, UGIronAxe, UGDiamondAxe, UGGoldAxe, InfiniteAxe}};
-
-		for (int var2 = 0; var2 < var1.length; ++var2){
-			for (int var3 = 0; var3 < var1[0].length; ++var3){
-				String var4 = "item." + ((ItemUGTool)var1[var2][var3]).BaseName + ".name";
-				LanguageRegistry.instance().addStringLocalization(var4, ((ItemUGTool)var1[var2][var3]).BaseName);
-			}
-		}
-
-		LanguageRegistry.addName(BlazeBlade, "Blaze Blade");
-		LanguageRegistry.addName(IceHold, "Freeze Hold");
-		LanguageRegistry.addName(AsmoSlasher, "Asmo Slasher");
-		LanguageRegistry.addName(PlanetGuardian, "Planet Guardian");
-		LanguageRegistry.addName(StormBringer, "Storm Bringer");
-		LanguageRegistry.addName(NEGI, "N E G I");
-		LanguageRegistry.addName(LuckLuck, "Lucky&Lucky");
-		LanguageRegistry.addName(SmashBat, "Smash Bat");
-		LanguageRegistry.addName(HolySaber, "Holy Saber");
-		LanguageRegistry.addName(CrossBow, "Automatic Crossbow");
-		LanguageRegistry.addName(ThrowingKnife, "Throwing Knife");
-		LanguageRegistry.addName(PoisonKnife, "Poison Knife");
-		LanguageRegistry.addName(DevilSword, "Devil Sword");
-		LanguageRegistry.addName(GenocideBlade, "Genocide Blade");
-		
-		LanguageRegistry.instance().addStringLocalization("entity.AdvancedTools.HighSkeleton.name", "HighSkeleton");
-		LanguageRegistry.instance().addStringLocalization("entity.AdvancedTools.SkeletonSniper.name", "SkeletonSniper");
-		LanguageRegistry.instance().addStringLocalization("entity.AdvancedTools.ZombieWarrior.name", "ZombieWarrior");
-		LanguageRegistry.instance().addStringLocalization("entity.AdvancedTools.FireZombie.name", "FireZombie");
-		LanguageRegistry.instance().addStringLocalization("entity.AdvancedTools.HighSpeedCreeper.name", "HighSpeedCreeper");
-		LanguageRegistry.instance().addStringLocalization("entity.AdvancedTools.GoldCreeper.name", "GoldCreeper");
 	}
 	public static MovingObjectPosition setMousePoint(World world, EntityPlayer entityplayer)
     {
