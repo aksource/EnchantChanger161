@@ -36,15 +36,16 @@ public class SpawnChange
 		SlimeSpawnHeight = config.get(Configuration.CATEGORY_GENERAL, "SlimeSpawnHeight", 16, "スライムがスポーンする高さ。バニラは 40, min = 0, max = 255").getInt();
 		SlimeSpawnHeight = (SlimeSpawnHeight <0)?0:(SlimeSpawnHeight>255)?255:SlimeSpawnHeight;
 		config.save();
-	}
-	@Mod.EventHandler
-	public void load(FMLInitializationEvent event)
-	{
 		if(!portalSpawn)
 		{
 			Block.blocksList[49] = null;
 			Block obsidian = (new scBlockObsidian(49)).setHardness(50.0F).setResistance(2000.0F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("obsidian");
 		}
+	}
+	@Mod.EventHandler
+	public void load(FMLInitializationEvent event)
+	{
+
 		
 		if(SlimeSpawnHeight != 40)
 		{

@@ -64,11 +64,20 @@ public class EcItemCloudSwordCore extends EcItemSword
 		}
 	}
 	@Override
-	@SideOnly(Side.CLIENT)
-	public Icon getIconIndex(ItemStack stack)
-	{
-		return (isActive(stack))? this.open: this.close;
+	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5){
+		if(par2World.isRemote){
+			if(isActive(par1ItemStack)){
+				this.itemIcon = this.open;
+			}else{
+				this.itemIcon = this.close;
+			}
+		}
 	}
+//	@SideOnly(Side.CLIENT)
+//	public Icon getIconIndex(ItemStack stack)
+//	{
+//		return (isActive(stack))? this.open: this.close;
+//	}
 	public ItemStack makeCloudSword(ItemStack stack)
 	{
 		ItemStack ChangeSword = new ItemStack(EnchantChanger.ItemCloudSword, 1);
