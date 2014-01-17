@@ -1,10 +1,7 @@
 package Nanashi.AdvancedTools;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.EnumToolMaterial;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemUGShovel extends ItemUGTool
 {
@@ -20,25 +17,8 @@ public class ItemUGShovel extends ItemUGTool
 	{
 		super(var1, 1, var2, blocksEffectiveAgainst, 1.0F);
 	}
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister)
-	{
-		if(this.getUnlocalizedName().equals("item.UpgradedWoodenShovel")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGWoodshovel");
-		}else if(this.getUnlocalizedName().equals("item.UpgradedStoneShovel")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGStoneshovel");
-		}else if(this.getUnlocalizedName().equals("item.UpgradedIronShovel")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGIronshovel");
-		}else if(this.getUnlocalizedName().equals("item.UpgradedGoldenShovel")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGGoldshovel");
-		}else if(this.getUnlocalizedName().equals("item.UpgradedDiamondShovel")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGDiamondshovel");
-		}else if(this.getUnlocalizedName().equals("item.InfinityShovel")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "Infinityshovel");
-		}
-	}
 
+	@Override
 	public boolean canHarvestBlock(Block var1)
 	{
 		for (int var2 = 0; var2 < blocksEffectiveAgainst.length; ++var2){
@@ -48,7 +28,7 @@ public class ItemUGShovel extends ItemUGTool
 		}
 		return false;
 	}
-
+	@Override
 	public boolean doChainDestraction(Block var1)
 	{
 		return checkArrays(var1, AdvancedTools.addBlockForShovel) && this.canHarvestBlock(var1);

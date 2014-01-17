@@ -1,28 +1,21 @@
 package Nanashi.AdvancedTools;
 
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
 public class ItemUQHolySaber extends ItemUniqueArms
 {
-	private byte dmg;
+	private int dmg;
 	protected ItemUQHolySaber(int var1, EnumToolMaterial var2)
 	{
 		super(var1, var2);
@@ -31,14 +24,9 @@ public class ItemUQHolySaber extends ItemUniqueArms
 	protected ItemUQHolySaber(int var1, EnumToolMaterial var2, int var3)
 	{
 		super(var1, var2, var3);
+		dmg = var3;
 	}
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister)
-	{
-		this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "HolySaber");
-	}
-
 	public void onUpdate(ItemStack var1, World var2, Entity var3, int var4, boolean var5)
 	{
 		super.onUpdate(var1, var2, var3, var4, var5);
@@ -53,12 +41,7 @@ public class ItemUQHolySaber extends ItemUniqueArms
 			}
 		}
 	}
-
-	public boolean hitEntity(ItemStack var1, EntityLiving var2, EntityLiving var3)
-	{
-		var1.damageItem(1, var3);
-		return true;
-	}
+	@Override
 	public boolean onLeftClickEntity(ItemStack itemstack, EntityPlayer player, Entity var1)
 	{
 		byte var2 = 0;
@@ -76,14 +59,7 @@ public class ItemUQHolySaber extends ItemUniqueArms
 				var2 = 10;
 			}
 		}
-		this.dmg = var2;
+		ObfuscationReflectionHelper.setPrivateValue(ItemSword.class, this, (Object)(dmg + var2), 0);
 		return false;
-	}
-
-	public Multimap getItemAttributeModifiers()
-	{
-		Multimap multimap = HashMultimap.create();
-		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", this.weaponStrength + this.dmg, 0));
-		return this.weaponStrength < 0 ? super.getItemAttributeModifiers() : multimap;
 	}
 }

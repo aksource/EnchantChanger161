@@ -2,7 +2,6 @@ package Nanashi.AdvancedTools;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -25,15 +24,9 @@ public class ItemUQAsmoSlasher extends ItemUniqueArms
 
 	protected ItemUQAsmoSlasher(int var1, EnumToolMaterial var2, int var3)
 	{
-		super(var1, var2);
-		this.weaponStrength = var3;
+		super(var1, var2, var3);
 	}
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister)
-	{
-		this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "AsmoSlasher");
-	}
     public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
     {
 		if (par2EntityLivingBase instanceof EntityCreeper)
@@ -47,16 +40,12 @@ public class ItemUQAsmoSlasher extends ItemUniqueArms
 		}
     	return super.hitEntity(par1ItemStack, par2EntityLivingBase, par3EntityLivingBase);
     }
-	public float func_82803_g()
-	{
-		return this.weaponStrength;
-	}
-
+	@Override
 	public void onUpdate(ItemStack var1, World var2, Entity var3, int var4, boolean var5)
 	{
 		super.onUpdate(var1, var2, var3, var4, var5);
 	}
-
+	@Override
 	public void onPlayerStoppedUsing(ItemStack var1, World var2, EntityPlayer var3, int var4)
 	{
 		int var5 = var3.getFoodStats().getFoodLevel();
@@ -113,17 +102,18 @@ public class ItemUQAsmoSlasher extends ItemUniqueArms
 			var2.playSoundAtEntity(var3, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F));
 		}
 	}
-
+	@Override
 	public EnumAction getItemUseAction(ItemStack var1)
 	{
 		return EnumAction.bow;
 	}
 	@SideOnly(Side.CLIENT)
+	@Override
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
 	{
 		par3List.add("Ability : Lightning Caller");
 	}
-
+	@Override
 	public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3)
 	{
 		int var4 = var3.getFoodStats().getFoodLevel();

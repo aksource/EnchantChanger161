@@ -18,17 +18,19 @@ public class Entity_ZombieWarrior extends EntityZombie
 		this.experienceValue = 10;
 		this.defaultHeldItem = new ItemStack(AdvancedTools.DevilSword, 1);
 	}
-    protected void applyEntityAttributes()
-    {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(40.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.32D);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(10.0D);
-    }
+	@Override
+	protected void applyEntityAttributes()
+	{
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(40.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.32D);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(10.0D);
+	}
 
 	/**
 	 * Called when the mob's health reaches 0.
 	 */
+	@Override
 	public void onDeath(DamageSource var1)
 	{
 		super.onDeath(var1);
@@ -53,6 +55,7 @@ public class Entity_ZombieWarrior extends EntityZombie
 	/**
 	 * Drop 0-2 items of this living's type
 	 */
+	@Override
 	protected void dropFewItems(boolean var1, int var2)
 	{
 		super.dropFewItems(var1, var2);
@@ -66,6 +69,7 @@ public class Entity_ZombieWarrior extends EntityZombie
 	/**
 	 * Basic mob attack. Default to touch of death in EntityCreature. Overridden by each mob to define their attack.
 	 */
+	@Override
 	protected void attackEntity(Entity var1, float var2)
 	{
 		if (this.attackTime <= 0 && var2 < 2.0F && var1.boundingBox.maxY > this.boundingBox.minY && var1.boundingBox.minY < this.boundingBox.maxY)
@@ -78,7 +82,8 @@ public class Entity_ZombieWarrior extends EntityZombie
 	/**
 	 * knocks back this entity
 	 */
-	public void knockBack(Entity var1, int var2, double var3, double var5)
+	@Override
+	public void knockBack(Entity var1, float var2, double var3, double var5)
 	{
 		this.motionY += 0.4000000059604645D;
 
@@ -91,6 +96,7 @@ public class Entity_ZombieWarrior extends EntityZombie
 	/**
 	 * Returns the item that this EntityLiving is holding, if any.
 	 */
+	@Override
 	public ItemStack getHeldItem()
 	{
 		return this.getHealth() > 0 ? this.defaultHeldItem : null;
@@ -99,6 +105,7 @@ public class Entity_ZombieWarrior extends EntityZombie
 	/**
 	 * Checks if the entity's current position is a valid location to spawn this entity.
 	 */
+	@Override
 	public boolean getCanSpawnHere()
 	{
 		return this.posY < 50.0D && super.getCanSpawnHere();

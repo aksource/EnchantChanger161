@@ -49,7 +49,12 @@ public class ItemUGTool extends ItemTool
 	{
 		return false;
 	}
-
+	@Override
+	public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) 
+	{
+		getRange(par1ItemStack);
+	}
+	@Override
 	public Item setUnlocalizedName(String var1)
 	{
 		super.setUnlocalizedName(var1);
@@ -285,6 +290,7 @@ public class ItemUGTool extends ItemTool
 		}
 		return range;
 	}
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack item, EntityPlayer player, List par3List, boolean par4)
 	{

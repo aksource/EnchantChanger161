@@ -4,14 +4,11 @@ import java.util.ArrayList;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemUGAxe extends ItemUGTool
 {
@@ -28,32 +25,16 @@ public class ItemUGAxe extends ItemUGTool
 		super(var1, 3, var2, blocksEffectiveAgainst, 1.0F);
 	}
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister)
-	{
-		if(this.getUnlocalizedName().equals("item.UpgradedWoodenAxe")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGWoodaxe");
-		}else if(this.getUnlocalizedName().equals("item.UpgradedStoneAxe")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGStoneaxe");
-		}else if(this.getUnlocalizedName().equals("item.UpgradedIronAxe")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGIronaxe");
-		}else if(this.getUnlocalizedName().equals("item.UpgradedGoldenAxe")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGGoldaxe");
-		}else if(this.getUnlocalizedName().equals("item.UpgradedDiamondAxe")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGDiamondaxe");
-		}else if(this.getUnlocalizedName().equals("item.InfinityAxe")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "Infinityaxe");
-		}
-	}
-
 	public boolean canHarvestBlock(Block var1)
 	{
 		return var1.blockMaterial == Material.wood;
 	}
+	@Override
     public float getStrVsBlock(ItemStack par1ItemStack, Block par2Block)
     {
         return par2Block != null && (par2Block.blockMaterial == Material.wood || par2Block.blockMaterial == Material.plants || par2Block.blockMaterial == Material.vine) ? this.efficiencyOnProperMaterial : super.getStrVsBlock(par1ItemStack, par2Block);
     }
+	@Override
 	public boolean doChainDestraction(Block var1)
 	{
 		return checkArrays(var1, AdvancedTools.addBlockForAxe) && this.canHarvestBlock(var1);

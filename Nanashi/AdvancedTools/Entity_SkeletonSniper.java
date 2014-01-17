@@ -22,15 +22,17 @@ public class Entity_SkeletonSniper extends EntitySkeleton
 		super(var1);
 		this.experienceValue = 7;
 	}
-    protected void applyEntityAttributes()
-    {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(25.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(2.0D);
-    }
+	@Override
+	protected void applyEntityAttributes()
+	{
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(25.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(2.0D);
+	}
 	/**
 	 * Returns true if the newer Entity AI code should be run
 	 */
+	@Override
 	public boolean isAIEnabled()
 	{
 		return false;
@@ -39,6 +41,7 @@ public class Entity_SkeletonSniper extends EntitySkeleton
 	/**
 	 * Called when the mob's health reaches 0.
 	 */
+	@Override
 	public void onDeath(DamageSource var1)
 	{
 		super.onDeath(var1);
@@ -61,6 +64,7 @@ public class Entity_SkeletonSniper extends EntitySkeleton
 	 * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
 	 * use this to react to sunlight and start to burn.
 	 */
+	@Override
 	public void onLivingUpdate()
 	{
 		super.onLivingUpdate();
@@ -69,6 +73,7 @@ public class Entity_SkeletonSniper extends EntitySkeleton
 	/**
 	 * Drop 0-2 items of this living's type
 	 */
+	@Override
 	protected void dropFewItems(boolean var1, int var2)
 	{
 		super.dropFewItems(var1, var2);
@@ -82,6 +87,7 @@ public class Entity_SkeletonSniper extends EntitySkeleton
 	/**
 	 * Basic mob attack. Default to touch of death in EntityCreature. Overridden by each mob to define their attack.
 	 */
+	@Override
 	protected void attackEntity(Entity var1, float var2)
 	{
 		double var3 = var1.posX - this.posX;
@@ -130,6 +136,7 @@ public class Entity_SkeletonSniper extends EntitySkeleton
 	/**
 	 * Returns the item that this EntityLiving is holding, if any.
 	 */
+	@Override
 	public ItemStack getHeldItem()
 	{
 		return !this.hasAttacked && this.entityToAttack != null ? subHeldItem : mainHeldItem;

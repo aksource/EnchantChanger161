@@ -2,8 +2,7 @@ package Nanashi.AdvancedTools;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,17 +26,12 @@ public class Item_Negi extends ItemFood
 		this.setMaxDamage(87);
 		this.setMaxStackSize(1);
 	}
-
+	@Override
 	public boolean isFull3D()
 	{
 		return true;
 	}
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister)
-	{
-		this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "NEGI");
-	}
 	public ItemStack onEaten(ItemStack var1, World var2, EntityPlayer var3)
 	{
 		float var4 = 0.5F * (float)var1.getItemDamage() / (float)this.getMaxDamage();
@@ -54,23 +48,19 @@ public class Item_Negi extends ItemFood
 
 		return super.onEaten(var1, var2, var3);
 	}
-
-	public boolean hitEntity(ItemStack var1, EntityLiving var2, EntityLiving var3)
+	@Override
+	public boolean hitEntity(ItemStack var1, EntityLivingBase var2, EntityLivingBase var3)
 	{
 		var1.damageItem(1, var3);
 		return true;
 	}
-
-	public boolean onBlockDestroyed(ItemStack var1, int var2, int var3, int var4, int var5, EntityLiving var6)
+	@Override
+    public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World, int par3, int par4, int par5, int par6, EntityLivingBase par7EntityLivingBase)
 	{
-		var1.damageItem(2, var6);
+		par1ItemStack.damageItem(2, par7EntityLivingBase);
 		return true;
 	}
 
-	public float func_82803_g()
-	{
-		return 3;
-	}
 	@Override
 	public Multimap getItemAttributeModifiers()
 	{
@@ -78,9 +68,10 @@ public class Item_Negi extends ItemFood
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)3, 0));
 		return multimap;
 	}
+	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack var1, List var2)
+    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
 	{
-		var2.add("You can eat this.");
+		par3List.add("You can eat this.");
 	}
 }

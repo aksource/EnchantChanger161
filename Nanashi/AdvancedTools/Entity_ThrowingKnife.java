@@ -2,16 +2,12 @@ package Nanashi.AdvancedTools;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -34,19 +30,15 @@ public class Entity_ThrowingKnife extends Entity implements IProjectile
 	private boolean poison;
 	public Entity Master;
 	private int ticksInAir = 0;
-
+	
 	public void setEntityDead(boolean var1)
 	{
 		super.setDead();
 
-		if (!var1 && !this.worldObj.isRemote)
-		{
-			if (this.isPoison())
-			{
+		if (!var1 && !this.worldObj.isRemote){
+			if (this.isPoison()){
 				this.dropItem(AdvancedTools.PoisonKnife.itemID, 1);
-			}
-			else
-			{
+			}else{
 				this.dropItem(AdvancedTools.ThrowingKnife.itemID, 1);
 			}
 		}
@@ -72,8 +64,7 @@ public class Entity_ThrowingKnife extends Entity implements IProjectile
 		this.setSize(0.5F, 0.5F);
 		this.setPoison(var4);
 
-		if (!this.isPoison())
-		{
+		if (!this.isPoison()){
 			this.exRotate = 180.0F;
 		}
 
@@ -90,7 +81,7 @@ public class Entity_ThrowingKnife extends Entity implements IProjectile
 		this.motionY = (double)(-MathHelper.sin(this.rotationPitch / 180.0F * (float)Math.PI));
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, var3 * 1.5F, 1.0F);
 	}
-
+	@Override
 	protected void entityInit(){}
 
 	@Override
@@ -113,30 +104,10 @@ public class Entity_ThrowingKnife extends Entity implements IProjectile
 		this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(var3, (double)var10) * 180.0D / Math.PI);
 	}
 
-	/**
-	 * Sets the velocity to the args. Args: x, y, z
-	 */
-	 @SideOnly(Side.CLIENT)
-	public void setVelocity(double var1, double var3, double var5)
-	{
-		this.motionX = var1;
-		this.motionY = var3;
-		this.motionZ = var5;
-
-		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
-		{
-			float var7 = MathHelper.sqrt_double(var1 * var1 + var5 * var5);
-			this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(var1, var5) * 180.0D / Math.PI);
-			this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(var3, (double)var7) * 180.0D / Math.PI);
-			this.prevRotationPitch = this.rotationPitch;
-			this.prevRotationYaw = this.rotationYaw;
-			this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
-		}
-	}
-
 	 /**
 	  * Called to update the entity's position/logic.
 	  */
+	 @Override
 	 public void onUpdate()
 	 {
 		 this.lastTickPosX = this.posX;
@@ -295,6 +266,7 @@ public class Entity_ThrowingKnife extends Entity implements IProjectile
 	 /**
 	  * (abstract) Protected helper method to write subclass entity data to NBT.
 	  */
+	 @Override
 	 public void writeEntityToNBT(NBTTagCompound var1)
 	 {
 		 var1.setShort("xTile", (short)this.xTile);
@@ -308,6 +280,7 @@ public class Entity_ThrowingKnife extends Entity implements IProjectile
 	 /**
 	  * (abstract) Protected helper method to read subclass entity data from NBT.
 	  */
+	 @Override
 	 public void readEntityFromNBT(NBTTagCompound var1)
 	 {
 		 this.xTile = var1.getShort("xTile");
@@ -321,13 +294,13 @@ public class Entity_ThrowingKnife extends Entity implements IProjectile
 	 /**
 	  * Called by a player entity when they collide with an entity
 	  */
+	 @Override
 	 public void onCollideWithPlayer(EntityPlayer var1) {}
-
+	 @Override
 	 public float getShadowSize()
 	 {
 		 return 0.0F;
 	 }
-
 	 public void setPoison(boolean var1)
 	 {
 		 this.poison = var1;

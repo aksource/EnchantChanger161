@@ -1,15 +1,12 @@
 package Nanashi.AdvancedTools;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSpecialSet extends Item
 {
@@ -20,69 +17,63 @@ public class ItemSpecialSet extends Item
         super(var1);
         this.r = var2;
     }
-
+    @Override
     public boolean hasEffect(ItemStack var1)
     {
         return true;
     }
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister)
-    {
-
-    }
-
+	@Override
     public EnumRarity getRarity(ItemStack var1)
     {
         return this.r;
     }
-
-    public boolean onItemUse(ItemStack var1, EntityPlayer var2, World var3, int var4, int var5, int var6, int var7)
+	@Override
+	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World var3, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
     {
-        if (var7 == 0)
+        if (par7 == 0)
         {
-            --var5;
+            --par5;
         }
 
-        if (var7 == 1)
+        if (par7 == 1)
         {
-            ++var5;
+            ++par5;
         }
 
-        if (var7 == 2)
+        if (par7 == 2)
         {
-            --var6;
+            --par6;
         }
 
-        if (var7 == 3)
+        if (par7 == 3)
         {
-            ++var6;
+            ++par6;
         }
 
-        if (var7 == 4)
+        if (par7 == 4)
         {
-            --var4;
+            --par4;
         }
 
-        if (var7 == 5)
+        if (par7 == 5)
         {
-            ++var4;
+            ++par4;
         }
 
-        if (!var2.canPlayerEdit(var4, var5, var6, var7, var1))
+        if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
         {
             return false;
         }
         else
         {
-            int var8 = var3.getBlockId(var4, var5, var6);
-            int var9 = var3.getBlockId(var4 + 1, var5, var6);
+            int var8 = var3.getBlockId(par4, par5, par6);
+            int var9 = var3.getBlockId(par4 + 1, par5, par6);
 
             if (var8 == 0 && var9 == 0)
             {
-                var3.playSoundEffect((double)var4 + 0.5D, (double)var5 + 0.5D, (double)var6 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
-                var3.setBlock(var4, var5, var6, Block.chest.blockID);
-                TileEntityChest var10 = (TileEntityChest)var3.getBlockTileEntity(var4, var5, var6);
+                var3.playSoundEffect((double)par4 + 0.5D, (double)par5 + 0.5D, (double)par6 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+                var3.setBlock(par4, par5, par6, Block.chest.blockID);
+                TileEntityChest var10 = (TileEntityChest)var3.getBlockTileEntity(par4, par5, par6);
 
                 if (var10 != null)
                 {
@@ -115,8 +106,8 @@ public class ItemSpecialSet extends Item
                     var10.setInventorySlotContents(26, new ItemStack(AdvancedTools.PoisonKnife, 16));
                 }
 
-                var3.setBlock(var4 + 1, var5, var6, Block.chest.blockID);
-                var10 = (TileEntityChest)var3.getBlockTileEntity(var4 + 1, var5, var6);
+                var3.setBlock(par4 + 1, par5, par6, Block.chest.blockID);
+                var10 = (TileEntityChest)var3.getBlockTileEntity(par4 + 1, par5, par6);
 
                 if (var10 != null)
                 {
@@ -151,7 +142,7 @@ public class ItemSpecialSet extends Item
                 }
             }
 
-            --var1.stackSize;
+            --par1ItemStack.stackSize;
             return true;
         }
     }

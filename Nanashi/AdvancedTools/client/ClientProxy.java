@@ -2,7 +2,6 @@ package Nanashi.AdvancedTools.client;
 
 import net.minecraft.world.World;
 import Nanashi.AdvancedTools.CommonProxy;
-import Nanashi.AdvancedTools.CommonTickHandler;
 import Nanashi.AdvancedTools.Entity_BBFireBall;
 import Nanashi.AdvancedTools.Entity_FireZombie;
 import Nanashi.AdvancedTools.Entity_GoldCreeper;
@@ -16,8 +15,6 @@ import Nanashi.AdvancedTools.Entity_ThrowingKnife;
 import Nanashi.AdvancedTools.Entity_ZombieWarrior;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.registry.TickRegistry;
-import cpw.mods.fml.relauncher.Side;
 
 public class ClientProxy extends CommonProxy
 {
@@ -35,16 +32,7 @@ public class ClientProxy extends CommonProxy
 	    RenderingRegistry.registerEntityRenderingHandler(Entity_FireZombie.class, new RenderAdvZombie());
 	    RenderingRegistry.registerEntityRenderingHandler(Entity_HighSpeedCreeper.class, new RenderHCreeper());
 	    RenderingRegistry.registerEntityRenderingHandler(Entity_GoldCreeper.class, new RenderGCreeper());
-	    TickRegistry.registerTickHandler(new ClientTickHandler(), Side.CLIENT);
-	    TickRegistry.registerTickHandler(new CommonTickHandler(), Side.SERVER);
 	}
-
-	@Override
-	public void registerTileEntitySpecialRenderer()
-	{
-
-	}
-
 	@Override
 	public World getClientWorld()
 	{

@@ -1,6 +1,5 @@
 package Nanashi.AdvancedTools;
 
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -8,8 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class Item_ThrowingKnife extends Item
 {
@@ -21,21 +18,12 @@ public class Item_ThrowingKnife extends Item
 		this.maxStackSize = 16;
 		this.addPoison = var2;
 	}
-
+	@Override
 	public boolean isFull3D()
 	{
 		return true;
 	}
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister)
-	{
-		if(this.getUnlocalizedName().equals("item.ThrowingKnife"))
-			this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "ThrowingKnife");
-		else if(this.getUnlocalizedName().equals("item.PoisonKnife"))
-			this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "PoisonKnife");
-	}
-
 	public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3)
 	{
 		if (var3.capabilities.isCreativeMode || var3.inventory.hasItem(this.itemID))

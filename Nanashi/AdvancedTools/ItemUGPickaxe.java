@@ -2,11 +2,8 @@ package Nanashi.AdvancedTools;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemUGPickaxe extends ItemUGTool
 {
@@ -22,24 +19,7 @@ public class ItemUGPickaxe extends ItemUGTool
 	{
 		super(var1, 2, var2, blocksEffectiveAgainst, 1.0F);
 	}
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister)
-	{
-		if(this.getUnlocalizedName().equals("item.UpgradedWoodenPickaxe")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGWoodpickaxe");
-		}else if(this.getUnlocalizedName().equals("item.UpgradedStonePickaxe")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGStonepickaxe");
-		}else if(this.getUnlocalizedName().equals("item.UpgradedIronPickaxe")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGIronpickaxe");
-		}else if(this.getUnlocalizedName().equals("item.UpgradedGoldenPickaxe")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGGoldpickaxe");
-		}else if(this.getUnlocalizedName().equals("item.UpgradedDiamondPickaxe")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "UGDiamondpickaxe");
-		}else if(this.getUnlocalizedName().equals("item.InfinityPickaxe")){
-	    	this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "Infinitypickaxe");
-		}
-	}
+
 	@Override
 	public boolean canHarvestBlock(Block var1)
 	{
@@ -76,12 +56,12 @@ public class ItemUGPickaxe extends ItemUGTool
 			return this.toolMaterial.getHarvestLevel() >= 2;
 		}
 	}
-
+	@Override
 	public float getStrVsBlock(ItemStack var1, Block var2)
 	{
 		return var2 != null && (var2.blockMaterial == Material.iron || var2.blockMaterial == Material.rock) ? this.efficiencyOnProperMaterial : super.getStrVsBlock(var1, var2);
 	}
-
+	@Override
 	public boolean doChainDestraction(Block var1)
 	{
 		return checkArrays(var1, AdvancedTools.addBlockForPickaxe) && this.canHarvestBlock(var1);

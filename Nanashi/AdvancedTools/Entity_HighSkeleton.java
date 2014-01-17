@@ -1,7 +1,6 @@
 package Nanashi.AdvancedTools;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,6 +19,7 @@ public class Entity_HighSkeleton extends EntitySkeleton
 		super(var1);
 		this.experienceValue = 10;
 	}
+	@Override
 	protected void applyEntityAttributes()
 	{
 		super.applyEntityAttributes();
@@ -30,6 +30,7 @@ public class Entity_HighSkeleton extends EntitySkeleton
 	/**
 	 * Returns true if the newer Entity AI code should be run
 	 */
+	@Override
 	public boolean isAIEnabled()
 	{
 		return false;
@@ -38,6 +39,7 @@ public class Entity_HighSkeleton extends EntitySkeleton
 	/**
 	 * Called when the mob's health reaches 0.
 	 */
+	@Override
 	public void onDeath(DamageSource var1)
 	{
 		super.onDeath(var1);
@@ -62,6 +64,7 @@ public class Entity_HighSkeleton extends EntitySkeleton
 	/**
 	 * Drop 0-2 items of this living's type
 	 */
+	@Override
 	protected void dropFewItems(boolean var1, int var2)
 	{
 		super.dropFewItems(var1, var2);
@@ -75,6 +78,7 @@ public class Entity_HighSkeleton extends EntitySkeleton
 	/**
 	 * Basic mob attack. Default to touch of death in EntityCreature. Overridden by each mob to define their attack.
 	 */
+	@Override
 	protected void attackEntity(Entity var1, float var2)
 	{
 		if (var2 < 15.0F)
@@ -109,6 +113,7 @@ public class Entity_HighSkeleton extends EntitySkeleton
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
+	@Override
 	public void writeEntityToNBT(NBTTagCompound var1)
 	{
 		super.writeEntityToNBT(var1);
@@ -117,6 +122,7 @@ public class Entity_HighSkeleton extends EntitySkeleton
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
+	@Override
 	public void readEntityFromNBT(NBTTagCompound var1)
 	{
 		super.readEntityFromNBT(var1);
@@ -125,22 +131,16 @@ public class Entity_HighSkeleton extends EntitySkeleton
 	/**
 	 * Returns the item ID for the item the mob drops on death.
 	 */
+	@Override
 	protected int getDropItemId()
 	{
 		return Item.arrow.itemID;
 	}
 
 	/**
-	 * Get this Entity's EnumCreatureAttribute
-	 */
-	public EnumCreatureAttribute getCreatureAttribute()
-	{
-		return EnumCreatureAttribute.UNDEAD;
-	}
-
-	/**
 	 * Checks if the entity's current position is a valid location to spawn this entity.
 	 */
+	@Override
 	public boolean getCanSpawnHere()
 	{
 		return this.posY < 50.0D && super.getCanSpawnHere();

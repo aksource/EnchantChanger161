@@ -91,31 +91,34 @@ public class Entity_PGPowerBomb extends Entity
 			this.setPosition(var13.xCoord, var13.yCoord, var13.zCoord);
 		}
 	}
-
+	@Override
 	protected void entityInit() {}
 
 	/**
 	 * Called to update the entity's position/logic.
 	 */
-	 public void onUpdate()
+	@Override
+	public void onUpdate()
 	{
 		super.onUpdate();
 		this.setEntityDead();
 		this.setPosition(this.posX, this.posY, this.posZ);
 	}
 
-	 /**
-	  * (abstract) Protected helper method to write subclass entity data to NBT.
-	  */
-	 public void writeEntityToNBT(NBTTagCompound var1) {}
+	/**
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 */
+	@Override
+	public void writeEntityToNBT(NBTTagCompound var1) {}
 
-	 /**
-	  * (abstract) Protected helper method to read subclass entity data from NBT.
-	  */
-	 public void readEntityFromNBT(NBTTagCompound var1) {}
-
-	 public float getShadowSize()
-	 {
-		 return 0.0F;
-	 }
+	/**
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
+	 */
+	@Override
+	public void readEntityFromNBT(NBTTagCompound var1) {}
+	@Override
+	public float getShadowSize()
+	{
+		return 0.0F;
+	}
 }

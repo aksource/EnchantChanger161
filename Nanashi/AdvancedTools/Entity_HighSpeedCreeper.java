@@ -1,7 +1,6 @@
 package Nanashi.AdvancedTools;
 
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -15,6 +14,7 @@ public class Entity_HighSpeedCreeper extends EntityCreeper
 		super(var1);
 		this.experienceValue = 15;
 	}
+	@Override
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
@@ -25,6 +25,7 @@ public class Entity_HighSpeedCreeper extends EntityCreeper
 	/**
 	 * Called to update the entity's position/logic.
 	 */
+	@Override
 	public void onUpdate()
 	{
 		super.onUpdate();
@@ -34,27 +35,11 @@ public class Entity_HighSpeedCreeper extends EntityCreeper
 			this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 20, 1));
 		}
 	}
-
-	/**
-	 * Returns the sound this mob makes when it is hurt.
-	 */
-	protected String getHurtSound()
-	{
-		return "mob.creeper";
-	}
-
-	/**
-	 * Returns the sound this mob makes on death.
-	 */
-	protected String getDeathSound()
-	{
-		return "mob.creeperdeath";
-	}
-
 	/**
 	 * Called when the entity is attacked.
 	 */
-	public boolean attackEntityFrom(DamageSource var1, int var2)
+	@Override
+	public boolean attackEntityFrom(DamageSource var1, float var2)
 	{
 		return var1.damageType == "arrow" ? false : super.attackEntityFrom(var1, var2);
 	}
@@ -62,6 +47,7 @@ public class Entity_HighSpeedCreeper extends EntityCreeper
 	/**
 	 * Drop 0-2 items of this living's type
 	 */
+	@Override
 	protected void dropFewItems(boolean var1, int var2)
 	{
 		super.dropFewItems(var1, var2);
@@ -75,13 +61,5 @@ public class Entity_HighSpeedCreeper extends EntityCreeper
 		{
 			this.dropItem(AdvancedTools.BlueEnhancer.itemID, 1);
 		}
-	}
-
-	/**
-	 * Called when a lightning bolt hits the entity.
-	 */
-	public void onStruckByLightning(EntityLightningBolt var1)
-	{
-		super.onStruckByLightning(var1);
 	}
 }

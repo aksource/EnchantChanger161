@@ -18,10 +18,9 @@ public class Item_CrossBow extends ItemBow
 	public Item_CrossBow(int var1)
 	{
 		super(var1);
-		this.maxStackSize = 1;
 		this.setMaxDamage(192);
 	}
-
+	@Override
 	public boolean isFull3D()
 	{
 		return true;
@@ -32,15 +31,15 @@ public class Item_CrossBow extends ItemBow
 	{
 		this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "CrossBow");
 	}
-
+	@Override
 	public void onPlayerStoppedUsing(ItemStack var1, World var2, EntityPlayer var3, int var4) {}
 
-
+	@Override
 	public EnumAction getItemUseAction(ItemStack var1)
 	{
 		return EnumAction.none;
 	}
-
+	@Override
 	public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3)
 	{
 		boolean var4 = var3.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, var1) > 0;

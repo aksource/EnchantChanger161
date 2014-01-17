@@ -54,12 +54,14 @@ public class Entity_GoldCreeper extends EntityMob
 		this.tasks.addTask(6, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
 	}
+	@Override
 	protected void applyEntityAttributes()
 	{
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.38D);
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D);
 	}
+	@Override
 	public boolean isAIEnabled()
 	{
 		return true;
@@ -68,10 +70,12 @@ public class Entity_GoldCreeper extends EntityMob
 	/**
 	 * The number of iterations PathFinder.getSafePoint will execute before giving up.
 	 */
+	@Override
 	public int getMaxSafePointTries()
 	{
 		return this.getAttackTarget() == null ? 3 : 3 + MathHelper.ceiling_float_int(this.getHealth() - 1);
 	}
+	@Override
 	protected void fall(float par1)
 	{
 		super.fall(par1);
@@ -82,13 +86,14 @@ public class Entity_GoldCreeper extends EntityMob
 			this.timeSinceIgnited = this.fuseTime - 5;
 		}
 	}
+	@Override
 	protected void entityInit()
 	{
 		super.entityInit();
 		this.dataWatcher.addObject(16, Byte.valueOf((byte) - 1));
 		this.dataWatcher.addObject(17, Byte.valueOf((byte)0));
 	}
-
+	@Override
 	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
 		super.writeEntityToNBT(par1NBTTagCompound);
@@ -102,7 +107,7 @@ public class Entity_GoldCreeper extends EntityMob
 		par1NBTTagCompound.setByte("ExplosionRadius", (byte)this.explosionRadius);
 	}
 
-
+	@Override
 	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
 		super.readEntityFromNBT(par1NBTTagCompound);
@@ -118,7 +123,7 @@ public class Entity_GoldCreeper extends EntityMob
 			this.explosionRadius = par1NBTTagCompound.getByte("ExplosionRadius");
 		}
 	}
-
+	@Override
 	public void onUpdate()
 	{
 		if (this.entityToAttack == null && this.getPowered())
@@ -176,7 +181,8 @@ public class Entity_GoldCreeper extends EntityMob
 	/**
 	 * Called when the entity is attacked.
 	 */
-	public boolean attackEntityFrom(DamageSource var1, int var2)
+	@Override
+	public boolean attackEntityFrom(DamageSource var1, float var2)
 	{
 		if (!this.getPowered())
 		{
@@ -207,6 +213,7 @@ public class Entity_GoldCreeper extends EntityMob
 	/**
 	 * Returns the sound this mob makes when it is hurt.
 	 */
+	@Override
 	protected String getHurtSound()
 	{
 		return "mob.creeper";
@@ -215,6 +222,7 @@ public class Entity_GoldCreeper extends EntityMob
 	/**
 	 * Returns the sound this mob makes on death.
 	 */
+	@Override
 	protected String getDeathSound()
 	{
 		return "mob.creeperdeath";
@@ -223,6 +231,7 @@ public class Entity_GoldCreeper extends EntityMob
 	/**
 	 * Called when the mob's health reaches 0.
 	 */
+	@Override
 	public void onDeath(DamageSource var1)
 	{
 		super.onDeath(var1);
@@ -243,6 +252,7 @@ public class Entity_GoldCreeper extends EntityMob
 			}
 		}
 	}
+	@Override
 	public boolean attackEntityAsMob(Entity par1Entity)
 	{
 		return true;
@@ -277,8 +287,10 @@ public class Entity_GoldCreeper extends EntityMob
 	/**
 	 * Called when a lightning bolt hits the entity.
 	 */
+	@Override
 	public void onStruckByLightning(EntityLightningBolt var1)
 	{
 		super.onStruckByLightning(var1);
+        this.dataWatcher.updateObject(17, Byte.valueOf((byte)1));
 	}
 }

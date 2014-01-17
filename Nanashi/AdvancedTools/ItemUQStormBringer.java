@@ -2,7 +2,6 @@ package Nanashi.AdvancedTools;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,16 +25,9 @@ public class ItemUQStormBringer extends ItemUniqueArms
 
 	protected ItemUQStormBringer(int var1, EnumToolMaterial var2, int var3)
 	{
-		super(var1, var2);
-		this.weaponStrength = var3;
+		super(var1, var2, var3);
 	}
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister)
-	{
-		this.itemIcon = par1IconRegister.registerIcon(AdvancedTools.textureDomain + "StormBringer");
-	}
-
 	public void onUpdate(ItemStack var1, World var2, Entity var3, int var4, boolean var5)
 	{
 		super.onUpdate(var1, var2, var3, var4, var5);
@@ -45,7 +37,7 @@ public class ItemUQStormBringer extends ItemUniqueArms
 			--this.coolTime;
 		}
 	}
-
+	@Override
 	public void onPlayerStoppedUsing(ItemStack var1, World var2, EntityPlayer var3, int var4)
 	{
 		int var5 = var3.getFoodStats().getFoodLevel();
@@ -143,17 +135,18 @@ public class ItemUQStormBringer extends ItemUniqueArms
 			var3.swingItem();
 		}
 	}
-
+	@Override
 	public EnumAction getItemUseAction(ItemStack var1)
 	{
 		return EnumAction.bow;
 	}
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
 	{
 		par3List.add("Ability : Gale Impact");
 	}
-
+	@Override
 	public ItemStack onItemRightClick(ItemStack var1, World var2, EntityPlayer var3)
 	{
 		int var4 = var3.getFoodStats().getFoodLevel();

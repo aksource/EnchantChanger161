@@ -2,7 +2,6 @@ package Nanashi.AdvancedTools;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,9 +19,9 @@ public class Entity_FireZombie extends EntityZombie
 	public Entity_FireZombie(World var1)
 	{
 		super(var1);
-		//		this.texture = AdvancedTools.mobTexture + "fzombie.png";
 		this.isImmuneToFire = true;
 	}
+	@Override
 	protected void applyEntityAttributes()
 	{
 		super.applyEntityAttributes();
@@ -31,16 +30,18 @@ public class Entity_FireZombie extends EntityZombie
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(6.0D);
 //		this.getAttributeMap().func_111150_b(field_110186_bp).setAttribute(this.rand.nextDouble() * 0.10000000149011612D);
 	}
+	@Override
 	protected void entityInit()
 	{
 		super.entityInit();
 	}
     @SideOnly(Side.CLIENT)
-
+    @Override
     public boolean canRenderOnFire()
     {
         return !this.isWet();
     }
+    @Override
 	public void onLivingUpdate()
 	{
 		super.onLivingUpdate();
@@ -54,7 +55,7 @@ public class Entity_FireZombie extends EntityZombie
 			this.setFire(1);
 		}
 	}
-
+    @Override
 	public boolean attackEntityAsMob(Entity var1)
 	{
 		var1.setFire(5);
@@ -64,6 +65,7 @@ public class Entity_FireZombie extends EntityZombie
 	/**
 	 * Basic mob attack. Default to touch of death in EntityCreature. Overridden by each mob to define their attack.
 	 */
+    @Override
 	protected void attackEntity(Entity var1, float var2)
 	{
 		if (this.attackTime <= 0 && var2 < 2.0F && var1.boundingBox.maxY > this.boundingBox.minY && var1.boundingBox.minY < this.boundingBox.maxY)
@@ -77,6 +79,7 @@ public class Entity_FireZombie extends EntityZombie
 	/**
 	 * Called when the mob's health reaches 0.
 	 */
+    @Override
 	public void onDeath(DamageSource var1)
 	{
 		super.onDeath(var1);
@@ -102,6 +105,7 @@ public class Entity_FireZombie extends EntityZombie
 	/**
 	 * Drop 0-2 items of this living's type
 	 */
+    @Override
 	protected void dropFewItems(boolean var1, int var2)
 	{
 		super.dropFewItems(var1, var2);
@@ -112,27 +116,12 @@ public class Entity_FireZombie extends EntityZombie
 		}
 	}
 
-	//	public int getMaxHealth()
-	//	{
-	//		return 30;
-	//	}
-	//	public int getAttackStrength(Entity par1Entity)
-	//	{
-	//		return 6;
-	//	}
 	/**
 	 * Returns the item that this EntityLiving is holding, if any.
 	 */
+    @Override
 	public ItemStack getHeldItem()
 	{
 		return defaultHeldItem;
-	}
-
-	/**
-	 * Get this Entity's EnumCreatureAttribute
-	 */
-	public EnumCreatureAttribute getCreatureAttribute()
-	{
-		return EnumCreatureAttribute.UNDEAD;
 	}
 }

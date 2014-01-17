@@ -45,9 +45,9 @@ public class Entity_IHFrozenMob extends Entity
 				this.frozen = null;
 			}else{
 				this.frozen.setFire(0);
-//				this.originalMethodDoubleEntity(var1);
+				//				this.originalMethodDoubleEntity(var1);
 				if (this.frozen instanceof EntityMob){
-//					this.altenativeMethodForAI();
+					//					this.altenativeMethodForAI();
 					this.originalMethodForAI();
 				}
 				this.FrozenRest = 200;
@@ -80,7 +80,7 @@ public class Entity_IHFrozenMob extends Entity
 		((EntityMob)this.frozen).setAttackTarget(this.frozen);
 		((EntityMob)this.frozen).setLastAttacker(this.frozen);
 	}
-
+	@Override
 	public void onUpdate()
 	{
 		if(!this.worldObj.isRemote){
@@ -116,31 +116,34 @@ public class Entity_IHFrozenMob extends Entity
 			}
 		}
 	}
-
-	 public void setDead()
-	 {
-		 if(this.entityTasks != null){
-			 ObfuscationReflectionHelper.setPrivateValue(EntityLiving.class, this.frozen, this.entityTasks, 7);
-			 ((EntityMob)this.frozen).setAttackTarget(this.player);
-			 ((EntityMob)this.frozen).setLastAttacker(this.player);
-		 }
-		 super.setDead();
-	 }
-
-	 public float getBrightness(float var1)
-	 {
-		 return 1.0f;
-	 }
-
-	 public boolean canBeCollidedWith()
-	 {
-		 return false;
-	 }
-	 protected void entityInit() {}
-	 protected void readEntityFromNBT(NBTTagCompound var1) {
-		 this.FrozenRest = var1.getInteger("frozenRest");
-	 }
-	 protected void writeEntityToNBT(NBTTagCompound var1) {
-		 var1.setInteger("frozenRest", FrozenRest);
-	 }
+	@Override
+	public void setDead()
+	{
+		if(this.entityTasks != null){
+			ObfuscationReflectionHelper.setPrivateValue(EntityLiving.class, this.frozen, this.entityTasks, 7);
+			((EntityMob)this.frozen).setAttackTarget(this.player);
+			((EntityMob)this.frozen).setLastAttacker(this.player);
+		}
+		super.setDead();
+	}
+	@Override
+	public float getBrightness(float var1)
+	{
+		return 1.0f;
+	}
+	@Override
+	public boolean canBeCollidedWith()
+	{
+		return false;
+	}
+	@Override
+	protected void entityInit() {}
+	@Override
+	protected void readEntityFromNBT(NBTTagCompound var1) {
+		this.FrozenRest = var1.getInteger("frozenRest");
+	}
+	@Override
+	protected void writeEntityToNBT(NBTTagCompound var1) {
+		var1.setInteger("frozenRest", FrozenRest);
+	}
 }
