@@ -12,7 +12,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 
-@Mod(modid="StackableTools", name="StackableTools", version="1.6srg-1",dependencies="required-after:FML")
+@Mod(modid="StackableTools", name="StackableTools", version="1.6srg-2",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 public class StackableTools
 {

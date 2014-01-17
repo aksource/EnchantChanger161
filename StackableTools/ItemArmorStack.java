@@ -17,12 +17,12 @@ public class ItemArmorStack extends ItemArmor
 		setUnlocalizedName(partsNames[parts] + materialNames[material]);
 		this.setTextureName(materialfileNames[material] + partsNames[parts]);
 	}
-
+	@Override
 	public boolean isItemTool(ItemStack par1ItemStack)
 	{
 		return par1ItemStack.stackSize == 1;
 	}
-
+	@Override
 	public boolean isDamageable()
 	{
 		return true;
