@@ -1,4 +1,5 @@
 package ak.EnchantChanger.Client;
+
 import static org.lwjgl.opengl.GL11.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
@@ -14,12 +15,16 @@ import org.lwjgl.opengl.GL12;
 import ak.EnchantChanger.EnchantChanger;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
+@SideOnly(Side.CLIENT)
 public class EcModelUltimateWeapon extends ModelBase
 {
 	//fields
-	ModelRenderer Sword;
+	ModelRenderer				Sword;
 	//private Minecraft MC = FMLClientHandler.instance().getClient();
-	private ResourceLocation tex = new ResourceLocation(EnchantChanger.EcAssetsDomain,EnchantChanger.EcUltimateWeaponPNG);
+	private ResourceLocation	tex	= new ResourceLocation(EnchantChanger.EcAssetsDomain,
+											EnchantChanger.EcUltimateWeaponPNG);
+
 	public EcModelUltimateWeapon()
 	{
 		textureWidth = 64;
@@ -152,6 +157,7 @@ public class EcModelUltimateWeapon extends ModelBase
 		Sword.addBox("tsuba21", -5F, 6F, 0F, 1, 1, 1);
 		Sword.addBox("tsuba22", -5.5F, 6.5F, 0F, 1, 1, 1);
 	}
+
 	private void setRotation(ModelRenderer model, float x, float y, float z)
 	{
 		model.rotateAngleX = x;
@@ -163,6 +169,7 @@ public class EcModelUltimateWeapon extends ModelBase
 	{
 		super.setRotationAngles(par1, par2, par3, par4, par5, par6, par7Entity);
 	}
+
 	@SideOnly(Side.CLIENT)
 	public void renderItem(ItemStack pitem, EntityLivingBase pentity) {
 
@@ -170,17 +177,17 @@ public class EcModelUltimateWeapon extends ModelBase
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glPushMatrix();
-//		GL11.glBindTexture(GL11.GL_TEXTURE_2D, MC.renderEngine.getTexture(EnchantChanger.EcUltimateWeaponPNG));
-//		MC.getTextureManager().getTexture(new ResourceLocation(EnchantChanger.EcUltimateWeaponPNG));
+		//		GL11.glBindTexture(GL11.GL_TEXTURE_2D, MC.renderEngine.getTexture(EnchantChanger.EcUltimateWeaponPNG));
+		//		MC.getTextureManager().getTexture(new ResourceLocation(EnchantChanger.EcUltimateWeaponPNG));
 		MC.renderEngine.bindTexture(tex);
 		//	    アルファブレンドを有効化する
 		GL11.glEnable(GL_BLEND);
 		//    アルファブレンドの係数を設定する
 		GL11.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		/**
-	    if (pentity instanceof EntityPlayer && ((EntityPlayer)pentity).isUsingItem()) {
+		if (pentity instanceof EntityPlayer && ((EntityPlayer)pentity).isUsingItem()) {
 			//Guard
-	    	//GL11.glTranslatef(-1.0F, 0.1F, 0.3F);
+			//GL11.glTranslatef(-1.0F, 0.1F, 0.3F);
 			GL11.glRotatef(25.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(-50.0F, 0.0F, 0.0F, 1.0F);
 			GL11.glRotatef(10.0F, 1.0F, 0.0F, 0.0F);
