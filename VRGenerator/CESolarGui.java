@@ -12,7 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class CESolarGui extends GuiContainer
 {
-	private ResourceLocation gui = new ResourceLocation("ic2","textures/gui/GUISolarGenerator.png");
+	private static final ResourceLocation gui = new ResourceLocation("ic2","textures/gui/GUISolarGenerator.png");
 	public CESolarTileEntity tileentity;
 	public String name;
 	public String inv;

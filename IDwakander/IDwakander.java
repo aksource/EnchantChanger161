@@ -39,9 +39,12 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @Mod(modid="IDwakander", name="IDwakander", version="1.6srg-2",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
+@SideOnly(Side.CLIENT)
 public class IDwakander
 {
 	@Mod.Instance("IDwakander")
@@ -108,7 +111,7 @@ public class IDwakander
 	@ForgeSubscribe
 	public void printInGame(EntityJoinWorldEvent event)
 	{
-		if(!printOut && event.entity instanceof EntityPlayer)
+		if(!printOut && event.world.isRemote && event.entity instanceof EntityPlayer)
 		{
 			if(outputLanguageFile) printLanguage();
 			printItemIDs();

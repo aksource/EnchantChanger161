@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderThrowingKnife extends Render
 {
-	private ResourceLocation tex = new ResourceLocation(AdvancedTools.textureassets,"textures/items/knife.png");
+	private static final ResourceLocation tex = new ResourceLocation(AdvancedTools.textureassets,"textures/items/knife.png");
 	public void renderKnife(Entity_ThrowingKnife var1, double var2, double var4, double var6, float var8, float var9)
 	{
 		GL11.glPushMatrix();
