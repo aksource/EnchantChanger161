@@ -37,10 +37,10 @@ public class EcEntityApOrb extends Entity
 		this.setSize(0.5F, 0.5F);
 		this.yOffset = this.height / 2.0F;
 		this.setPosition(par2, par4, par6);
-		this.rotationYaw = (float)(Math.random() * 360.0D);
-		this.motionX = (double)((float)(Math.random() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F);
-		this.motionY = (double)((float)(Math.random() * 0.2D) * 2.0F);
-		this.motionZ = (double)((float)(Math.random() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F);
+		this.rotationYaw = (float) (Math.random() * 360.0D);
+		this.motionX = (double) ((float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F);
+		this.motionY = (double) ((float) (Math.random() * 0.2D) * 2.0F);
+		this.motionZ = (double) ((float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F);
 		this.apValue = par8;
 	}
 
@@ -56,7 +56,8 @@ public class EcEntityApOrb extends Entity
 		this.yOffset = this.height / 2.0F;
 	}
 
-	protected void entityInit() {}
+	protected void entityInit() {
+	}
 
 	public int getBrightnessForRender(float par1)
 	{
@@ -75,7 +76,7 @@ public class EcEntityApOrb extends Entity
 		int var3 = super.getBrightnessForRender(par1);
 		int var4 = var3 & 255;
 		int var5 = var3 >> 16 & 255;
-		var4 += (int)(var2 * 15.0F * 16.0F);
+		var4 += (int) (var2 * 15.0F * 16.0F);
 
 		if (var4 > 240)
 		{
@@ -99,11 +100,12 @@ public class EcEntityApOrb extends Entity
 		this.prevPosZ = this.posZ;
 		this.motionY -= 0.029999999329447746D;
 
-		if (this.worldObj.getBlockMaterial(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)) == Material.lava)
+		if (this.worldObj.getBlockMaterial(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY),
+				MathHelper.floor_double(this.posZ)) == Material.lava)
 		{
 			this.motionY = 0.20000000298023224D;
-			this.motionX = (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
-			this.motionZ = (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+			this.motionX = (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+			this.motionZ = (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
 			this.worldObj.playSoundAtEntity(this, "random.fizz", 0.4F, 2.0F + this.rand.nextFloat() * 0.4F);
 		}
 
@@ -114,7 +116,7 @@ public class EcEntityApOrb extends Entity
 		if (var3 != null)
 		{
 			double var4 = (var3.posX - this.posX) / var1;
-			double var6 = (var3.posY + (double)var3.getEyeHeight() - this.posY) / var1;
+			double var6 = (var3.posY + (double) var3.getEyeHeight() - this.posY) / var1;
 			double var8 = (var3.posZ - this.posZ) / var1;
 			double var10 = Math.sqrt(var4 * var4 + var6 * var6 + var8 * var8);
 			double var12 = 1.0D - var10;
@@ -134,7 +136,8 @@ public class EcEntityApOrb extends Entity
 		if (this.onGround)
 		{
 			var14 = 0.58800006F;
-			int var5 = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
+			int var5 = this.worldObj.getBlockId(MathHelper.floor_double(this.posX),
+					MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
 
 			if (var5 > 0)
 			{
@@ -142,9 +145,9 @@ public class EcEntityApOrb extends Entity
 			}
 		}
 
-		this.motionX *= (double)var14;
+		this.motionX *= (double) var14;
 		this.motionY *= 0.9800000190734863D;
-		this.motionZ *= (double)var14;
+		this.motionZ *= (double) var14;
 
 		if (this.onGround)
 		{
@@ -185,9 +188,9 @@ public class EcEntityApOrb extends Entity
 
 	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		par1NBTTagCompound.setShort("Health", (short)((byte)this.apOrbHealth));
-		par1NBTTagCompound.setShort("Age", (short)this.apOrbAge);
-		par1NBTTagCompound.setShort("Value", (short)this.apValue);
+		par1NBTTagCompound.setShort("Health", (short) ((byte) this.apOrbHealth));
+		par1NBTTagCompound.setShort("Age", (short) this.apOrbAge);
+		par1NBTTagCompound.setShort("Value", (short) this.apValue);
 	}
 
 	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
@@ -204,38 +207,39 @@ public class EcEntityApOrb extends Entity
 			if (this.field_35126_c == 0 && par1EntityPlayer.xpCooldown == 0)
 			{
 				par1EntityPlayer.xpCooldown = 2;
-				this.worldObj.playSoundAtEntity(this, "random.orb", 0.1F, 0.5F * ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.8F));
+				this.worldObj.playSoundAtEntity(this, "random.orb", 0.1F,
+						0.5F * ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.8F));
 				par1EntityPlayer.onItemPickup(this, 1);
 				this.addAp(par1EntityPlayer);
 				this.setDead();
 			}
 		}
 	}
+
 	private void addAp(EntityPlayer player)
 	{
 		ItemStack[] items = new ItemStack[13];
-		for(int i=0;i<9;i++)
+		for (int i = 0; i < 9; i++)
 		{
 			items[i] = player.inventory.getStackInSlot(i);
 		}
-		for(int i=0;i<player.inventory.armorInventory.length;i++)
+		for (int i = 0; i < player.inventory.armorInventory.length; i++)
 		{
-			items[i+9]=player.inventory.armorInventory[i];
+			items[i + 9] = player.inventory.armorInventory[i];
 		}
 
-
-		for(int i = 0; i < items.length;i++)
+		for (int i = 0; i < items.length; i++)
 		{
-			if(items[i] != null && items[i].isItemEnchanted())
+			if (items[i] != null && items[i].isItemEnchanted())
 			{
-				if(EnchantChanger.loadMTH && items[i].getItem() instanceof ItemMultiToolHolder)
+				if (EnchantChanger.loadMTH && items[i].getItem() instanceof ItemMultiToolHolder)
 				{
-					ToolHolderData tools = ((ItemMultiToolHolder)items[i].getItem()).tools;
-					if(tools != null)
+					ToolHolderData tools = ((ItemMultiToolHolder) items[i].getItem()).tools;
+					if (tools != null)
 					{
-						for(int j = 0; j < tools.tools.length; j ++)
+						for (int j = 0; j < tools.tools.length; j++)
 						{
-							if(tools.tools[j] != null && tools.tools[j].isItemEnchanted())
+							if (tools.tools[j] != null && tools.tools[j].isItemEnchanted())
 							{
 								addApToItem(tools.tools[j]);
 							}
@@ -250,6 +254,7 @@ public class EcEntityApOrb extends Entity
 			}
 		}
 	}
+
 	private void addApToItem(ItemStack item)
 	{
 		NBTTagCompound nbt;
@@ -260,24 +265,24 @@ public class EcEntityApOrb extends Entity
 		int nowAp;
 		nbt = item.getTagCompound();
 		enchantList = item.getEnchantmentTagList();
-		for(int j = 0; j < enchantList.tagCount();j++)
+		for (int j = 0; j < enchantList.tagCount(); j++)
 		{
-			prevAp = ((NBTTagCompound)enchantList.tagAt(j)).getInteger("ap");
-			enchantmentId = ((NBTTagCompound)enchantList.tagAt(j)).getShort("id");
-			enchantmentLv = ((NBTTagCompound)enchantList.tagAt(j)).getShort("lvl");
-			if(Enchantment.enchantmentsList[enchantmentId].getMaxLevel() == 1
+			prevAp = ((NBTTagCompound) enchantList.tagAt(j)).getInteger("ap");
+			enchantmentId = ((NBTTagCompound) enchantList.tagAt(j)).getShort("id");
+			enchantmentLv = ((NBTTagCompound) enchantList.tagAt(j)).getShort("lvl");
+			if (Enchantment.enchantmentsList[enchantmentId].getMaxLevel() == 1
 					|| (EnchantChanger.LevelCap && Enchantment.enchantmentsList[enchantmentId].getMaxLevel() <= enchantmentLv))
 				continue;
 			nowAp = prevAp + this.apValue;
-			if(EnchantChanger.magicEnchantment.contains(Integer.valueOf((int)enchantmentId)))
+			if (EnchantChanger.magicEnchantment.contains(Integer.valueOf((int) enchantmentId)))
 				continue;
-			if(EnchantChanger.isApLimit(enchantmentId, enchantmentLv, nowAp))
+			if (EnchantChanger.isApLimit(enchantmentId, enchantmentLv, nowAp))
 			{
 				nowAp -= EnchantChanger.getApLimit(enchantmentId, enchantmentLv);
-				if(enchantmentLv < Short.MAX_VALUE)
-					((NBTTagCompound)enchantList.tagAt(j)).setShort("lvl", (short) (enchantmentLv + 1));
+				if (enchantmentLv < Short.MAX_VALUE)
+					((NBTTagCompound) enchantList.tagAt(j)).setShort("lvl", (short) (enchantmentLv + 1));
 			}
-			((NBTTagCompound)enchantList.tagAt(j)).setInteger("ap", nowAp);
+			((NBTTagCompound) enchantList.tagAt(j)).setInteger("ap", nowAp);
 		}
 	}
 
@@ -288,7 +293,10 @@ public class EcEntityApOrb extends Entity
 
 	public int getTextureByXP()
 	{
-		return this.apValue >= 2477 ? 10 : (this.apValue >= 1237 ? 9 : (this.apValue >= 617 ? 8 : (this.apValue >= 307 ? 7 : (this.apValue >= 149 ? 6 : (this.apValue >= 73 ? 5 : (this.apValue >= 37 ? 4 : (this.apValue >= 17 ? 3 : (this.apValue >= 7 ? 2 : (this.apValue >= 3 ? 1 : 0)))))))));
+		return this.apValue >= 2477 ? 10 : (this.apValue >= 1237 ? 9 : (this.apValue >= 617 ? 8
+				: (this.apValue >= 307 ? 7 : (this.apValue >= 149 ? 6 : (this.apValue >= 73 ? 5
+						: (this.apValue >= 37 ? 4 : (this.apValue >= 17 ? 3 : (this.apValue >= 7 ? 2
+								: (this.apValue >= 3 ? 1 : 0)))))))));
 	}
 
 	public boolean canAttackWithItem()

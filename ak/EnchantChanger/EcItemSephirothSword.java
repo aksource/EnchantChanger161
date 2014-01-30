@@ -21,6 +21,7 @@ public class EcItemSephirothSword extends EcItemSword
 	{
 		super(par1, EnumToolMaterial.EMERALD);
         this.setTextureName(EnchantChanger.EcTextureDomain + "MasamuneBlade");
+		this.setMaxDamage(EnumToolMaterial.EMERALD.getMaxUses() * 2);
 	}
 
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)

@@ -22,7 +22,7 @@ public class EcItemCloudSwordCore extends EcItemSword
 {
 	public static boolean ActiveMode=false;
 	public static Entity Attackentity = null;
-	public ItemStack[] swords = new ItemStack[5];
+	private ItemStack[] swords = new ItemStack[5];
 	private EcCloudSwordData SwordData;
 	private int nowAttackingSwordSlot;
 	@SideOnly(Side.CLIENT)
@@ -33,6 +33,7 @@ public class EcItemCloudSwordCore extends EcItemSword
 	public EcItemCloudSwordCore(int par1)
 	{
 		super(par1, EnumToolMaterial.IRON);
+		this.setMaxDamage(EnumToolMaterial.IRON.getMaxUses() * 14);
 	}
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -65,6 +66,7 @@ public class EcItemCloudSwordCore extends EcItemSword
 	}
 	@Override
 	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5){
+		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
 		if(par2World.isRemote){
 			if(isActive(par1ItemStack)){
 				this.itemIcon = this.open;

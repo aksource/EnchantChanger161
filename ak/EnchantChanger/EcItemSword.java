@@ -23,34 +23,17 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import ak.EnchantChanger.Client.EcKeyHandler;
-import ak.EnchantChanger.Client.EcModelCloudSword2;
-import ak.EnchantChanger.Client.EcModelCloudSwordCore2;
-import ak.EnchantChanger.Client.EcModelSephirothSword;
-import ak.EnchantChanger.Client.EcModelUltimateWeapon;
-import ak.EnchantChanger.Client.EcModelZackSword;
 
 import com.google.common.collect.Multimap;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class EcItemSword extends ItemSword implements IItemRenderer {
-	@SideOnly(Side.CLIENT)
-	private static final EcModelUltimateWeapon UModel = new EcModelUltimateWeapon();
-	@SideOnly(Side.CLIENT)
-	private static final EcModelCloudSwordCore2 CCModel = new EcModelCloudSwordCore2();
-	@SideOnly(Side.CLIENT)
-	private static final EcModelCloudSword2 CModel = new EcModelCloudSword2();
-	@SideOnly(Side.CLIENT)
-	private static final EcModelSephirothSword SModel = new EcModelSephirothSword();
-	@SideOnly(Side.CLIENT)
-	private static final EcModelZackSword ZModel = new EcModelZackSword();
+public class EcItemSword extends ItemSword {
+
 	private boolean toggle = false;
 
 	public EcItemSword(int par1, EnumToolMaterial toolMaterial) {
@@ -107,34 +90,6 @@ public class EcItemSword extends ItemSword implements IItemRenderer {
 	public Item setNoRepair() {
 		canRepair = false;
 		return this;
-	}
-
-	@Override
-	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-		return type == ItemRenderType.EQUIPPED
-				|| type == ItemRenderType.EQUIPPED_FIRST_PERSON;
-	}
-
-	@Override
-	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item,
-			ItemRendererHelper helper) {
-		return false;
-	}
-
-	@Override
-	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-		if (item.getItem() instanceof EcItemZackSword)
-			ZModel.renderItem(item, (EntityLivingBase) data[1]);
-		else if (item.getItem() instanceof EcItemCloudSword)
-			CModel.renderItem(item, (EntityLivingBase) data[1]);
-		else if (item.getItem() instanceof EcItemCloudSwordCore)
-			CCModel.renderItem(item, (EntityLivingBase) data[1],
-					((EcItemCloudSwordCore) item.getItem()).isActive(item));
-		else if (item.getItem() instanceof EcItemSephirothSword
-				|| item.getItem() instanceof EcItemSephirothSwordImit)
-			SModel.renderItem(item, (EntityLivingBase) data[1]);
-		else if (item.getItem() instanceof EcItemUltimateWeapon)
-			UModel.renderItem(item, (EntityLivingBase) data[1]);
 	}
 
 	// 内蔵武器切り替え用攻撃メソッドの移植

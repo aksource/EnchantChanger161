@@ -38,24 +38,25 @@ public class ClientProxy extends CommonProxy {
 		// Side.CLIENT);
 		KeyBindingRegistry.registerKeyBinding(new EcKeyHandler(
 				new KeyBinding[] { MagicKey }, new boolean[] { false }));
+		IItemRenderer swordRenderer = new EcSwordRenderer();
 		MinecraftForgeClient.registerItemRenderer(
 				EnchantChanger.SephirothSwordItemID,
-				(IItemRenderer) EnchantChanger.ItemSephirothSword);
+				swordRenderer);
 		MinecraftForgeClient.registerItemRenderer(
 				EnchantChanger.ZackSwordItemID,
-				(IItemRenderer) EnchantChanger.ItemZackSword);
+				swordRenderer);
 		MinecraftForgeClient.registerItemRenderer(
 				EnchantChanger.FirstSwordItemID,
-				(IItemRenderer) EnchantChanger.ItemCloudSwordCore);
+				swordRenderer);
 		MinecraftForgeClient.registerItemRenderer(
 				EnchantChanger.CloudSwordItemID,
-				(IItemRenderer) EnchantChanger.ItemCloudSword);
+				swordRenderer);
 		MinecraftForgeClient.registerItemRenderer(
 				EnchantChanger.UltimateWeaponItemID,
-				(IItemRenderer) EnchantChanger.ItemUltimateWeapon);
+				swordRenderer);
 		MinecraftForgeClient.registerItemRenderer(
 				EnchantChanger.ImitateSephSwordID,
-				(IItemRenderer) EnchantChanger.ItemImitateSephirothSword);
+				swordRenderer);
 		IItemRenderer materiaRenderer = new EcRenderMateria();
 		MinecraftForgeClient.registerItemRenderer(EnchantChanger.MateriaID,
 				materiaRenderer);
