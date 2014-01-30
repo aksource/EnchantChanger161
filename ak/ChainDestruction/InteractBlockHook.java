@@ -32,7 +32,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class InteractBlockHook
 {
-	private int[] blockPos = new int[]{0,0,0,0,0,0};
+	private int[] blockPos = new int[] { 0, 0, 0, 0, 0, 0 };
 	private ArrayList blocklist = new ArrayList();
 	private int minX;
 	private int maxX;
@@ -43,29 +43,30 @@ public class InteractBlockHook
 	private boolean toggle = false;
 	private boolean digUnderToggle = false;
 	private boolean digUnder = ChainDestruction.digUnder;
+
 	@ForgeSubscribe
 	public void PlayerInteractBlock(PlayerInteractEvent event)
 	{
 		EntityPlayer player = event.entityPlayer;
 		World world = player.worldObj;
 		ItemStack item = event.entityPlayer.getCurrentEquippedItem();
-		if(item != null && ChainDestruction.enableItems.contains(item.itemID))
+		if (item != null && ChainDestruction.enableItems.contains(item.itemID))
 		{
 			int blockid = world.getBlockId(event.x, event.y, event.z);
-			if(event.action == Action.RIGHT_CLICK_BLOCK)
+			if (event.action == Action.RIGHT_CLICK_BLOCK)
 			{
-				if(player.isSneaking() && !ChainDestruction.enableBlocks.contains(blockid))
+				if (player.isSneaking() && !ChainDestruction.enableBlocks.contains(blockid))
 				{
 					ChainDestruction.enableBlocks.add(blockid);
 					player.addChatMessage(String.format("Add Block Id: %d", blockid));
 				}
-				else if(!player.isSneaking() && ChainDestruction.enableBlocks.contains(blockid))
+				else if (!player.isSneaking() && ChainDestruction.enableBlocks.contains(blockid))
 				{
 					ChainDestruction.enableBlocks.remove(blockid);
 					player.addChatMessage(String.format("Remove Block Id: %d", blockid));
 				}
 			}
-			else if(event.action == Action.LEFT_CLICK_BLOCK
+			else if (event.action == Action.LEFT_CLICK_BLOCK
 					&& ChainDestruction.enableBlocks.contains(blockid)
 					&& ChainDestruction.enableItems.contains(item.itemID))
 			{
@@ -79,29 +80,30 @@ public class InteractBlockHook
 			}
 		}
 	}
-//	@ForgeSubscribe
-//	public void HarvestBlockEvent(HarvestDropsEvent event)
-//	{
-//		
-//	}
+
+	//	@ForgeSubscribe
+	//	public void HarvestBlockEvent(HarvestDropsEvent event)
+	//	{
+	//		
+	//	}
 	@ForgeSubscribe
 	public void LivingUpdate(LivingUpdateEvent event)
 	{
-		if(event.entityLiving instanceof EntityPlayer)
+		if (event.entityLiving instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) event.entityLiving;
 			ItemStack item = player.getCurrentEquippedItem();
 			World world = event.entityLiving.worldObj;
 			boolean isAir = world.isAirBlock(blockPos[0], blockPos[1], blockPos[2]);
-			if(blockPos[4] != 0 && isAir && !world.isRemote)
+			if (blockPos[4] != 0 && isAir && !world.isRemote)
 			{
 				ChainMethod(world, player, item);
 			}
-			if(world.isRemote)
+			if (world.isRemote)
 			{
 				this.toggle = CDKeyHandler.regItemKeyDown && CDKeyHandler.regItemKeyUp;
 				this.digUnderToggle = CDKeyHandler.digUnderKeyDown && CDKeyHandler.digUnderKeyUp;
-				if(this.digUnderToggle)
+				if (this.digUnderToggle)
 				{
 					CDKeyHandler.digUnderKeyUp = false;
 					this.digUnder = !this.digUnder;
@@ -109,15 +111,15 @@ public class InteractBlockHook
 				}
 				PacketDispatcher.sendPacketToServer(PacketHandler.getPacketRegKeyToggle(this));
 			}
-			if(this.toggle && item != null)
+			if (this.toggle && item != null)
 			{
 				CDKeyHandler.regItemKeyUp = false;
-				if(player.isSneaking() && ChainDestruction.enableItems.contains(item.itemID))
+				if (player.isSneaking() && ChainDestruction.enableItems.contains(item.itemID))
 				{
 					ChainDestruction.enableItems.remove(item.itemID);
 					player.addChatMessage(String.format("Remove Tool Id %d", item.itemID));
 				}
-				if(!player.isSneaking() && !ChainDestruction.enableItems.contains(item.itemID))
+				if (!player.isSneaking() && !ChainDestruction.enableItems.contains(item.itemID))
 				{
 					ChainDestruction.enableItems.add(item.itemID);
 					player.addChatMessage(String.format("Add Tool Id %d", item.itemID));
@@ -126,34 +128,38 @@ public class InteractBlockHook
 			ChainDestruction.digUnder = this.digUnder;
 		}
 	}
+
 	public void ChainMethod(World world, EntityPlayer player, ItemStack item)
 	{
 		Block block = Block.blocksList[blockPos[4]];
-		if(ChainDestruction.enableBlocks.contains(blockPos[4]) &&  item != null && ChainDestruction.enableItems.contains(item.itemID))
+		if (ChainDestruction.enableBlocks.contains(blockPos[4]) && item != null
+				&& ChainDestruction.enableItems.contains(item.itemID))
 		{
-			getFirstDestroyedBlock(world,player,block, item);
+			getFirstDestroyedBlock(world, player, block, item);
 			setBlockBounds(player);
-			ChainDestroyBlock(world,player,block, item);
+			ChainDestroyBlock(world, player, block, item);
+			getFirstDestroyedBlock(world, player, block, item);
 			blocklist.clear();
-			for(int i = 0;i<5;i++)
+			for (int i = 0; i < 5; i++)
 			{
 				blockPos[i] = 0;
 			}
 		}
 	}
+
 	public void getFirstDestroyedBlock(World world, EntityPlayer player, Block block, ItemStack item)
 	{
 		List<EntityItem> list = world.getEntitiesWithinAABB(EntityItem.class, player.boundingBox.expand(5d, 5d, 5d));
-		if(list == null)
+		if (list == null)
 			return;
 		double d0;
 		double d1;
 		double d2;
 		float f1 = player.rotationYaw * 0.01745329F;
 		int i1 = EnchantmentHelper.getFortuneModifier(player);
-		for(EntityItem eItem: list)
+		for (EntityItem eItem : list)
 		{
-			if(eItem.getEntityItem().getItem() instanceof ItemBlock && eItem.getEntityItem().itemID == block.blockID
+			if (eItem.getEntityItem().getItem() instanceof ItemBlock && eItem.getEntityItem().itemID == block.blockID
 					|| eItem.getEntityItem().itemID == block.idDropped(blockPos[5], world.rand, i1))
 			{
 				eItem.delayBeforeCanPickup = 0;
@@ -164,6 +170,7 @@ public class InteractBlockHook
 			}
 		}
 	}
+
 	public void ChainDestroyBlock(World world, EntityPlayer player, Block block, ItemStack item)
 	{
 		int dx = 0;
@@ -173,17 +180,17 @@ public class InteractBlockHook
 		int id;
 		int meta;
 		boolean flag = false;
-		
-		for(int side = 0;side <6;side++)
+
+		for (int side = 0; side < 6; side++)
 		{
-			if(side == blockPos[3])
+			if (side == blockPos[3])
 				continue;
 			dx = ForgeDirection.getOrientation(side).offsetX;
 			dy = ForgeDirection.getOrientation(side).offsetY;
 			dz = ForgeDirection.getOrientation(side).offsetZ;
-			chunk = new ChunkPosition(blockPos[0] + dx,blockPos[1] + dy,blockPos[2] + dz);
+			chunk = new ChunkPosition(blockPos[0] + dx, blockPos[1] + dy, blockPos[2] + dz);
 			id = world.getBlockId(chunk.x, chunk.y, chunk.z);
-			if(checkChunkInBounds(chunk) && id == block.blockID/* && !blocklist.contains(chunk)*/)
+			if (checkChunkInBounds(chunk) && id == block.blockID/* && !blocklist.contains(chunk)*/)
 			{
 				this.SearchBlock(world, player, block, chunk, ForgeDirection.OPPOSITES[side]);
 			}
@@ -191,46 +198,51 @@ public class InteractBlockHook
 		boolean isMultiToolHolder = false;
 		int slotNum = 0;
 		IInventory tooldata = null;
-		if(ChainDestruction.loadMTH && item.getItem() instanceof ItemMultiToolHolder)
+		if (ChainDestruction.loadMTH && item.getItem() instanceof ItemMultiToolHolder)
 		{
-			tooldata = ((ItemMultiToolHolder)item.getItem()).tools;
-			slotNum = ((ItemMultiToolHolder)item.getItem()).SlotNum;
-			item = ((IInventory)tooldata).getStackInSlot(slotNum);
+			tooldata = ((ItemMultiToolHolder) item.getItem()).tools;
+			slotNum = ((ItemMultiToolHolder) item.getItem()).SlotNum;
+			item = ((IInventory) tooldata).getStackInSlot(slotNum);
 			isMultiToolHolder = true;
 		}
 		Iterator it = blocklist.iterator();
 		List<EntityItem> list;
-		while(it.hasNext() && !flag)
+		while (it.hasNext() && !flag)
 		{
 			chunk = (ChunkPosition) it.next();
 			meta = world.getBlockMetadata(chunk.x, chunk.y, chunk.z);
-			if(item == null)
+			if (item == null)
 			{
 				flag = true;
 				break;
 			}
-			if(item.getItem().onBlockDestroyed(item, world, block.blockID, chunk.x, chunk.y, chunk.z, player))
+			if (item.getItem().onBlockDestroyed(item, world, block.blockID, chunk.x, chunk.y, chunk.z, player))
 			{
-				if(world.setBlock(chunk.x, chunk.y, chunk.z, 0))
+				if (world.setBlock(chunk.x, chunk.y, chunk.z, 0))
 				{
 					block.onBlockDestroyedByPlayer(world, chunk.x, chunk.y, chunk.z, meta);
-//					this.harvestBlock(world, player, chunk.x, chunk.y, chunk.z, meta, block);
-					block.harvestBlock(world, player, MathHelper.ceiling_double_int( player.posX), MathHelper.ceiling_double_int( player.posY), MathHelper.ceiling_double_int( player.posZ), meta);
-					if(item.stackSize == 0)
+					//					this.harvestBlock(world, player, chunk.x, chunk.y, chunk.z, meta, block);
+					block.harvestBlock(world, player, MathHelper.ceiling_double_int(player.posX),
+							MathHelper.ceiling_double_int(player.posY), MathHelper.ceiling_double_int(player.posZ),
+							meta);
+					if (item.stackSize == 0)
 					{
 						destroyItem(player, item, isMultiToolHolder, tooldata, slotNum);
 						flag = true;
 						break;
 					}
 				}
-				else flag = true;
+				else
+					flag = true;
 			}
-			else flag = true;
+			else
+				flag = true;
 		}
 	}
+
 	public void destroyItem(EntityPlayer player, ItemStack item, boolean isInMultiTool, IInventory tools, int slotnum)
 	{
-		if(isInMultiTool)
+		if (isInMultiTool)
 		{
 			tools.setInventorySlotContents(slotnum, null);
 			MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(player, item));
@@ -240,6 +252,7 @@ public class InteractBlockHook
 			player.destroyCurrentEquippedItem();
 		}
 	}
+
 	public void SearchBlock(World world, EntityPlayer player, Block block, ChunkPosition chunkpos, int face)
 	{
 		int dx = 0;
@@ -251,9 +264,9 @@ public class InteractBlockHook
 		int id;
 		ChunkPosition chunk;
 		blocklist.add(chunkpos);
-		for(int side = 0;side <6;side++)
+		for (int side = 0; side < 6; side++)
 		{
-			if(side == face)
+			if (side == face)
 				continue;
 			dx = ForgeDirection.getOrientation(side).offsetX;
 			dy = ForgeDirection.getOrientation(side).offsetY;
@@ -262,29 +275,31 @@ public class InteractBlockHook
 			ddy = blockPos[1] - (chunkpos.y + dy);
 			ddz = blockPos[2] - (chunkpos.z + dz);
 
-			chunk = new ChunkPosition(chunkpos.x + dx,chunkpos.y + dy,chunkpos.z + dz);
+			chunk = new ChunkPosition(chunkpos.x + dx, chunkpos.y + dy, chunkpos.z + dz);
 			id = world.getBlockId(chunk.x, chunk.y, chunk.z);
-			if(checkChunkInBounds(chunk) && id == block.blockID && !blocklist.contains(chunk))
+			if (checkChunkInBounds(chunk) && id == block.blockID && !blocklist.contains(chunk))
 			{
 				this.SearchBlock(world, player, block, chunk, ForgeDirection.OPPOSITES[side]);
 			}
 		}
 	}
+
 	public boolean checkChunkInBounds(ChunkPosition chunk)
 	{
-		boolean bx,by,bz;
+		boolean bx, by, bz;
 		bx = chunk.x >= minX && chunk.x <= maxX;
 		by = chunk.y >= minY && chunk.y <= maxY;
 		bz = chunk.z >= minZ && chunk.z <= maxZ;
 		return bx && by && bz;
 	}
+
 	public void setBlockBounds(EntityPlayer player)
 	{
 		minX = blockPos[0] - ChainDestruction.maxDestroyedBlock;
 		maxX = blockPos[0] + ChainDestruction.maxDestroyedBlock;
-		if(ChainDestruction.digUnder)
+		if (ChainDestruction.digUnder)
 			minY = blockPos[1] - ChainDestruction.maxDestroyedBlock;
-		else if(blockPos[3] != 1)
+		else if (blockPos[3] != 1)
 			minY = MathHelper.floor_double(player.posY);
 		else
 			minY = MathHelper.floor_double(player.posY) - 1;
@@ -292,6 +307,7 @@ public class InteractBlockHook
 		minZ = blockPos[2] - ChainDestruction.maxDestroyedBlock;
 		maxZ = blockPos[2] + ChainDestruction.maxDestroyedBlock;
 	}
+
 	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta, Block block)
 	{
 		player.addStat(StatList.mineBlockStatArray[block.blockID], 1);
@@ -311,6 +327,7 @@ public class InteractBlockHook
 			this.dropBlockAsItemWithChance(world, x, y, z, meta, 1.0f, i1, player, block);
 		}
 	}
+
 	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float par6, int fortune, EntityPlayer player, Block block)
 	{
 		if (!world.isRemote)
@@ -326,6 +343,7 @@ public class InteractBlockHook
 			}
 		}
 	}
+
 	public void dropBlockAsItem_do(World world, int x, int y, int z, ItemStack item, EntityPlayer player)
 	{
 		if (!world.isRemote && world.getGameRules().getGameRuleBooleanValue("doTileDrops"))
@@ -335,7 +353,7 @@ public class InteractBlockHook
 			double d1;
 			double d2;
 			float f1 = player.rotationYaw * 0.01745329F;
-			if(ChainDestruction.dropOnPlayer)
+			if (ChainDestruction.dropOnPlayer)
 			{
 				d0 = player.posX - MathHelper.sin(f1) * 0.5D;
 				d1 = player.posY;
@@ -346,48 +364,50 @@ public class InteractBlockHook
 			else
 			{
 				float f = 0.7F;
-				d0 = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
-				d1 = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
-				d2 = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
-				entityitem = new EntityItem(world, (double)x + d0, (double)y + d1, (double)z + d2, item);
+				d0 = (double) (world.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
+				d1 = (double) (world.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
+				d2 = (double) (world.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
+				entityitem = new EntityItem(world, (double) x + d0, (double) y + d1, (double) z + d2, item);
 				entityitem.delayBeforeCanPickup = 10;
 			}
 			world.spawnEntityInWorld(entityitem);
 		}
 	}
+
 	protected ItemStack createStackedBlock(Block block, int meta)
 	{
 		int j = 0;
 
-		if (block.blockID >= 0 && block.blockID < Item.itemsList.length && Item.itemsList[block.blockID].getHasSubtypes())
+		if (block.blockID >= 0 && block.blockID < Item.itemsList.length
+				&& Item.itemsList[block.blockID].getHasSubtypes())
 		{
 			j = meta;
 		}
 
 		return new ItemStack(block.blockID, 1, j);
 	}
- 	public void readPacketData(ByteArrayDataInput data)
- 	{
- 		try
- 		{
- 			this.toggle = data.readBoolean();
- 			this.digUnder = data.readBoolean();
- 		}
- 		catch (Exception e)
- 		{
- 			e.printStackTrace();
- 		}
- 	}
- 	public void writePacketData(DataOutputStream dos)
- 	{
- 		try
- 		{
- 			dos.writeBoolean(this.toggle);
- 			dos.writeBoolean(this.digUnder);
- 		}
- 		catch (Exception e)
- 		{
- 			e.printStackTrace();
- 		}
- 	}
+
+	public void readPacketData(ByteArrayDataInput data)
+	{
+		try
+		{
+			this.toggle = data.readBoolean();
+			this.digUnder = data.readBoolean();
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public void writePacketData(DataOutputStream dos)
+	{
+		try
+		{
+			dos.writeBoolean(this.toggle);
+			dos.writeBoolean(this.digUnder);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 }
