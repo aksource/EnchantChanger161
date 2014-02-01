@@ -13,7 +13,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid="MultiToolHolders", name="MultiToolHolders", version="1.2c",dependencies="required-after:FML")
+@Mod(modid="MultiToolHolders", name="MultiToolHolders", version="1.2d",dependencies="required-after:FML")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false, channels={"MTH|Tool"}, packetHandler=PacketHandler.class)
 public class MultiToolHolders
 {
