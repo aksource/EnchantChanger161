@@ -296,6 +296,8 @@ public class ItemUGTool extends ItemTool
 	{
 		super.addInformation(item, player, par3List, par4);
 		int range = getRange(item);
+		//For Debug.
+//		par3List.add(String.valueOf(item.getItemDamage()));
 		if (range == 0){
 			par3List.add("Range: Only one");
 		}else{
