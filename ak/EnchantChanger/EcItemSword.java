@@ -61,6 +61,13 @@ public class EcItemSword extends ItemSword {
 			}
 		}
 	}
+//For Debug
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public void addInformation(ItemStack item, EntityPlayer player, List par3List, boolean par4)
+//	{
+//		par3List.add(String.valueOf(item.getItemDamage()));
+//	}
 
 	public static void doMagic(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {

@@ -34,7 +34,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = "EnchantChanger", name = "EnchantChanger", version = "1.6p-universal", dependencies = "required-after:FML")
+@Mod(modid = "EnchantChanger", name = "EnchantChanger", version = "1.6q-universal", dependencies = "required-after:FML")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false, channels = { "EC|Sw", "EC|CS", "EC|Levi" }, packetHandler = Packet_EnchantChanger.class)
 public class EnchantChanger {
 	public static int ExExpBottleID;
@@ -72,6 +72,20 @@ public class EnchantChanger {
 	public static int[] extraToolIDs;
 	public static int[] extraBowIDs;
 	public static int[] extraArmorIDs;
+	private static String[] enchantmentLevelLimits;
+	private static String[] enchantmentLevelLimitInit = new String[] {
+			"0:10",
+			"1:10",
+			"2:10",
+			"3:10",
+			"4:10",
+			"32:0",
+			"34:30",
+			"303:0",
+			"307:0",
+			"310:0"
+	};
+	public static HashMap<Integer, Integer> levelLimitMap = new HashMap<Integer, Integer>();
 
 	public static boolean DecMateriaLv;
 	public static boolean YouAreTera;
@@ -214,6 +228,10 @@ public class EnchantChanger {
 				"EnchantmentFloatId", 243).getInt();
 		EnchantmentThunderId = config.get(Configuration.CATEGORY_GENERAL,
 				"EnchantmentThunderId", 244).getInt();
+		enchantmentLevelLimits = config
+				.get(Configuration.CATEGORY_GENERAL, "ApSystemLevelLimit", enchantmentLevelLimitInit,
+						"Set Enchantmets Level Limit for AP System Format EnchantmentID:LimitLv(LimitLv = 0 > DefaultMaxLevel)")
+				.getStringList();
 		config.save();
 
 		ItemMat = (new EcItemMateria(MateriaID - 256)).setUnlocalizedName(
@@ -453,6 +471,11 @@ public class EnchantChanger {
 		this.apLimit.put(49, 1 * aPBasePoint);
 		this.apLimit.put(50, 1 * aPBasePoint);
 		this.apLimit.put(51, 1 * aPBasePoint);
+		String[] idAndLimit;
+		for(int i=0;i<this.enchantmentLevelLimits.length;i++){
+			idAndLimit = this.enchantmentLevelLimits[i].split(":");
+			this.levelLimitMap.put(Integer.valueOf(idAndLimit[0]), Integer.valueOf(idAndLimit[1]));
+		}
 	}
 
 	public static boolean isApLimit(int Id, int Lv, int ap) {

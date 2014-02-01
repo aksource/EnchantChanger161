@@ -165,7 +165,7 @@ public class LivingEventHooks
 
 	public void Absorption(World world, EntityPlayer player)
 	{
-		if (player.getFoodStats().getFoodLevel() < 20) {
+		if (!world.isRemote && player.getFoodStats().getFoodLevel() < 20) {
 			if (!MpCount(3, AbsorpMptime)) {
 				return;
 			}
